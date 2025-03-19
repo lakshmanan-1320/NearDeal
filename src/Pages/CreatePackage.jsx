@@ -22,6 +22,7 @@ const CreatePackage = () => {
     const [sauna, setSauna] = useState([]);
     const [gym, setGym] = useState([]);
     const [all, setAll] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const isActive = (path) => {
         return active === path ? 'btn' : '';
@@ -169,10 +170,16 @@ const CreatePackage = () => {
                             <button onClick={() => setActive('massage')} type="button" className={`${isActive('massage')} btn-outline-secondary border-0 active me-2`}>Massage</button>
                             <button onClick={() => setActive('sauna')} type="button" className={`${isActive('sauna')} btn-outline-secondary border-0 active me-2`}>Sauna</button>
                             <button onClick={() => setActive('gym')} type="button" className={`${isActive('gym')} btn-outline-secondary border-0 active me-2`}>Gym</button>
-                            
+
                         </div>
                         <div className="col-lg-6 d-flex input-group justify-content-end ms-5" style={{ maxWidth: '45%' }}>
-                            <input type="text" className="form-control" placeholder="Search..." />
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Search..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
                             <button className="btn btn-outline-secondary me-2 rounded-3" type="button">
                                 <i className="fa fa-search"></i>
                             </button>
@@ -192,37 +199,42 @@ const CreatePackage = () => {
                         </div>
 
                         {active === 'all' &&
-                            all.map((item, index) => (
-                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
-                                    <div className='left' style={{ width: '84%' }}>
-                                        <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />
-                                        <div style={{ margin: 'auto 0px' }}>
-                                            <span>{item.InventoryName}</span>
-                                        </div>
-                                    </div>
-                                    <div className='right' style={{ width: '14%', justifyContent: 'space-between' }}>
-                                        <div>
-                                            <div className="toggle-switch">
-                                                <input
-                                                    type="checkbox"
-                                                    id={`toggle-${index}`} // Unique ID for each toggle
-                                                    className="toggle-checkbox"
-                                                    checked={item.Status === '1' ? true : false}
-                                                    onChange={handleToggle}
-                                                />
-                                                <label htmlFor={`toggle-${index}`} className="toggle-label"></label>
-                                                <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
+                            all
+                                .filter(item => item.InventoryName.toLowerCase().includes(searchQuery.toLowerCase()))
+                                .map((item, index) => (
+                                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
+                                        <div className='left' style={{ width: '84%' }}>
+                                            <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />
+                                            <div style={{ margin: 'auto 0px' }}>
+                                                <span>{item.InventoryName}</span>
                                             </div>
                                         </div>
-                                        <div onClick={() => navigate(`/package/${item.InventoryID}`)}>
-                                            <img width={25} src={edit1} alt="edit" />
+                                        <div className='right' style={{ width: '14%', justifyContent: 'space-between' }}>
+                                            <div>
+                                                <div className="toggle-switch">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`toggle-${index}`} // Unique ID for each toggle
+                                                        className="toggle-checkbox"
+                                                        checked={item.Status === '1'}
+                                                        onChange={handleToggle}
+                                                    />
+                                                    <label htmlFor={`toggle-${index}`} className="toggle-label"></label>
+                                                    <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
+                                                </div>
+                                            </div>
+                                            <div onClick={() => navigate(`/package/${item.InventoryID}`)}>
+                                                <img width={25} src={edit1} alt="edit" />
+                                            </div>
                                         </div>
-                                    </div>
-                                </motion.div>
-                            ))}
+                                    </motion.div>
+                                ))
+                        }
+
 
                         {active === 'spa' &&
-                            spa.map((item, index) => (
+                            spa .filter(item => item.InventoryName.toLowerCase().includes(searchQuery.toLowerCase()))
+                            .map((item, index) => (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                     <div className='left' style={{ width: '84%' }}>
                                         <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />
@@ -251,7 +263,9 @@ const CreatePackage = () => {
                                 </motion.div>
                             ))}
 
-                        {active === 'massage' && massage.map((item, index) => (
+                        {active === 'massage' && 
+                        massage .filter(item => item.InventoryName.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .map((item, index) => (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                 <div className='left' style={{ width: '84%' }}>
                                     <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="massage" />
@@ -280,7 +294,9 @@ const CreatePackage = () => {
                             </motion.div>
                         ))}
 
-                        {active === 'sauna' && sauna.map((item, index) => (
+                        {active === 'sauna' && 
+                        sauna .filter(item => item.InventoryName.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .map((item, index) => (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                 <div className='left' style={{ width: '84%' }}>
                                     <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />
@@ -309,7 +325,9 @@ const CreatePackage = () => {
                             </motion.div>
                         ))}
 
-                        {active === 'gym' && gym.map((item, index) => (
+                        {active === 'gym' && 
+                        gym .filter(item => item.InventoryName.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .map((item, index) => (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                 <div className='left' style={{ width: '84%' }}>
                                     <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />

@@ -30,8 +30,25 @@ const EditAdd = () => {
   };
 
   const handleSubmit = async () => {
+    // Validation check
+    if (!startDate) {
+      toast.error("Start date is required!");
+      return;
+    }
+    if (!endDate) {
+      toast.error("End date is required!");
+      return;
+    }
+    if (new Date(endDate) < new Date(startDate)) {
+      toast.error("End date cannot be before start date!");
+      return;
+    }
+    if (!images) {
+      toast.error("Image upload is required!");
+      return;
+    }
+
     console.log(startDate, endDate, isChecked, invImgFileName);
-    
     try {
       const response = await fetch(
         "https://wellness.neardeal.me/WAPI/createAdsMW.php",
@@ -89,7 +106,7 @@ const EditAdd = () => {
 
   useEffect(() => {
     // console.log(data);
-    
+
     fetchAd();
   }, [])
 
@@ -195,10 +212,10 @@ const EditAdd = () => {
                     flexDirection: "column",
                   }}
                 >
-                <h3>{data?.CampaignName || ''}</h3>
+                  <h3>{data?.CampaignName || ''}</h3>
                   <span>NearDeal Certified</span>
                 </div>
-                <img style={{ width: "100%", height:'30vh', borderRadius:'10px' }} src={`https://wellness.neardeal.me/WAPI/${data?.ContentLocation || ""}`} alt="banner" />
+                <img style={{ width: "100%", height: '30vh', borderRadius: '10px' }} src={`https://wellness.neardeal.me/WAPI/${data?.ContentLocation || ""}`} alt="banner" />
                 <span
                   style={{
                     position: "absolute",
@@ -314,27 +331,27 @@ const EditAdd = () => {
               </div>
 
               {images && (
-                                    <div style={{ position: 'relative', margin: '10px' }}>
-                                        <img
-                                            src={`data:image/jpeg;base64,${images}`}
-                                            alt="uploaded"
-                                            style={{ objectFit: 'cover', width: '10%', height: 'auto' }}
-                                        />
-                                        <button
-                                            onClick={handleRemoveImage}
-                                            style={{
-                                                position: 'absolute',
-                                                top: '5px',
-                                                background: 'none',
-                                                border: 'none',
-                                                cursor: 'pointer',
-                                                left: '55px',
-                                            }}
-                                        >
-                                            <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position: 'absolute', left: '0px' }} />
-                                        </button>
-                                    </div>
-                                )}
+                <div style={{ position: 'relative', margin: '10px' }}>
+                  <img
+                    src={`data:image/jpeg;base64,${images}`}
+                    alt="uploaded"
+                    style={{ objectFit: 'cover', width: '10%', height: 'auto' }}
+                  />
+                  <button
+                    onClick={handleRemoveImage}
+                    style={{
+                      position: 'absolute',
+                      top: '5px',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      left: '55px',
+                    }}
+                  >
+                    <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position: 'absolute', left: '0px' }} />
+                  </button>
+                </div>
+              )}
 
 
               {/* {image && (
