@@ -3,7 +3,7 @@ import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 const CreateTable = ({ colNo, sendDataToParent,passData  }) => {
-  const [columns, setColumns] = useState(["Name","Hours","Price"]);
+  const [columns, setColumns] = useState(["Name","Price","Hours"]);
   const [generating, setGenerating] = useState(true);
   const [readOnly, setReadOnly] = useState(true);
   const [rows, setRows] = useState(0);
@@ -42,9 +42,13 @@ const CreateTable = ({ colNo, sendDataToParent,passData  }) => {
 
   const deleteRow = (index) => {
     setModified(true);
-    setRows((prevRows) => prevRows - 1);
-    setRowsData((prevRowsData) => prevRowsData.filter((row, i) => i !== index));
+    setRowsData((prevRowsData) => {
+      const updatedRowsData = prevRowsData.filter((_, i) => i !== index);
+      sendDataToParent(updatedRowsData); // Ensure parent gets updated data
+      return updatedRowsData;
+    });
   };
+  
 
   // const addColumn = () => {
   //   setModified(true);
@@ -107,7 +111,7 @@ const CreateTable = ({ colNo, sendDataToParent,passData  }) => {
   }, []);
   useEffect(() => {
     setRowsData(passData);
-    console.log("passsss"+passData);
+    console.log("rowdata="+passData);
   });
   // useEffect(() => {
   //   sendDataToParent(rowsData);
@@ -173,7 +177,7 @@ const CreateTable = ({ colNo, sendDataToParent,passData  }) => {
                                 type="text"
                                 className="form-control text-center"
                                 // style={{width:"50%"}}
-                                placeholder={`Enter field`}
+                                placeholder={`Name`}
                                 value={rowsData[index][0]}
                                 onChange={(e) =>
                                   handleChange(e.target.value, index, 0)
@@ -185,7 +189,7 @@ const CreateTable = ({ colNo, sendDataToParent,passData  }) => {
                                 type="text"
                                 className="form-control text-center"
                                 // style={{width:"50%"}}
-                                placeholder={`Enter field`}
+                                placeholder={`Price`}
                                 value={rowsData[index][1]}
                                 onChange={(e) =>
                                   handleChange(e.target.value, index, 1)
@@ -197,7 +201,7 @@ const CreateTable = ({ colNo, sendDataToParent,passData  }) => {
                                 type="text"
                                 className="form-control text-center"
                                 // style={{width:"50%"}}
-                                placeholder={`Enter field`}
+                                placeholder={`Hours`}
                                 value={rowsData[index][2]}
                                 onChange={(e) =>
                                   handleChange(e.target.value, index, 2)

@@ -22,7 +22,7 @@ const CreatePackage = () => {
   const navigate = useNavigate();
   const jwtUserToken = Cookies.get("user_token");
   const userData = JSON.parse(jwtUserToken);
-const [rowsData, setRowsData] = useState([]);
+  const [rowsData, setRowsData] = useState([]);
   const [availabilityGroups, setAvailabilityGroups] = useState([
     {
       timeSlots: [
@@ -208,17 +208,32 @@ const [rowsData, setRowsData] = useState([]);
 
 
   const handleSaveChanges = async () => {
-    const datas = [];
-    rowsData.map((row, index) => {
-      const obj = {};
-      // columns.map((col, i) => {
-      //   obj[col] = row[i];
-      // });
-      obj["Name"] = row[0];
-      obj["Price"] = row[1];
-      obj["Hours"] = row[2];
-      datas.push(obj);
-    });
+    if (!packageTitle.trim()) {
+      toast.error("Package title is required");
+      return;
+    }
+    if (!images || images.length === 0) {
+      toast.error("Package image is required");
+      return;
+    }
+
+    let datas = [];
+
+    if (rowsData && rowsData.length > 0) {
+        datas = rowsData
+            .filter(row => row.length === 3 && row.every(value => value.trim() !== '')) // Ensure all fields are filled
+            .map(row => ({
+                Name: row[0],
+                Price: row[1],
+                Hours: row[2]
+            }));
+    
+        if (datas.length === 0) {
+            toast.error("Each row must have Name, Price, and Hours filled");
+            return;
+        }
+    }
+    
     console.log(datas);
     try {
       const response = await fetch(
@@ -231,7 +246,7 @@ const [rowsData, setRowsData] = useState([]);
           body: JSON.stringify({
             vendorId: userData.ID,
             invName: packageTitle,
-            services:JSON.stringify(datas),
+            services: JSON.stringify(datas),
             invCat: selectedCategory,
             whatIncluded: editorStates.included.content,
             TnC: editorStates.tnc.content,
@@ -249,7 +264,7 @@ const [rowsData, setRowsData] = useState([]);
       const data = await response.json();
       console.log(data);
       toast.success("Package created successfully");
-      navigate("/package"); 
+      navigate("/package");
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred");
@@ -347,59 +362,59 @@ const [rowsData, setRowsData] = useState([]);
                   value={packageTitle}
                   onChange={handleInputChange}
                 />
-                <div style={{textAlign:"center"}}>
-                <div
-                  className="image-upload"
-                  style={{ cursor: "pointer", textAlign: "center", width:"80%" }}
-                  onClick={handleUploadClick}
-                >
-                  <img src={imageUpload} alt="upload" />
-                  <span
-                    style={{
-                      marginTop: "20px",
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                    }}
+                <div style={{ textAlign: "center" }}>
+                  <div
+                    className="image-upload"
+                    style={{ cursor: "pointer", textAlign: "center", width: "80%" }}
+                    onClick={handleUploadClick}
                   >
-                    Select files
-                  </span>
-                  <p className="grey">
-                    Drop files here or click{" "}
-                    <span style={{ color: "#00A76F" }}>browse</span> through
-                    your machine
-                  </p>
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                  />
-                </div>
+                    <img src={imageUpload} alt="upload" />
+                    <span
+                      style={{
+                        marginTop: "20px",
+                        fontWeight: "bold",
+                        fontSize: "20px",
+                      }}
+                    >
+                      Select files
+                    </span>
+                    <p className="grey">
+                      Drop files here or click{" "}
+                      <span style={{ color: "#00A76F" }}>browse</span> through
+                      your machine
+                    </p>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      ref={fileInputRef}
+                      style={{ display: "none" }}
+                    />
+                  </div>
                 </div>
                 {images[0] && (
-                <div style={{ position: 'relative', margin: '10px' }}>
-                  <img
-                    src={`data:image/jpeg;base64,${images}`}
-                    alt="uploaded"
-                    style={{ objectFit: 'cover', width: '30%', height: 'auto' }}
-                  />
-                  <button
-                    onClick={handleRemoveImage}
-                    style={{
-                      position: 'absolute',
-                      top: '5px',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      left: '5px',
-                    }}
-                  >
-                    <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position:'absolute', left:'0px' }} />
-                  </button>
-                </div>
-              )}
+                  <div style={{ position: 'relative', margin: '10px' }}>
+                    <img
+                      src={`data:image/jpeg;base64,${images}`}
+                      alt="uploaded"
+                      style={{ objectFit: 'cover', width: '30%', height: 'auto' }}
+                    />
+                    <button
+                      onClick={handleRemoveImage}
+                      style={{
+                        position: 'absolute',
+                        top: '5px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        left: '5px',
+                      }}
+                    >
+                      <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position: 'absolute', left: '0px' }} />
+                    </button>
+                  </div>
+                )}
                 <div className="grey">What's included</div>
                 <div className="text-section">
                   <ReactQuill
@@ -435,7 +450,7 @@ const [rowsData, setRowsData] = useState([]);
                     }}
                   />
                 </div>
-                
+
                 {/* <div className="grey">Opening hours</div>
                                 <div className="text-section">
                                     <ReactQuill
@@ -514,13 +529,13 @@ const [rowsData, setRowsData] = useState([]);
                                 </div> */}
 
                 <div className="createtable">
-                <div className="grey">Services</div>
-                <CreateTable colNo={3} sendDataToParent={handleChildData} passData={rowsData} />
+                  <div className="grey">Services</div>
+                  <CreateTable colNo={3} sendDataToParent={handleChildData} passData={rowsData} />
                 </div>
 
 
                 {/* <div> */}
-                  {/* <button className="button" onClick={handleSaveChanges}>
+                {/* <button className="button" onClick={handleSaveChanges}>
                     Save changes
                   </button> */}
                 {/* </div> */}

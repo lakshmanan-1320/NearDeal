@@ -11,9 +11,10 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import imageUpload from "../assets/imageUpload.svg";
 import CreateTable from "./createTable";
-
+import { useNavigate } from "react-router-dom";
 
 const CreatePackage = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const jwtUserToken = Cookies.get("user_token");
     const userData = JSON.parse(jwtUserToken);
@@ -53,7 +54,7 @@ const CreatePackage = () => {
             const userData = await response.json();
             setInventoryData(userData.data[0]); // Assuming the data is an array
             // const serviceArrays=inventoryData['Services'];
-            console.log("askjd",inventoryData);
+            console.log("askjd", inventoryData);
 
         } catch (error) {
             console.error('Failed to fetch user data:', error);
@@ -79,10 +80,10 @@ const CreatePackage = () => {
     };
 
     useEffect(() => {
-        
+
         if (inventoryData) {
-            const service=JSON.parse(inventoryData.Services);
-            const data=[]
+            const service = JSON.parse(inventoryData.Services);
+            const data = []
             const multiDimensionalArray = service.map(obj => Object.values(obj));
             setRowsData(multiDimensionalArray);
             // handleChildData(rowsData);
@@ -140,8 +141,41 @@ const CreatePackage = () => {
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
     };
-
     const handleSaveChanges = async () => {
+        if (!packageTitle.trim()) {
+            toast.error("Package title is required");
+            return;
+        }
+
+        // Ensure at least one image is present (either newly uploaded or retrieved)
+        const finalImage = images && images.length > 0 ? images : null;
+
+        if (!finalImage && !invImgFileName) {
+            toast.error("Image is required");
+            return;
+        }
+
+        let datas = [];
+
+        if (rowsData && rowsData.length > 0) {
+            datas = rowsData
+                .filter(row => row.length === 3 && row.every(value => value.trim() !== '')) // Ensure all fields are filled
+                .map(row => ({
+                    Name: row[0],
+                    Price: row[1],
+                    Hours: row[2]
+                }));
+        
+            if (datas.length === 0) {
+                toast.error("Each row must have Name, Price, and Hours filled");
+                return;
+            }
+        }
+        
+        
+
+        console.log(rowsData, "dataaaaaaaaaaaaaaa");
+
         try {
             const response = await fetch('https://wellness.neardeal.me/WAPI/createPackageMW.php', {
                 method: 'POST',
@@ -152,7 +186,7 @@ const CreatePackage = () => {
                     vendorId: userData.ID,
                     invId: id,
                     invName: packageTitle,
-                    services:JSON.stringify(rowsData),
+                    services: JSON.stringify(datas),
                     invCat: selectedCategory,
                     whatIncluded: editorStates.included.content,
                     TnC: editorStates.tnc.content,
@@ -161,22 +195,24 @@ const CreatePackage = () => {
                     status: isChecked ? 1 : 0,
                     price: 999,
                     currency: "HKD",
-                    invImgFileName: invImgFileName,
-                    invImage: images
+                    invImgFileName: invImgFileName, // Existing image name
+                    invImage: finalImage // Use existing image if no new image is uploaded
                 })
             });
 
             const data = await response.json();
-            // console.log(data);
             toast.success("Package updated successfully");
+            navigate("/package");
         } catch (error) {
             console.error('Error:', error);
             toast.error('An error occurred');
         }
     };
 
+
+
     const fileInputRef = useRef(null);
-    
+
     const handleUploadClick = () => {
         fileInputRef.current.click();
     };
@@ -218,17 +254,17 @@ const CreatePackage = () => {
                             <div className="body">
                                 <div>
                                     <span className="grey">Add this package to
-                                    <select
-                      style={{ marginLeft: '10px' }}
-                      className="select"
-                      value={selectedCategory}
-                      onChange={handleCategoryChange}
-                    >
-                      <option>Spa</option>
-                      <option>Massage</option>
-                      <option>Sauna</option>
-                      <option>Gym</option>
-                    </select>
+                                        <select
+                                            style={{ marginLeft: '10px' }}
+                                            className="select"
+                                            value={selectedCategory}
+                                            onChange={handleCategoryChange}
+                                        >
+                                            <option>Spa</option>
+                                            <option>Massage</option>
+                                            <option>Sauna</option>
+                                            <option>Gym</option>
+                                        </select>
                                     </span>
                                 </div>
                                 <input
@@ -237,11 +273,11 @@ const CreatePackage = () => {
                                     type="text"
                                     value={packageTitle}
                                     onChange={handleInputChange}
-                                />      
+                                />
 
                                 <div
                                     className="image-upload"
-                                    style={{ cursor: 'pointer', textAlign: 'center',width:'80%' }}
+                                    style={{ cursor: 'pointer', textAlign: 'center', width: '80%' }}
                                     onClick={handleUploadClick}
                                 >
                                     <img src={imageUpload} alt="upload" />
@@ -297,17 +333,17 @@ const CreatePackage = () => {
                                     />
                                 </div>
                                 <div className="createtable">
-                <div className="grey">Services</div>
-                <CreateTable colNo={3} sendDataToParent={handleChildData} passData={rowsData} />
-                </div>
+                                    <div className="grey">Services</div>
+                                    <CreateTable colNo={3} sendDataToParent={handleChildData} passData={rowsData} />
+                                </div>
 
 
-                {/* <div> */}
-                  {/* <button className="button" onClick={handleSaveChanges}>
+                                {/* <div> */}
+                                {/* <button className="button" onClick={handleSaveChanges}>
                     Save changes
                   </button> */}
-                {/* </div> */}
-              </div>
+                                {/* </div> */}
+                            </div>
                         </motion.div>
                     )}
                 </div>
