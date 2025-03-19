@@ -22,7 +22,7 @@ const CampaignDiscounts = () => {
   const loadDiscount = async () => {
     setLoading(true); // Start loading
     try {
-      const response = await fetch('https://wellness.neardeal.me/WAPI/fetchCouponsMW.php', {
+      const response = await fetch('https://staging.neardeal.me/api/fetchCouponsMW.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

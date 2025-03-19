@@ -43,7 +43,7 @@ const Booking = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/bookingsTry.php",
+        "https://staging.neardeal.me/api/bookingsTry.php",
         {
           method: "POST",
           headers: {
@@ -82,7 +82,7 @@ const Booking = () => {
   const handleEdit = async () => {
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/editBookingsMW.php",
+        "https://staging.neardeal.me/api/editBookingsMW.php",
         {
           method: "POST",
           headers: {
@@ -162,7 +162,7 @@ const Booking = () => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/fetchBookingDetailsMW.php",
+        "https://staging.neardeal.me/api/fetchBookingDetailsMW.php",
         {
           method: "POST",
           headers: {

@@ -26,7 +26,7 @@ const SideBar = () => {
                 }
 
                 // Fetch user data
-                const response = await fetch('https://wellness.neardeal.me/WAPI/fetchUserData.php', {
+                const response = await fetch('https://staging.neardeal.me/api/fetchUserData.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ const SideBar = () => {
                 <div className="sidebar-profile">
                     <div className="profile-container" onClick={handleProfileClick}>
                         <img
-                            src={userData && `https://wellness.neardeal.me/WAPI/${userData.profilePic}`}
+                            src={userData && `https://staging.neardeal.me/api/${userData.profilePic}`}
                             alt="Profile"
                             className="profile-pic"
                         />

@@ -23,7 +23,7 @@ const CampaignCoupon = () => {
     setLoading(true); // Start loading
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/fetchCouponsMW.php",
+        "https://staging.neardeal.me/api/fetchCouponsMW.php",
         {
           method: "POST",
           headers: {

@@ -86,7 +86,7 @@ const CreatePackage = () => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/updateCouponsMW.php",
+        "https://staging.neardeal.me/api/updateCouponsMW.php",
         {
           method: "POST",
           headers: {

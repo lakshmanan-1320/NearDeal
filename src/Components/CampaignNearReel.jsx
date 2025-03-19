@@ -26,7 +26,7 @@ const CampaignNearReel = () => {
     const fetchNearReel = async () => {
         try {
             const response = await fetch(
-              "https://wellness.neardeal.me/WAPI/merchantAdsListingMW.php",
+              "https://staging.neardeal.me/api/merchantAdsListingMW.php",
               {
                 method: "POST",
                 headers: {
@@ -52,7 +52,7 @@ const CampaignNearReel = () => {
         
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/deleteNearReelMW.php",
+                "https://staging.neardeal.me/api/deleteNearReelMW.php",
                 {
                     method: "POST",
                     headers: {
@@ -89,9 +89,9 @@ const CampaignNearReel = () => {
                                 <>
                                     <div className='item' style={{ justifyContent:'space-between', marginBottom: '10px' }}>
                                         <div className='left' style={{ width: '84%' }}>
-                                            {/* <img src={`https://wellness.neardeal.me/WAPI/${data.ContentLocation}`} /> */}
+                                            {/* <img src={`https://staging.neardeal.me/api/${data.ContentLocation}`} /> */}
                                             <video
-                                                src={`https://wellness.neardeal.me/WAPI/${data.ContentLocation}`} // Assuming `data.ContentLocation` contains the video source
+                                                src={`https://staging.neardeal.me/api/${data.ContentLocation}`} // Assuming `data.ContentLocation` contains the video source
                                                 controls
                                                 style={{
                                                     width: '50px',         

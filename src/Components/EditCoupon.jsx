@@ -63,7 +63,7 @@ const CreatePackage = () => {
       };
       console.log(payload);
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/fetchCouponDetails.php",
+        "https://staging.neardeal.me/api/fetchCouponDetails.php",
         {
           method: "POST",
           headers: {
@@ -121,7 +121,7 @@ const CreatePackage = () => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/updateCouponsMW.php",
+        "https://staging.neardeal.me/api/updateCouponsMW.php",
         {
           method: "POST",
           headers: {

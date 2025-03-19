@@ -18,7 +18,7 @@ const Login = () => {
             setLoading(true);
     
             // Make sure to use POST if you're sending a body with your request
-            const response = await fetch('https://wellness.neardeal.me/WAPI/merchantLogin.php', {
+            const response = await fetch('https://staging.neardeal.me/api/merchantLogin.php', {
                 method: 'POST', // Correct method for sending data
                 headers: {
                     'Content-Type': 'application/json'

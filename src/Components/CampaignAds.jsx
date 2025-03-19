@@ -24,7 +24,7 @@ const CampaignAds = () => {
     const fetchAd = async () => {
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/merchantAdsListingMW.php",
+                "https://staging.neardeal.me/api/merchantAdsListingMW.php",
                 {
                     method: "POST",
                     headers: {

@@ -130,7 +130,7 @@ const SignUp = () => {
                     confirmPassword: accountData.confirmPassword
                 };
 
-                const response = await fetch('https://wellness.neardeal.me/WAPI/merchantSignup.php', {
+                const response = await fetch('https://staging.neardeal.me/api/merchantSignup.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ const SignUp = () => {
                     userid: userId // Pass userId for verification
                 };
 
-                const verificationResponse = await fetch('https://wellness.neardeal.me/WAPI/verificationStatus.php', {
+                const verificationResponse = await fetch('https://staging.neardeal.me/api/verificationStatus.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ const SignUp = () => {
                 // Handle final API call directly after successful verification
 
                 console.log(storeData.storelogo_name,":", storeData.profilePic);
-                const finalResponse = await fetch('https://wellness.neardeal.me/WAPI/merchantSignup.php', {
+                const finalResponse = await fetch('https://staging.neardeal.me/api/merchantSignup.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

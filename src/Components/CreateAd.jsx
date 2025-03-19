@@ -32,7 +32,7 @@ const EditAdd = () => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/createAdsMW.php",
+        "https://staging.neardeal.me/api/createAdsMW.php",
         {
           method: "POST",
           headers: {

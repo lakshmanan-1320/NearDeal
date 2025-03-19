@@ -39,7 +39,7 @@ const CreatePackage = () => {
 
     const fetchSpa = async () => {
         try {
-            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
+            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ const CreatePackage = () => {
 
     const fetchMassage = async () => {
         try {
-            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
+            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ const CreatePackage = () => {
 
     const fetchSauna = async () => {
         try {
-            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
+            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,7 +105,7 @@ const CreatePackage = () => {
 
     const fetchgym = async () => {
         try {
-            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
+            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -127,7 +127,7 @@ const CreatePackage = () => {
 
     const fetchAll = async () => {
         try {
-            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
+            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -204,7 +204,7 @@ const CreatePackage = () => {
                                 .map((item, index) => (
                                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                         <div className='left' style={{ width: '84%' }}>
-                                            <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />
+                                            <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://staging.neardeal.me/api/${item.ImageLocation}`} alt="spa" />
                                             <div style={{ margin: 'auto 0px' }}>
                                                 <span>{item.InventoryName}</span>
                                             </div>
@@ -237,7 +237,7 @@ const CreatePackage = () => {
                             .map((item, index) => (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                     <div className='left' style={{ width: '84%' }}>
-                                        <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />
+                                        <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://staging.neardeal.me/api/${item.ImageLocation}`} alt="spa" />
                                         <div style={{ margin: 'auto 0px' }}>
                                             <span>{item.InventoryName}</span>
                                         </div>
@@ -268,7 +268,7 @@ const CreatePackage = () => {
                         .map((item, index) => (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                 <div className='left' style={{ width: '84%' }}>
-                                    <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="massage" />
+                                    <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://staging.neardeal.me/api/${item.ImageLocation}`} alt="massage" />
                                     <div style={{ margin: 'auto 0px' }}>
                                         <span>{item.InventoryName}</span>
                                     </div>
@@ -299,7 +299,7 @@ const CreatePackage = () => {
                         .map((item, index) => (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                 <div className='left' style={{ width: '84%' }}>
-                                    <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />
+                                    <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://staging.neardeal.me/api/${item.ImageLocation}`} alt="spa" />
                                     <div style={{ margin: 'auto 0px' }}>
                                         <span>{item.InventoryName}</span>
                                     </div>
@@ -330,7 +330,7 @@ const CreatePackage = () => {
                         .map((item, index) => (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className='item' key={index}>
                                 <div className='left' style={{ width: '84%' }}>
-                                    <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`} alt="spa" />
+                                    <img style={{ borderRadius: '50%', height: '50px', width: '50px' }} src={`https://staging.neardeal.me/api/${item.ImageLocation}`} alt="spa" />
                                     <div style={{ margin: 'auto 0px' }}>
                                         <span>{item.InventoryName}</span>
                                     </div>

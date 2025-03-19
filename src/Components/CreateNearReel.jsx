@@ -49,7 +49,7 @@ const CreatePackage = () => {
                 redirect: "follow",
             };
             
-            const response = await fetch("https://wellness.neardeal.me/WAPI/uploadMediaFile.php", requestOptions);
+            const response = await fetch("https://staging.neardeal.me/api/uploadMediaFile.php", requestOptions);
         
             const data = await response.json();
             console.log(data);
@@ -94,7 +94,7 @@ const CreatePackage = () => {
     const handleSaveChanges = async () => {
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/updateNearReelMW.php",
+                "https://staging.neardeal.me/api/updateNearReelMW.php",
                 {
                     method: "POST",
                     headers: {
