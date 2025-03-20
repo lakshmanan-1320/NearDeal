@@ -16,7 +16,7 @@ const Login = () => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-    
+
             // Make sure to use POST if you're sending a body with your request
             const response = await fetch('https://staging.neardeal.me/api/merchantLogin.php', {
                 method: 'POST', // Correct method for sending data
@@ -28,22 +28,22 @@ const Login = () => {
                     password
                 })
             });
-    
+
             // Check if response is OK (status in the range 200-299)
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             // Parse JSON data from the response
             const data = await response.json();
             console.log(data.token);
-            
+
             // Handle successful login logic here
             toast.success('Login successfull!');
-            window.location.href = '/';
+            window.location.href = '/app';
             // navigate('/');
-            Cookies.set('user_token', data.token, { expires: 2 }); 
-    
+            Cookies.set('user_token', data.token, { expires: 2 });
+
         } catch (error) {
             console.error('Error:', error);
             toast.error('Login failed. Please check your credentials.');
@@ -60,7 +60,7 @@ const Login = () => {
                         <ul className="navbar-nav me-auto"></ul>
                     </div>
                     <button className="btn px-0" type="button" style={{ color: 'rgba(0, 0, 0, 0.50)' }}>
-                       <Link style={{ textDecoration:'none' }} to='https://neardl.com '>Go to Website</Link>
+                        <Link style={{ textDecoration: 'none' }} to='https://neardl.com '>Go to Website</Link>
                     </button>
                 </div>
             </nav>
@@ -69,7 +69,7 @@ const Login = () => {
                 <div className="login-form">
                     <div className="col-lg-4"></div>
                     <div className="col-lg-4 col-sm-12 px-5">
-                        <h2 className="form-header" style={{ textAlign:'center' }}>Merchant Login</h2>
+                        <h2 className="form-header" style={{ textAlign: 'center' }}>Merchant Login</h2>
                         <input
                             type="email"
                             className="form-control-plaintext formFields mt-3"

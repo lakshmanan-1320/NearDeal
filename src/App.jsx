@@ -26,7 +26,7 @@ function App() {
   const jwtUserToken = Cookies.get("user_token");
   const isUserLoggedIn = jwtUserToken ? true : false;
   return (
-    <Router>
+    <Router basename='/app'>
       <Routes>
         {/* Signup */}
         <Route path="/signup" exact element={<SignUp></SignUp>}></Route>
