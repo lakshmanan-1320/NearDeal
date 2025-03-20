@@ -71,6 +71,7 @@ const NearAI = () => {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
+              Referrer: "no-referrer",
             },
           });
     
@@ -96,6 +97,7 @@ const NearAI = () => {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
+              Referrer: "no-referrer",
             },
           });
     
@@ -121,6 +123,7 @@ const NearAI = () => {
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
+              Referrer: "no-referrer",
             },
           });
     
@@ -149,9 +152,8 @@ const NearAI = () => {
     const GeneratePrompt = async() => {
       setIsLoading(true);
       const token = "3e61107713dd29dd11db3d9d758d74915f236209"; // Replace with your actual token
-      const baseUrl = "https://neardeal.me";
       try {
-        const response = await fetch(`${baseUrl}/api/v1/prompt-to-script`, {
+        const response = await fetch("/api/v1/prompt-to-script", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -175,9 +177,9 @@ const NearAI = () => {
     const handleSaveChanges = async() => {
         setIsLoading(true);
         const token = "3e61107713dd29dd11db3d9d758d74915f236209"; // Replace with your actual token
-        const baseUrl = "https://neardeal.me";
+    
         try {
-          const response = await fetch(`${baseUrl}/api/v1/script-to-video`, {
+          const response = await fetch("/api/v1/script-to-video", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -202,9 +204,8 @@ const NearAI = () => {
     const getVideo = async(apiFileId) => {
         console.log(apiFileId);
         const token = "3e61107713dd29dd11db3d9d758d74915f236209"; // Replace with your actual token
-        const baseUrl = "https://neardeal.me";
         try {
-           const response = await fetch(`${baseUrl}/api/v1/get-file?apiFileId=${apiFileId}`, {
+          const response = await fetch(`/api/v1/get-file?apiFileId=${apiFileId}`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
