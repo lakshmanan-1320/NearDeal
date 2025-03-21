@@ -11,7 +11,10 @@ import { toast } from "react-toastify";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import { useNavigate } from "react-router-dom";
+
 const CreatePackage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const jwtUserToken = Cookies.get("user_token");
   const userData = JSON.parse(jwtUserToken);
@@ -117,6 +120,25 @@ const CreatePackage = () => {
   );
 
   const handleSaveChanges = async () => {
+    // Validation
+    if (!packageTitle.trim()) {
+      toast.error("Title is required");
+      return;
+    }
+
+    const discountValue = Number(editorStates.discount.content);
+    if (isNaN(discountValue) || discountValue <= 0) {
+      toast.error("Discount must be a valid positive number");
+      return;
+    }
+
+    const validUnits = ["$", "%"];
+    const discountUnit = editorStates.unit.content || "%";
+
+    if (!validUnits.includes(discountUnit)) {
+      toast.error("Invalid discount unit. Please select $ or %.");
+      return;
+    }
     console.log('isChecked: ', isChecked);
 
     try {
@@ -149,6 +171,8 @@ const CreatePackage = () => {
       const data = await response.json();
       console.log(data);
       toast.success("Successfully Created Coupon");
+      navigate("/campaign");
+
     } catch (error) {
       console.error("Error:", error);
     }
@@ -226,9 +250,9 @@ const CreatePackage = () => {
                   onChange={handleInputChange}
                 />
 
-                
 
-                
+
+
 
                 <div className="grey mt-2">Discount Amount</div>
                 <input

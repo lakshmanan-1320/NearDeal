@@ -92,6 +92,20 @@ const CreatePackage = () => {
     };
 
     const handleSaveChanges = async () => {
+        if (!packageTitle.trim()) {
+            toast.error("Ads title is required.");
+            return;
+        }
+        if (!date) {
+            toast.error("Please select a valid date.");
+            return;
+        }
+        if (!reel) {
+            toast.error("Please upload a video file before saving.");
+            return;
+        }
+
+        
         try {
             const response = await fetch(
                 "https://staging.neardeal.me/api/updateNearReelMW.php",

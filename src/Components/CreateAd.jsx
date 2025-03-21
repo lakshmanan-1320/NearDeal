@@ -28,6 +28,23 @@ const EditAdd = () => {
   const fileInputRef = useRef(null);
 
   const handleSubmit = async () => {
+     // Validation check
+     if (!startDate) {
+      toast.error("Start date is required!");
+      return;
+    }
+    if (!endDate) {
+      toast.error("End date is required!");
+      return;
+    }
+    if (new Date(endDate) < new Date(startDate)) {
+      toast.error("End date cannot be before start date!");
+      return;
+    }
+    if (!images) {
+      toast.error("Image upload is required!");
+      return;
+    }
     console.log(startDate, endDate, isChecked, invImgFileName);
 
     try {

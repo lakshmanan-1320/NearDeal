@@ -45,7 +45,7 @@ const CreatePackage = () => {
     }));
   };
 
- 
+
 
 
   const handleUploadClick = () => {
@@ -83,7 +83,25 @@ const CreatePackage = () => {
   );
 
   const handleSaveChanges = async () => {
+    // Validation
+    if (!packageTitle.trim()) {
+      toast.error("Title is required");
+      return;
+    }
 
+    const discountValue = Number(editorStates.discount.content);
+    if (isNaN(discountValue) || discountValue <= 0) {
+      toast.error("Discount must be a valid positive number");
+      return;
+    }
+
+    const validUnits = ["$", "%"];
+    const discountUnit = editorStates.unit.content || "%";
+
+    if (!validUnits.includes(discountUnit)) {
+      toast.error("Invalid discount unit. Please select $ or %.");
+      return;
+    }
     try {
       const response = await fetch(
         "https://staging.neardeal.me/api/updateCouponsMW.php",
@@ -113,7 +131,7 @@ const CreatePackage = () => {
       const data = await response.json();
       console.log(data);
       toast.success("Successfully Created Coupon");
-      navigate("/campaign"); 
+      navigate("/campaign");
     } catch (error) {
       console.error("Error:", error);
     }

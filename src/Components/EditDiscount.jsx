@@ -159,6 +159,30 @@ const EditDiscount = () => {
   }, []);
 
   const handleSaveChanges = async () => {
+    // Trim title to remove extra spaces
+    if (!packageTitle.trim()) {
+      toast.error("Title is required.");
+      return;
+    }
+
+    // Validate discount amount (should be a positive number)
+    const discountValue = Number(discountAmount);
+    if (isNaN(discountValue) || discountValue <= 0) {
+      toast.error("Discount must be a valid positive number.");
+      return;
+    }
+
+    // Allow only "$" or "%" as discount unit
+    const validUnits = ["$", "%"];
+    if (!validUnits.includes(discountUnit)) {
+      toast.error("Invalid discount unit. Please select $ or %.");
+      return;
+    }
+    // Ensure at least one product is selected
+    if (!selectedIds || selectedIds.length === 0) {
+      toast.error("Please select at least one product.");
+      return;
+    }
     try {
       const response = await fetch(
         "https://staging.neardeal.me/api/updateCouponsMW.php",

@@ -82,6 +82,30 @@ const CreatePackage = () => {
   }, []);
 
   const handleSaveChanges = async () => {
+    // Trim title to remove extra spaces
+    if (!packageTitle.trim()) {
+      toast.error("Title is required.");
+      return;
+    }
+
+    // Validate discount amount (should be a positive number)
+    const discountValue = Number(discountAmount);
+    if (isNaN(discountValue) || discountValue <= 0) {
+      toast.error("Discount must be a valid positive number.");
+      return;
+    }
+
+    // Allow only "$" or "%" as discount unit
+    const validUnits = ["$", "%"];
+    if (!validUnits.includes(discountUnit)) {
+      toast.error("Invalid discount unit. Please select $ or %.");
+      return;
+    }
+    // Ensure at least one product is selected
+    if (!selectedIds || selectedIds.length === 0) {
+      toast.error("Please select at least one product.");
+      return;
+    }
     try {
       const response = await fetch(
         "https://staging.neardeal.me/api/updateCouponsMW.php",
@@ -111,7 +135,7 @@ const CreatePackage = () => {
       const data = await response.json();
       console.log(data);
       toast.success("Successfully Created Discount");
-      navigate("/campaign"); 
+      navigate("/campaign");
     } catch (error) {
       console.error("Error:", error);
       toast.error("Failed to create discount.");
@@ -267,7 +291,7 @@ const CreatePackage = () => {
                             <td>
                               <div style={{ justifyContent: "start" }}>
                                 <img
-                                  src={`https://staging.neardeal.me/api/`+data.ImageLocation}
+                                  src={`https://staging.neardeal.me/api/` + data.ImageLocation}
                                   alt="product"
                                   style={{ width: "50px", height: "50px" }}
                                 />

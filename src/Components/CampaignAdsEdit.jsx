@@ -103,12 +103,11 @@ const EditAdd = () => {
       toast.error("Error:", error);
     }
   };
+console.log(data,"dataaaaa")
+useEffect(() => {
+  fetchAd();
 
-  useEffect(() => {
-    // console.log(data);
-
-    fetchAd();
-  }, [])
+}, []);
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
@@ -135,6 +134,27 @@ const EditAdd = () => {
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
+
+  useEffect(() => {
+
+    if (data?.StartDate) {
+      setStartDate(formatDate(data.StartDate));
+    }
+    if (data?.EndDate) {
+      setEndDate(formatDate(data.EndDate));
+    }
+
+      
+}, [data]);
+
+// Function to extract the correct date format
+const formatDate = (dateString) => {
+  if (!dateString) return ""; 
+  return dateString.split(" ")[0]; // Extracts only YYYY-MM-DD
+};
+
+console.log("Formatted Start Date:", formatDate(startDate));
+console.log("Formatted End Date:", formatDate(endDate));
 
   return (
     <div style={{ display: "flex" }}>
