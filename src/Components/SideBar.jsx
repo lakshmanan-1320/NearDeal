@@ -60,11 +60,12 @@ const SideBar = () => {
         setIsDropdownOpen(false); // Close dropdown after logout
         // Optionally, redirect the user or perform any additional actions after logout
         navigate('/login');
-    };    
+    };
 
     const handleCloseDropdown = () => {
         setIsDropdownOpen(false);
     };
+    console.log("Profile Pic URL:", `https://staging.neardeal.me/api/${userData?.profilePic}`);
 
     return (
         <div className="sidebar">
@@ -112,13 +113,16 @@ const SideBar = () => {
                 <div className="sidebar-profile">
                     <div className="profile-container" onClick={handleProfileClick}>
                         <img
-                            src={userData && `https://staging.neardeal.me/api/${userData.profilePic}`}
+                            src={userData?.profilePic
+                                ? `https://staging.neardeal.me/api/${userData.profilePic}`
+                                : "/default-avatar.png"}
                             alt="Profile"
                             className="profile-pic"
                         />
+
                         <div className="profile-info">
-                            <span style={{ textAlign:'center' }} className="profile-name">{userData && userData.Name}</span>
-                            <span style={{ textAlign:'center' }} className="profile-email">{userData && userData.Email}</span>
+                            <span style={{ textAlign: 'center' }} className="profile-name">{userData && userData.Name}</span>
+                            <span style={{ textAlign: 'center' }} className="profile-email">{userData && userData.Email}</span>
                         </div>
                     </div>
 

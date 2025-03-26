@@ -1,91 +1,115 @@
-import { useState, useEffect } from 'react';
-import eye1 from '../assets/eye1.svg';
-import likes from '../assets/likes.svg';
-import edit1 from '../assets/edit1.svg';
-import { motion } from 'framer-motion';
-import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import eye1 from "../assets/eye1.svg";
+import likes from "../assets/likes.svg";
+import edit1 from "../assets/edit1.svg";
+import { motion } from "framer-motion";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const CampaignDiscounts = () => {
   const navigate = useNavigate();
   const jwtUserToken = Cookies.get("user_token");
-  const userData = JSON.parse(jwtUserToken);
-  const [isChecked, setIsChecked] = useState(false);
+  const userData = jwtUserToken ? JSON.parse(jwtUserToken) : null;
   const [discountData, setDiscountData] = useState([]);
-  const [loading, setLoading] = useState(true); // Loader state
-
-  const handleToggle = () => {
-    setIsChecked(!isChecked);
-    console.log('Toggle state:', !isChecked);
-  };
+  const [loading, setLoading] = useState(true);
 
   const loadDiscount = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
-      const response = await fetch('https://staging.neardeal.me/api/fetchCouponsMW.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          "vendorId": userData.ID,
-          "couponType": 'Discount'
-        })
-      });
+      const response = await fetch(
+        "https://staging.neardeal.me/api/fetchCouponsMW.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            vendorId: userData?.ID,
+            couponType: "Discount",
+          }),
+        }
+      );
       const data = await response.json();
-      console.log("dsds",data.message)
-   
-      setDiscountData(data.message);
+      setDiscountData(data.message || []);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadDiscount();
+    if (userData) {
+      loadDiscount();
+    }
   }, []);
 
+  const handleToggle = async (index, discount) => {
+    const updatedDiscounts = [...discountData];
+    updatedDiscounts[index].Status = discount.Status === "1" ? "0" : "1";
+    setDiscountData(updatedDiscounts);
+
+    try {
+      const response = await fetch(
+        "https://staging.neardeal.me/api/updateCouponStatus.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            couponId: discount.CouponCode, // Assuming CouponCode is unique
+            newStatus: updatedDiscounts[index].Status,
+          }),
+        }
+      );
+      const result = await response.json();
+      console.log("Update response:", result);
+    } catch (error) {
+      console.error("Error updating discount status:", error);
+    }
+  };
+
   return (
-    <motion.div initial={{ opacity: 0 }}
+    <motion.div
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
-      style={{ overflowY: 'auto', height: '60vh' }}
-      >
+      style={{ overflowY: "auto", height: "60vh" }}
+    >
       {loading ? (
-        'Loading..' // Loader
+        "Loading..."
       ) : (
         discountData.map((discount, index) => (
-          <div className='item' key={index}>
-            <div className='left' style={{ width: '84%' }}>
-              <div style={{ padding: '10px' }}>
-                <span style={{ color: '#00A76F' }}>{discount.CouponTitle}</span>
-                {/* <span>Father's day offer</span> */}
-              </div>
+          <div className="item" key={index}>
+            <div className="left" style={{ width: "84%", padding: "10px" }}>
+              <span style={{ color: "#00A76F" }}>{discount.CouponTitle}</span>
             </div>
-            <div className='right' style={{ width: '15%', justifyContent: 'space-between' }}>
+            <div
+              className="right"
+              style={{ width: "15%", justifyContent: "space-between" }}
+            >
               <div>
                 <div className="toggle-switch">
                   <input
                     type="checkbox"
-                    id={`toggle-${index}`} // Unique ID for each toggle
+                    id={`toggle-${index}`}
                     className="toggle-checkbox"
-                    checked={discount.Status}
-                    // checked={discount.Status === '1'}
-                    onChange={handleToggle}
+                    checked={discount.Status === "1"}
+                    onChange={() => handleToggle(index, discount)}
                   />
                   <label htmlFor={`toggle-${index}`} className="toggle-label"></label>
                 </div>
                 <span>Publish</span>
               </div>
               <div>
-                <img width={25} src={edit1} alt="Edit" 
-                
-                 onClick={() => navigate(`/discount/${discount.CouponCode}`)}  // Navigate to package page with Inventory ID
-
-                 />
+                <img
+                  width={25}
+                  src={edit1}
+                  alt="Edit"
+                  onClick={() => navigate(`/discount/${discount.CouponCode}`)}
+                />
               </div>
             </div>
           </div>
@@ -93,6 +117,6 @@ const CampaignDiscounts = () => {
       )}
     </motion.div>
   );
-}
+};
 
 export default CampaignDiscounts;

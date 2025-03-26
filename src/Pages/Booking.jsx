@@ -176,7 +176,7 @@ const Booking = () => {
 
       const data = await response.json();
       const booking = data.message[0];
-console.log("Unique", uniqueData);
+      console.log("Unique", uniqueData);
 
       // Set the state with formatted values
       setTimeout(() => {
@@ -219,11 +219,17 @@ console.log("Unique", uniqueData);
       console.log(err);
     }
   };
-  var filteredBookings = bookingData.filter((data) =>
-    data.InventoryName.toLowerCase().startsWith(search.toLowerCase())
-  );
-  filteredBookings = filteredBookings.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
+  function filterAndPaginate(data, search, startIndex, itemsPerPage) {
+    const filteredData = data.filter((item) =>
+      item.InventoryName?.toLowerCase().includes(search.toLowerCase())
+    );
+    return filteredData.slice(startIndex, startIndex + itemsPerPage);
+  }
+  
+  // Usage
+  var filteredBookings = filterAndPaginate(bookingData, search, startIndex, ITEMS_PER_PAGE);
+  var currentBookings = filterAndPaginate(bookingData, search, startIndex, ITEMS_PER_PAGE);
+  
   return (
     <div className="booking-container-section" style={{ display: "flex" }}>
       <SideBar />
@@ -296,7 +302,7 @@ console.log("Unique", uniqueData);
                 type="text"
                 className="form-control"
                 placeholder="Search..."
-                onChange={(e)=>{setSearch(e.target.value)}}
+                onChange={(e) => { setSearch(e.target.value) }}
               />
               <button
                 className="btn btn-outline-secondary me-2 rounded-3"
@@ -428,11 +434,72 @@ console.log("Unique", uniqueData);
               )}
 
               {/* Pagination */}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                handlePageChange={handlePageChange}
-              />
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
+                <ul style={{ display: "flex", listStyle: "none", padding: 0, gap: "5px" }}>
+                  {/* Previous Button */}
+                  <li
+                    className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "gray" : "black",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Previous
+                    </a>
+                  </li>
+
+                  {/* Page Numbers */}
+                  {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                    <li
+                      key={page}
+                      className={`page-item ${currentPage === page ? "active" : ""}`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: currentPage === page ? "black" : "white",
+                        color: currentPage === page ? "white" : "black",
+                        borderRadius: "4px",
+                        padding: "8px 12px",
+                        cursor: "pointer",
+                        border: "1px solid #ddd",
+                      }}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </li>
+                  ))}
+
+                  {/* Next Button */}
+                  <li
+                    className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "gray" : "black",
+                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+
             </motion.div>
           )}
 
@@ -557,11 +624,72 @@ console.log("Unique", uniqueData);
               )}
 
               {/* Pagination */}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                handlePageChange={handlePageChange}
-              />
+
+              {/* Pagination */}
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
+                <ul style={{ display: "flex", listStyle: "none", padding: 0, gap: "5px" }}>
+                  {/* Previous Button */}
+                  <li
+                    className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "gray" : "black",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Previous
+                    </a>
+                  </li>
+
+                  {/* Page Numbers */}
+                  {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                    <li
+                      key={page}
+                      className={`page-item ${currentPage === page ? "active" : ""}`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: currentPage === page ? "black" : "white",
+                        color: currentPage === page ? "white" : "black",
+                        borderRadius: "4px",
+                        padding: "8px 12px",
+                        cursor: "pointer",
+                        border: "1px solid #ddd",
+                      }}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </li>
+                  ))}
+
+                  {/* Next Button */}
+                  <li
+                    className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "gray" : "black",
+                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </motion.div>
           )}
 
@@ -686,11 +814,72 @@ console.log("Unique", uniqueData);
               )}
 
               {/* Pagination */}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                handlePageChange={handlePageChange}
-              />
+
+              {/* Pagination */}
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
+                <ul style={{ display: "flex", listStyle: "none", padding: 0, gap: "5px" }}>
+                  {/* Previous Button */}
+                  <li
+                    className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "gray" : "black",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Previous
+                    </a>
+                  </li>
+
+                  {/* Page Numbers */}
+                  {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                    <li
+                      key={page}
+                      className={`page-item ${currentPage === page ? "active" : ""}`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: currentPage === page ? "black" : "white",
+                        color: currentPage === page ? "white" : "black",
+                        borderRadius: "4px",
+                        padding: "8px 12px",
+                        cursor: "pointer",
+                        border: "1px solid #ddd",
+                      }}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </li>
+                  ))}
+
+                  {/* Next Button */}
+                  <li
+                    className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "gray" : "black",
+                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </motion.div>
           )}
 
@@ -763,11 +952,72 @@ console.log("Unique", uniqueData);
               )}
 
               {/* Pagination */}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                handlePageChange={handlePageChange}
-              />
+
+              {/* Pagination */}
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
+                <ul style={{ display: "flex", listStyle: "none", padding: 0, gap: "5px" }}>
+                  {/* Previous Button */}
+                  <li
+                    className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "gray" : "black",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Previous
+                    </a>
+                  </li>
+
+                  {/* Page Numbers */}
+                  {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                    <li
+                      key={page}
+                      className={`page-item ${currentPage === page ? "active" : ""}`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: currentPage === page ? "black" : "white",
+                        color: currentPage === page ? "white" : "black",
+                        borderRadius: "4px",
+                        padding: "8px 12px",
+                        cursor: "pointer",
+                        border: "1px solid #ddd",
+                      }}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </li>
+                  ))}
+
+                  {/* Next Button */}
+                  <li
+                    className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "gray" : "black",
+                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </motion.div>
           )}
 
@@ -840,12 +1090,72 @@ console.log("Unique", uniqueData);
                 </table>
               )}
 
+
               {/* Pagination */}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                handlePageChange={handlePageChange}
-              />
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px" }}>
+                <ul style={{ display: "flex", listStyle: "none", padding: 0, gap: "5px" }}>
+                  {/* Previous Button */}
+                  <li
+                    className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "gray" : "black",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Previous
+                    </a>
+                  </li>
+
+                  {/* Page Numbers */}
+                  {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                    <li
+                      key={page}
+                      className={`page-item ${currentPage === page ? "active" : ""}`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: currentPage === page ? "black" : "white",
+                        color: currentPage === page ? "white" : "black",
+                        borderRadius: "4px",
+                        padding: "8px 12px",
+                        cursor: "pointer",
+                        border: "1px solid #ddd",
+                      }}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </li>
+                  ))}
+
+                  {/* Next Button */}
+                  <li
+                    className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <a
+                      className="page-link"
+                      href="#"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      style={{
+                        padding: "8px 12px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "gray" : "black",
+                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </motion.div>
           )}
         </div>

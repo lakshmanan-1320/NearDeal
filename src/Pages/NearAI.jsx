@@ -150,6 +150,10 @@ const NearAI = () => {
     };
 
     const GeneratePrompt = async() => {
+      if (!promptContent || promptContent.trim() === "") {
+        toast.error("Prompt content cannot be empty.");
+        return;
+      }
       setIsLoading(true);
       const token = "3e61107713dd29dd11db3d9d758d74915f236209"; // Replace with your actual token
       try {
@@ -175,6 +179,10 @@ const NearAI = () => {
   };
 
     const handleSaveChanges = async() => {
+      if (!scriptContent || scriptContent.trim() === "") {
+        toast.error("Script content cannot be empty.");
+        return;
+      }
         setIsLoading(true);
         const token = "3e61107713dd29dd11db3d9d758d74915f236209"; // Replace with your actual token
     

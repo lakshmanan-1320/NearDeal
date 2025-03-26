@@ -127,6 +127,7 @@ const BookingOffCanvasComponent = ({
                   value={bookingStatus}
                   onChange={(e) => setBookingStatus(e.target.value)}
                 >
+                  <option>Pending</option>
                   <option>Accepted</option>
                   <option>Declined</option>
                   <option>Started</option>

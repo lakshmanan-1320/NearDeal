@@ -8,8 +8,10 @@ import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const EditDiscount = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const jwtUserToken = Cookies.get("user_token");
   const userData = JSON.parse(jwtUserToken);
@@ -166,7 +168,7 @@ const EditDiscount = () => {
     }
 
     // Validate discount amount (should be a positive number)
-    const discountValue = Number(discountAmount);
+    const discountValue = Number(editorStates.discount.content);
     if (isNaN(discountValue) || discountValue <= 0) {
       toast.error("Discount must be a valid positive number.");
       return;
@@ -174,7 +176,7 @@ const EditDiscount = () => {
 
     // Allow only "$" or "%" as discount unit
     const validUnits = ["$", "%"];
-    if (!validUnits.includes(discountUnit)) {
+    if (!validUnits.includes(editorStates.unit.content)) {
       toast.error("Invalid discount unit. Please select $ or %.");
       return;
     }
@@ -231,6 +233,8 @@ const EditDiscount = () => {
       const data = await response.json();
       console.log(data);
       toast.success("Successfully Created Discount");
+      navigate("/campaign");
+
     } catch (error) {
       console.error("Error:", error);
     }

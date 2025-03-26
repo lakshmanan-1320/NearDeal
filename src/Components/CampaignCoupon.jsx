@@ -9,18 +9,12 @@ import { useNavigate } from "react-router-dom";
 const CampaignCoupon = () => {
   const navigate = useNavigate();
   const jwtUserToken = Cookies.get("user_token");
-  const userData = JSON.parse(jwtUserToken);
-  const [isChecked, setIsChecked] = useState(false);
+  const userData = jwtUserToken ? JSON.parse(jwtUserToken) : null;
   const [couponData, setCouponData] = useState([]);
-  const [loading, setLoading] = useState(true); // Loader state
-
-  const handleToggle = () => {
-    setIsChecked(!isChecked);
-    console.log("Toggle state:", !isChecked);
-  };
+  const [loading, setLoading] = useState(true);
 
   const loadCoupon = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const response = await fetch(
         "https://staging.neardeal.me/api/fetchCouponsMW.php",
@@ -30,25 +24,52 @@ const CampaignCoupon = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            vendorId: userData.ID,
+            vendorId: userData?.ID,
             couponType: "Coupon",
           }),
         }
       );
 
       const data = await response.json();
-      setCouponData(data.message);
-      console.log("Coupon data:", data.message);
+      setCouponData(data.message || []);
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadCoupon();
+    if (userData) {
+      loadCoupon();
+    }
   }, []);
+
+  const handleToggle = async (index, coupon) => {
+    const updatedCoupons = [...couponData];
+    updatedCoupons[index].Status = coupon.Status === "1" ? "0" : "1"; // Toggle Status
+    setCouponData(updatedCoupons);
+
+    try {
+      const response = await fetch(
+        "https://staging.neardeal.me/api/updateCouponStatus.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            couponId: coupon.CouponCode, // Assuming CouponCode is unique
+            newStatus: updatedCoupons[index].Status,
+          }),
+        }
+      );
+      const result = await response.json();
+      console.log("Update response:", result);
+    } catch (error) {
+      console.error("Error updating coupon status:", error);
+    }
+  };
 
   return (
     <motion.div
@@ -56,62 +77,45 @@ const CampaignCoupon = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
-      style={{ overflowY:'auto', height:'60vh' }}
+      style={{ overflowY: "auto", height: "60vh" }}
     >
-      {loading
-        ? "Loading..." // Loader
-        : couponData.map((coupon, index) => (
-            <div className="item" key={index}>
-              <div className="left" style={{ width: "84%", padding:'10px' }}>
-                {/* <img
-                  src="https://avatars.githubusercontent.com/u/97161064?v=4"
-                  alt="Coupon"
-                /> */}
-                {/* <div> */}
-                <span style={{ color: '#00A76F' }}>{coupon.CouponTitle}</span>
-                {/* <div>
-                  <div>
-                    <img style={{ width: 'max-content' }} src={eye1} alt="Views" />
-                    <span style={{ color: 'grey' }}>{coupon.views || '1000 views'}</span>
-                  </div>
-                  <div style={{ marginLeft: '10px' }}>
-                    <img style={{ width: 'max-content' }} src={likes} alt="Likes" />
-                    <span style={{ color: 'grey' }}>{coupon.likes || '1000 likes'}</span>
-                  </div>
-                </div> */}
-                {/* </div> */}
-              </div>
-              <div
-                className="right"
-                style={{ width: "15%", justifyContent: "space-between" }}
-              >
-                <div>
-                  <div className="toggle-switch">
-                    <input
-                      type="checkbox"
-                      id={`toggle-${index}`} // Unique ID for each toggle
-                      className="toggle-checkbox"
-                      checked={coupon.Status === '1' ? true : false}
-                      onChange={handleToggle}
-                    />
-                    <label
-                      htmlFor={`toggle-${index}`}
-                      className="toggle-label"
-                    ></label>
-                  </div>
-                  <span>Publish</span>
-                </div>
-                <div>
-                  <img
-                    width={25}
-                    src={edit1}
-                    alt="Edit"
-                    onClick={() => navigate(`/coupon/${coupon.CouponCode}`)}
+      {loading ? (
+        "Loading..."
+      ) : (
+        couponData.map((coupon, index) => (
+          <div className="item" key={index}>
+            <div className="left" style={{ width: "84%", padding: "10px" }}>
+              <span style={{ color: "#00A76F" }}>{coupon.CouponTitle}</span>
+            </div>
+            <div
+              className="right"
+              style={{ width: "15%", justifyContent: "space-between" }}
+            >
+              <div>
+                <div className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    id={`toggle-${index}`}
+                    className="toggle-checkbox"
+                    checked={coupon.Status === "1"}
+                    onChange={() => handleToggle(index, coupon)}
                   />
+                  <label htmlFor={`toggle-${index}`} className="toggle-label"></label>
                 </div>
+                <span>Publish</span>
+              </div>
+              <div>
+                <img
+                  width={25}
+                  src={edit1}
+                  alt="Edit"
+                  onClick={() => navigate(`/coupon/${coupon.CouponCode}`)}
+                />
               </div>
             </div>
-          ))}
+          </div>
+        ))
+      )}
     </motion.div>
   );
 };
