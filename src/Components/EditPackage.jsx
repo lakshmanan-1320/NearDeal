@@ -165,14 +165,14 @@ const CreatePackage = () => {
                     Price: row[1],
                     Hours: row[2]
                 }));
-        
+
             if (datas.length === 0) {
                 toast.error("Each row must have Name, Price, and Hours filled");
                 return;
             }
         }
-        
-        
+
+
 
         console.log(rowsData, "dataaaaaaaaaaaaaaa");
 

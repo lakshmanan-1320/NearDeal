@@ -81,7 +81,17 @@ const CampaignCoupon = () => {
     >
       {loading ? (
         "Loading..."
-      ) : (
+      ) : couponData.length === 0 ? (
+        <table className="table">
+          <tbody>
+            <tr>
+              <td colSpan="5" className="text-center">
+              No data available add coupons 
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      ): (
         couponData.map((coupon, index) => (
           <div className="item" key={index}>
             <div className="left" style={{ width: "84%", padding: "10px" }}>

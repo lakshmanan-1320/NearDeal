@@ -80,7 +80,17 @@ const CampaignDiscounts = () => {
     >
       {loading ? (
         "Loading..."
-      ) : (
+      ) :discountData.length === 0 ? (
+        <table className="table">
+          <tbody>
+            <tr>
+              <td colSpan="5" className="text-center">
+              No data available add discounts
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      ): (
         discountData.map((discount, index) => (
           <div className="item" key={index}>
             <div className="left" style={{ width: "84%", padding: "10px" }}>

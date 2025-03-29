@@ -50,42 +50,39 @@ const CampaignAds = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}>
-
-            {
-                ads.map((item, index) => {
-                    return (
-                        <>
-                            <div key={index} style={{ padding: '10px 20px', marginBottom:'10px' }} className="campaign-ads">
-                                <div>
-                                    <span>{item.CampaignName}</span>
-                                    <span style={{ fontSize: '14px' }} className="grey">Total Cost: $100</span>
-                                </div>
-                                <div className="edit">
-                                    <div style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        {/* <div className="toggle-switch">
-                                            <input
-                                                type="checkbox"
-                                                id="toggle"
-                                                className="toggle-checkbox"
-                                                checked={isChecked}
-                                                onChange={handleToggle}
-                                            />
-                                            <label htmlFor="toggle" className="toggle-label"></label>
-
-                                        </div>
-                                        <span style={{ margin: '0px 10px' }}>Active</span> */}
-                                    </div>
-                                    <Link to={`/campaign/ads/${item.CampaignID}`}>
-                                        <img src={edit} alt="Edit" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </>
-                    )
-                })
-            }
-
+            {ads.length === 0 ? (
+                <table className="table">
+                    <tbody>
+                        <tr>
+                            <td colSpan="5" className="text-center">
+                            No data available add Ads
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            ) : (
+                ads.map((item, index) => (
+                    <div
+                        key={index}
+                        style={{ padding: "10px 20px", marginBottom: "10px" }}
+                        className="campaign-ads"
+                    >
+                        <div>
+                            <span>{item.CampaignName}</span>
+                            <span style={{ fontSize: "14px" }} className="grey">
+                                Total Cost: $100
+                            </span>
+                        </div>
+                        <div className="edit">
+                            <Link to={`/campaign/ads/${item.CampaignID}`}>
+                                <img src={edit} alt="Edit" />
+                            </Link>
+                        </div>
+                    </div>
+                ))
+            )}
         </motion.div>
+
     )
 }
 

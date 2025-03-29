@@ -135,7 +135,7 @@ const CreatePackage = () => {
       const data = await response.json();
       console.log(data);
       toast.success("Successfully Created Discount");
-      navigate("/campaign");
+      navigate("/campaign?tab=discounts");
     } catch (error) {
       console.error("Error:", error);
       toast.error("Failed to create discount.");

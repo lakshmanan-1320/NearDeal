@@ -10,9 +10,13 @@ import CampaignCoupon from "../Components/CampaignCoupon";
 import CampaignDiscounts from "../Components/CampaignDiscounts";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 const Campaign = () => {
-  const [active, setActive] = useState("ads");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const defaultTab = queryParams.get("tab") || "ads"; // Default to 'ads' if no param
+  const [active, setActive] = useState(defaultTab);
   const isActive = (path) => {
     return active === path ? "btn" : "";
   };

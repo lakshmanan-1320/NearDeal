@@ -232,8 +232,8 @@ const EditDiscount = () => {
 
       const data = await response.json();
       console.log(data);
-      toast.success("Successfully Created Discount");
-      navigate("/campaign");
+      toast.success("Discount Updated Successfully");
+      navigate("/campaign?tab=discounts");
 
     } catch (error) {
       console.error("Error:", error);

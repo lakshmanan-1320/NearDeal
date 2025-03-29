@@ -18,8 +18,8 @@ const CreatePackage = () => {
     const jwtUserToken = Cookies.get("user_token");
     const userData = JSON.parse(jwtUserToken);
     const [active, setActive] = useState('setup');
-    const [isLoading, setIsLoading] = useState(false); 
-    const [reel, setReel] = useState(''); 
+    const [isLoading, setIsLoading] = useState(false);
+    const [reel, setReel] = useState('');
     const isActive = (path) => {
         return active === path ? 'btn' : ''
     };
@@ -41,25 +41,25 @@ const CreatePackage = () => {
         formdata.append("userid", userData.ID);
         formdata.append("camtype", "Reel");
         formdata.append("fileToUpload", images); // Use the file directly from the state
-    
+
         try {
             const requestOptions = {
                 method: "POST",
                 body: formdata,
                 redirect: "follow",
             };
-            
+
             const response = await fetch("https://staging.neardeal.me/api/uploadMediaFile.php", requestOptions);
-        
+
             const data = await response.json();
             console.log(data);
             setReel(data.message);
             setIsLoading(false);
             toast.success("Successfully Uploaded");
-    
+
         } catch (error) {
             console.error("Error:", error);
-            toast.error("Upload failed: " + error.message);
+            toast.error("Upload failed: " + "File Upload Failed");
         }
     };
 
@@ -105,7 +105,7 @@ const CreatePackage = () => {
             return;
         }
 
-        
+
         try {
             const response = await fetch(
                 "https://staging.neardeal.me/api/updateNearReelMW.php",
@@ -127,9 +127,19 @@ const CreatePackage = () => {
             const data = await response.json();
             console.log(data);
             toast.success("Successfully Created NearReel");
-            navigate("/campaign"); 
+            navigate("/campaign?tab=nearreel");
         } catch (error) {
             console.error("Error:", error);
+            toast.error("Failed To Create NearReel");
+
+        }
+    };
+    const handleRemoveAll = () => {
+        setImages(null); // Clear selected file
+        setReel(null); // Clear the reel state as well
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ""; // Reset input field
         }
     };
 
@@ -187,11 +197,11 @@ const CreatePackage = () => {
                                 <input style={{ width: '35%', padding: '10px 20px', border: '2px solid #E9ECEE', color: '#637381', borderRadius: '10px' }} type="date" value={date} onChange={(e) => { setDate(e.target.value) }} placeholder="Valid Date & time"></input>
 
                                 <Link to={'/nearai'} style={{ marginTop: '20px', textDecoration: 'none', border: '2px solid #E9ECEE', width: 'fit-content', padding: '5px', borderRadius: '20px' }}><img src={ai} /> Generate Video with Near.AI</Link>
-                                {isLoading &&<div className='position-relative'><div className="position-absolute top-50 start-50 translate-middle"><div className='loader'></div></div></div>}
+                                {isLoading && <div className='position-relative'><div className="position-absolute top-50 start-50 translate-middle"><div className='loader'></div></div></div>}
 
                                 <div
                                     className="image-upload"
-                                    style={{ cursor: 'pointer', textAlign: 'center', marginTop: '20px',width:'80%' }}
+                                    style={{ cursor: 'pointer', textAlign: 'center', marginTop: '20px', width: '80%' }}
                                     onClick={handleUploadClick}
                                 >
                                     <img src={imageUpload} alt="upload" />
@@ -207,7 +217,14 @@ const CreatePackage = () => {
                                     />
                                 </div>
                                 <div style={{ justifyContent: "end" }}>
-                                    <button style={{ borderRadius: '5px', padding: '0px 10px', margin: '0px 10px' }}>Remove All</button>
+                                    {images && (
+                                        <div style={{ marginBottom: '10px', textAlign: 'left' }}>
+                                            <p style={{ fontWeight: 'bold', fontSize: '16px' }}>{images.name}</p>
+                                        </div>
+                                    )}
+                                    <button style={{ borderRadius: '5px', padding: '0px 10px', margin: '0px 10px' }} onClick={handleRemoveAll}>
+                                        Remove All
+                                    </button>
                                     <button onClick={handleUpload} className="button">Upload</button>
                                 </div>
 

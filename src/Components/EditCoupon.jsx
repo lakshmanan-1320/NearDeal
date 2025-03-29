@@ -170,8 +170,8 @@ const CreatePackage = () => {
 
       const data = await response.json();
       console.log(data);
-      toast.success("Successfully Created Coupon");
-      navigate("/campaign");
+      toast.success("Coupon Updated Successfully");
+      navigate("/campaign?tab=coupen");
 
     } catch (error) {
       console.error("Error:", error);
