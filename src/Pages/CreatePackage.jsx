@@ -212,41 +212,13 @@ const CreatePackage = () => {
                                     >
                                         All
                                     </button>
-                                    {data?.Categories && (() => {
-                                        try {
-                                            console.log("Raw Categories:", data.Categories);
+                                    <div className="col-lg-6 d-flex">
+                                        <button onClick={() => setActive('spa')} type="button" className={`${isActive('spa')} btn-outline-secondary border-0 active me-2`}>Spa</button>
+                                        <button onClick={() => setActive('massage')} type="button" className={`${isActive('massage')} btn-outline-secondary border-0 active me-2`}>Massage</button>
+                                        <button onClick={() => setActive('sauna')} type="button" className={`${isActive('sauna')} btn-outline-secondary border-0 active me-2`}>Sauna</button>
+                                        <button onClick={() => setActive('gym')} type="button" className={`${isActive('gym')} btn-outline-secondary border-0 active me-2`}>Gym</button>
 
-                                            let categoriesArray;
-
-                                            if (Array.isArray(data.Categories)) {
-                                                categoriesArray = data.Categories;
-                                            } else if (typeof data.Categories === "string") {
-                                                categoriesArray = data.Categories
-                                                    .replace(/[\[\]"]/g, "") // Remove brackets & extra quotes
-                                                    .split(",")
-                                                    .map(cat => cat.trim());
-                                            } else {
-                                                throw new Error("Invalid categories format");
-                                            }
-
-                                            // Normalize: Remove duplicates & convert all to lowercase
-                                            categoriesArray = [...new Set(categoriesArray.map(cat => cat.toLowerCase()))];
-
-                                            return categoriesArray.map(category => (
-                                                <button
-                                                    key={category}
-                                                    onClick={() => setActive(category)}
-                                                    type="button"
-                                                    className={`${isActive(category)} btn-outline-secondary border-0 active me-2`}
-                                                >
-                                                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                                                </button>
-                                            ));
-                                        } catch (error) {
-                                            console.error("Error parsing categories:", error, data.Categories);
-                                            return null;
-                                        }
-                                    })()}
+                                    </div>
 
 
 

@@ -273,6 +273,7 @@ const CreatePackage = () => {
                                     type="text"
                                     value={packageTitle}
                                     onChange={handleInputChange}
+                                    
                                 />
 
                                 <div
