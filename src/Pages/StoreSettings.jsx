@@ -45,10 +45,10 @@ const StoreSetting = () => {
 
     const handleRemoveImage = () => {
         setImages(""); // Clear the selected image
-      };
-      const handleRemoveLogo=()=>{
+    };
+    const handleRemoveLogo = () => {
         setLogo("");
-      }
+    }
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -56,29 +56,29 @@ const StoreSetting = () => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-              const base64String = reader.result; // Get the Base64 string from the reader
-              const parts = base64String.split(","); // Split the string at the comma
-              // Update the state with the new data
-              setImages(parts[1]);
+                const base64String = reader.result; // Get the Base64 string from the reader
+                const parts = base64String.split(","); // Split the string at the comma
+                // Update the state with the new data
+                setImages(parts[1]);
             };
             reader.readAsDataURL(file);
-          }
+        }
     };
 
     const handleLogoUpload = (e) => {
         const file = e.target.files[0];
-    setLogoName(file.name);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result; // Get the Base64 string from the reader
-        const parts = base64String.split(","); // Split the string at the comma
+        setLogoName(file.name);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result; // Get the Base64 string from the reader
+                const parts = base64String.split(","); // Split the string at the comma
 
-        // Update the state with the new data
-        setLogo(parts[1]);
-      };
-      reader.readAsDataURL(file);
-    }
+                // Update the state with the new data
+                setLogo(parts[1]);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleUploadClick = (inputType) => {
@@ -173,8 +173,8 @@ const StoreSetting = () => {
                 <div>
                     <div className="left">
                         <div style={{ flexDirection: 'column', position: 'relative' }}>
-                            <img style={{ width: '100%', height:'100%', borderRadius:'4%',maxHeight:'300px',objectFit:'cover' }} src={`https://staging.neardeal.me/api/${storeData.store_image}`} alt="store logo" />
-                            <img style={{ position: 'absolute', bottom: '-15%', left: '5%', borderRadius: '50%', width: '60px', height:'60px' }} src={`https://staging.neardeal.me/api/${storeData.store_logo}`} alt="upload" />
+                            <img style={{ width: '100%', height: '100%', borderRadius: '4%', maxHeight: '300px', objectFit: 'cover' }} src={`https://staging.neardeal.me/api/${storeData.store_image}`} alt="store logo" />
+                            <img style={{ position: 'absolute', bottom: '-15%', left: '5%', borderRadius: '50%', width: '60px', height: '60px' }} src={`https://staging.neardeal.me/api/${storeData.store_logo}`} alt="upload" />
                         </div>
                         <h1 style={{ fontWeight: 'bold', marginTop: '30px' }}>{storeData.vendorName || 'Store Name'}</h1>
                         <div className="rating">
@@ -216,8 +216,8 @@ const StoreSetting = () => {
                                     className="package-title"
                                     type="text"
                                     placeholder="Store Name"
-                                    value={packageTitle}  
-                                    onChange={(e) => setPackageTitle(e.target.value)}  
+                                    value={packageTitle}
+                                    onChange={(e) => setPackageTitle(e.target.value)}
                                 />
 
                                 <div className="grey" style={{ marginTop: '20px' }}>Store Icon</div>
@@ -233,27 +233,27 @@ const StoreSetting = () => {
                                 </div>
                                 {/* Image Preview */}
                                 {logo && (
-                                                <div style={{ position: 'relative', margin: '10px' }}>
-                                                  <img
-                                                    src={`data:image/jpeg;base64,${logo}`}
-                                                    alt="uploaded"
-                                                    style={{ objectFit: 'cover', width: '10%', height: 'auto' }}
-                                                  />
-                                                  <button
-                                                    onClick={handleRemoveLogo}
-                                                    style={{
-                                                      position: 'absolute',
-                                                      top: '5px',
-                                                      background: 'none',
-                                                      border: 'none',
-                                                      cursor: 'pointer',
-                                                      left: '55px',
-                                                    }}
-                                                  >
-                                                    <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position:'absolute', left:'0px' }} />
-                                                  </button>
-                                                </div>
-                                              )}
+                                    <div style={{ position: 'relative', margin: '10px' }}>
+                                        <img
+                                            src={`data:image/jpeg;base64,${logo}`}
+                                            alt="uploaded"
+                                            style={{ objectFit: 'cover', width: '10%', height: 'auto' }}
+                                        />
+                                        <button
+                                            onClick={handleRemoveLogo}
+                                            style={{
+                                                position: 'absolute',
+                                                top: '5px',
+                                                background: 'none',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                left: '55px',
+                                            }}
+                                        >
+                                            <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position: 'absolute', left: '0px' }} />
+                                        </button>
+                                    </div>
+                                )}
 
                                 <div className="image-upload" style={{ cursor: 'pointer', textAlign: 'center', marginTop: '20px' }} onClick={() => handleUploadClick('image')}>
                                     <img src={imageUpload} alt="upload" />
@@ -270,29 +270,29 @@ const StoreSetting = () => {
                                 </div>
 
                                 {/* Image Preview */}
-                                              {images && (
-                                                <div style={{ position: 'relative', margin: '10px' }}>
-                                                  <img
-                                                    src={`data:image/jpeg;base64,${images}`}
-                                                    alt="uploaded"
-                                                    style={{ objectFit: 'cover', width: '10%', height: 'auto' }}
-                                                  />
-                                                  <button
-                                                    onClick={handleRemoveImage}
-                                                    style={{
-                                                      position: 'absolute',
-                                                      top: '5px',
-                                                      background: 'none',
-                                                      border: 'none',
-                                                      cursor: 'pointer',
-                                                      left: '55px',
-                                                    }}
-                                                  >
-                                                    <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position:'absolute', left:'0px' }} />
-                                                  </button>
-                                                </div>
-                                              )}
-                                
+                                {images && (
+                                    <div style={{ position: 'relative', margin: '10px' }}>
+                                        <img
+                                            src={`data:image/jpeg;base64,${images}`}
+                                            alt="uploaded"
+                                            style={{ objectFit: 'cover', width: '10%', height: 'auto' }}
+                                        />
+                                        <button
+                                            onClick={handleRemoveImage}
+                                            style={{
+                                                position: 'absolute',
+                                                top: '5px',
+                                                background: 'none',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                left: '55px',
+                                            }}
+                                        >
+                                            <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position: 'absolute', left: '0px' }} />
+                                        </button>
+                                    </div>
+                                )}
+
 
 
                                 <div className="grey" style={{ marginTop: '20px' }}>Description</div>
@@ -300,7 +300,8 @@ const StoreSetting = () => {
                                     name="description"
                                     className="text-section"
                                     type="text"
-                                    value={storeData.description || 'No description available'}
+                                    value={storeData.description || ''}
+                                    placeholder="No description available"
                                     onChange={handleInputChange}
                                 />
 
@@ -309,7 +310,8 @@ const StoreSetting = () => {
                                     name="emailAddress"
                                     className="text-section"
                                     type="email"
-                                    value={storeData.emailAddress || 'No email available'}
+                                    value={storeData.emailAddress || ''}
+                                    placeholder="No email available"
                                     onChange={handleInputChange}
                                 />
 
@@ -318,25 +320,28 @@ const StoreSetting = () => {
                                     name="contactNo"
                                     className="text-section"
                                     type="tel"
-                                    value={storeData.contactNo || 'No phone number available'}
+                                    value={storeData.contactNo || ''}
+                                    placeholder="No phone number available"
                                     onChange={handleInputChange}
                                 />
-
                                 <div className="grey" style={{ marginTop: '20px' }}>Address</div>
                                 <input
                                     name="address"
                                     className="text-section"
                                     type="text"
-                                    value={storeData.address || 'No address available'}
+                                    value={storeData.address || ''}
+                                    placeholder="No address available"
                                     onChange={handleInputChange}
                                 />
+
 
                                 <div className="grey" style={{ marginTop: '20px' }}>Availability</div>
                                 <input
                                     name="workingHours"
                                     className="text-section"
                                     type="text"
-                                    value={storeData.workingHours || 'No hours available'}
+                                    value={storeData.workingHours || ''}
+                                    placeholder="No hours available"
                                     onChange={handleInputChange}
                                 />
                             </div>
