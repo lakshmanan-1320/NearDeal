@@ -41,6 +41,10 @@ const EditAdd = () => {
       toast.error("End date cannot be before start date!");
       return;
     }
+    if (new Date(startDate).toDateString() === new Date(endDate).toDateString()) {
+      toast.error("Start date and end date cannot be the same!");
+      return;
+    }
     if (!images) {
       toast.error("Image upload is required!");
       return;
