@@ -55,7 +55,7 @@ const EditAdd = () => {
     console.log(startDate, endDate, isChecked, invImgFileName);
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/createAdsMW.php",
+        "https://staging.neardeal.me/api/updateAdsMW.php",
         {
           method: "POST",
           headers: {
