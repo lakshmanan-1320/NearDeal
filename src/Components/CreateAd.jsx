@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import "react-quill/dist/quill.snow.css"; // Import Quill's styles
 import SideBar from "./SideBar";
 import background from "../assets/background.svg";
@@ -25,7 +25,41 @@ const EditAdd = () => {
   const [endDate, setEndDate] = useState("");
   const [images, setImages] = useState(null); // Use a single image instead of an array
   const [isChecked, setIsChecked] = useState(false);
+  const [usersdata,setUsersdata] = useState();
   const fileInputRef = useRef(null);
+
+  var cookieValue = Cookies.get('user_token');
+  cookieValue = JSON.parse(cookieValue);
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              var payload = {
+                  "userID": cookieValue.ID
+              }
+
+              // Fetch user data
+              const response = await fetch('https://staging.neardeal.me/api/fetchUserData.php', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(payload)
+              });
+
+              const userData = await response.json();
+              setUsersdata(userData);
+              console.log("User Data:", userData); // Log the user data
+
+          } catch (error) {
+              console.error('Failed to parse JSON from cookie or fetch user data:', error);
+          }
+
+      };
+
+      fetchData();
+  }, []);
+
 
   const handleSubmit = async () => {
      // Validation check
@@ -61,7 +95,7 @@ const EditAdd = () => {
           },
           body: JSON.stringify({
             vendorId: userData.ID,
-            campaignTitle: "Store ka nam",
+            campaignTitle: usersdata.name,
             startDate: startDate,
             endDate: endDate,
             status: isChecked ? 1 : 0,
@@ -109,6 +143,8 @@ const EditAdd = () => {
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
+
+
 
   return (
     <div style={{ display: "flex" }}>

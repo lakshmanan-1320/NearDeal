@@ -27,6 +27,7 @@ const CreatePackage = () => {
     const [images, setImages] = useState(null);
     const [date, setDate] = useState('');
     const [packageTitle, setPackageTitle] = useState('');
+    const [showPreview, setShowPreview] = useState(false);
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
 
@@ -37,6 +38,12 @@ const CreatePackage = () => {
             return;
         }
         console.log(images);
+        // Get file extension and MIME type
+        const mimeType = images.type; // e.g., "video/mp4", "image/png"
+        const fileExtension = images.name.split('.').pop().toUpperCase(); // e.g., "MP4", "PNG"
+
+        console.log("Uploading file type:", mimeType);
+        console.log("File extension:", fileExtension);
         const formdata = new FormData();
         formdata.append("userid", userData.ID);
         formdata.append("camtype", "Reel");
@@ -53,16 +60,17 @@ const CreatePackage = () => {
 
             const data = await response.json();
             console.log(data);
-            setReel(data.message);
+            setReel(`https://staging.neardeal.me/api/${data.message}`);
             setIsLoading(false);
-            toast.success("Successfully Uploaded");
+            toast.success(`Successfully uploaded ${fileExtension} file`);
+
 
         } catch (error) {
             console.error("Error:", error);
             toast.error("Upload failed: " + "File Upload Failed");
         }
     };
-
+    console.log(reel)
     const handleToggle = () => {
         setIsChecked(!isChecked);
         console.log('Toggle state:', !isChecked);
@@ -226,6 +234,16 @@ const CreatePackage = () => {
                                         Remove All
                                     </button>
                                     <button onClick={handleUpload} className="button">Upload</button>
+                                    {reel && (
+                                        // <div style={{ marginTop: '10px' }}>
+                                            <button
+                                                style={{ marginLeft:'10px',padding: '5px 15px', borderRadius: '5px', backgroundColor: '#00A76F', color: '#fff', border: 'none' }}
+                                                onClick={() => setShowPreview(true)}
+                                            >
+                                                Preview {images?.type?.startsWith("image") ? "Image" : "Video"}
+                                            </button>
+                                        // </div>
+                                    )}
                                 </div>
 
                                 {/* <div className="url">
@@ -423,6 +441,73 @@ const CreatePackage = () => {
 
                         </motion.div>
                     }
+
+                    {showPreview && (
+                        <div
+                            style={{
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "rgba(0,0,0,0.6)",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                zIndex: 1000,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    background: "#fff",
+                                    padding: 20,
+                                    borderRadius: 10,
+                                    maxWidth: "90%",
+                                    maxHeight: "90%",
+                                    overflow: "auto",
+                                    position: "relative",
+                                }}
+                            >
+                                <button
+                                    onClick={() => setShowPreview(false)}
+                                    style={{
+                                        position: "absolute",
+                                        top: 10,
+                                        right: 10,
+                                        background: "#fff",
+                                        border: "2px solid #ccc",
+                                        borderRadius: "50%",
+                                        width: 30,
+                                        height: 30,
+                                        fontSize: 16,
+                                        fontWeight: "bold",
+                                        lineHeight: "26px",
+                                        cursor: "pointer",
+                                        textAlign: "center",
+                                        boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                                    }}
+                                >
+                                    ×
+                                </button>
+
+                                {images?.type?.startsWith("image") ? (
+                                    <img
+                                        src={reel}
+                                        alt="Preview"
+                                        style={{ maxWidth: "100%", maxHeight: "80vh" }}
+                                    />
+                                ) : (
+                                    <video
+                                        src={reel}
+                                        controls
+                                        style={{ maxWidth: "100%", maxHeight: "80vh" }}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+
 
 
                 </div>

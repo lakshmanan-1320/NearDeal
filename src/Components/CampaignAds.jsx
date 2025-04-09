@@ -55,7 +55,7 @@ const CampaignAds = () => {
                     <tbody>
                         <tr>
                             <td colSpan="5" className="text-center">
-                            No data available add Ads
+                                No data available add Ads
                             </td>
                         </tr>
                     </tbody>
@@ -68,6 +68,11 @@ const CampaignAds = () => {
                         className="campaign-ads"
                     >
                         <div>
+                            <img
+                                style={{ borderRadius: '50%', height: '50px', width: '50px' }}
+                                src={`https://staging.neardeal.me/api/${item.ContentLocation}`}
+                                alt="item"
+                            />
                             <span>{item.CampaignName}</span>
                             <span style={{ fontSize: "14px" }} className="grey">
                                 Total Cost: $100

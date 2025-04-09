@@ -64,7 +64,7 @@ const EditAdd = () => {
           body: JSON.stringify({
             vendorId: userData.ID,
             campaignId: id,
-            campaignTitle: "Store ka nam",
+            campaignTitle: data.CampaignName,
             startDate: startDate,
             endDate: endDate,
             status: isChecked ? 1 : 0,
@@ -147,6 +147,9 @@ useEffect(() => {
     if (data?.EndDate) {
       setEndDate(formatDate(data.EndDate));
     }
+
+    if (data?.Status !== undefined) setIsChecked(data.Status === "1" || data.Status === 1);
+
 
       
 }, [data]);

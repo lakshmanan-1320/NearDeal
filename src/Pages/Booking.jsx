@@ -225,11 +225,11 @@ const Booking = () => {
     );
     return filteredData.slice(startIndex, startIndex + itemsPerPage);
   }
-  
+
   // Usage
   var filteredBookings = filterAndPaginate(bookingData, search, startIndex, ITEMS_PER_PAGE);
   var currentBookings = filterAndPaginate(bookingData, search, startIndex, ITEMS_PER_PAGE);
-  
+
   return (
     <div className="booking-container-section" style={{ display: "flex" }}>
       <SideBar />
@@ -321,10 +321,20 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
+                  <thead>
+                    <tr>
+                      <th>Booking Status</th>
+                      <th>Booking Start Date</th>
+                      <th>Inventory Name</th>
+                      <th></th>
+                      <th>Payment Status</th>
+                      <th></th> {/* Empty for the action button */}
+                    </tr>
+                  </thead>
                   <tbody>
                     {filteredBookings.length === 0 ? (
                       <tr>
-                        <td colSpan="5" className="text-center">
+                        <td colSpan="6" className="text-center">
                           No booking available
                         </td>
                       </tr>
@@ -511,10 +521,20 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
+                   <thead>
+                    <tr>
+                      <th>Booking Status</th>
+                      <th>Booking Start Date</th>
+                      <th>Inventory Name</th>
+                      <th></th>
+                      <th>Payment Status</th>
+                      <th></th> {/* Empty for the action button */}
+                    </tr>
+                  </thead>
                   <tbody>
                     {bookingData.length === 0 ? (
                       <tr>
-                        <td colSpan="5" className="text-center">
+                        <td colSpan="6" className="text-center">
                           No booking available
                         </td>
                       </tr>
@@ -701,6 +721,16 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
+                   <thead>
+                    <tr>
+                      <th>Booking Status</th>
+                      <th>Booking Start Date</th>
+                      <th>Inventory Name</th>
+                      <th></th>
+                      <th>Payment Status</th>
+                      <th></th> {/* Empty for the action button */}
+                    </tr>
+                  </thead>
                   <tbody>
                     {currentBookings.length === 0 ? (
                       <tr>
@@ -891,6 +921,16 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
+                   <thead>
+                    <tr>
+                      <th>Booking Status</th>
+                      <th>Booking Start Date</th>
+                      <th>Inventory Name</th>
+                      <th></th>
+                      <th>Payment Status</th>
+                      <th></th> {/* Empty for the action button */}
+                    </tr>
+                  </thead>
                   <tbody>
                     {currentBookings.length === 0 ? (
                       <tr>
@@ -1029,6 +1069,16 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
+                   <thead>
+                    <tr>
+                      <th>Booking Status</th>
+                      <th>Booking Start Date</th>
+                      <th>Inventory Name</th>
+                      <th></th>
+                      <th>Payment Status</th>
+                      <th></th> {/* Empty for the action button */}
+                    </tr>
+                  </thead>
                   <tbody>
                     {currentBookings.length === 0 ? (
                       <tr>
