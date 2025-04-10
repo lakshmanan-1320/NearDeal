@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-const CampaignDiscounts = () => {
+const CampaignDiscounts = ({ searchQuery }) => {
   const navigate = useNavigate();
   const jwtUserToken = Cookies.get("user_token");
   const userData = jwtUserToken ? JSON.parse(jwtUserToken) : null;
@@ -70,6 +70,11 @@ const CampaignDiscounts = () => {
     }
   };
 
+  const filteredDiscounts = discountData.filter(ad =>
+    ad.CouponTitle.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -80,7 +85,7 @@ const CampaignDiscounts = () => {
     >
       {loading ? (
         "Loading..."
-      ) :discountData.length === 0 ? (
+      ) :filteredDiscounts.length === 0 ? (
         <table className="table">
           <tbody>
             <tr>
@@ -91,7 +96,7 @@ const CampaignDiscounts = () => {
           </tbody>
         </table>
       ): (
-        discountData.map((discount, index) => (
+        filteredDiscounts.map((discount, index) => (
           <div className="item" key={index}>
             <div className="left" style={{ width: "84%", padding: "10px" }}>
               <span style={{ color: "#00A76F" }}>{discount.CouponTitle}</span>

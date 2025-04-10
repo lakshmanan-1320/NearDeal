@@ -17,6 +17,8 @@ const Campaign = () => {
   const queryParams = new URLSearchParams(location.search);
   const defaultTab = queryParams.get("tab") || "ads"; // Default to 'ads' if no param
   const [active, setActive] = useState(defaultTab);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const isActive = (path) => {
     return active === path ? "btn" : "";
   };
@@ -86,6 +88,8 @@ const Campaign = () => {
                 type="text"
                 className="form-control"
                 placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button
                 className="btn btn-outline-secondary me-2 rounded-3"
@@ -169,13 +173,13 @@ const Campaign = () => {
           </div>
           <table className="table table-hover mt-5">
             <tbody>
-              {active === "ads" && <CampaignAds />}
+              {active === "ads" && <CampaignAds searchQuery={searchQuery} />}
 
-              {active === "nearreel" && <CampaignNearReel />}
+              {active === "nearreel" && <CampaignNearReel searchQuery={searchQuery} />}
 
-              {active === "coupon" && <CampaignCoupon />}
+              {active === "coupon" && <CampaignCoupon searchQuery={searchQuery} />}
 
-              {active === "discounts" && <CampaignDiscounts />}
+              {active === "discounts" && <CampaignDiscounts searchQuery={searchQuery} />}
             </tbody>
           </table>
         </div>

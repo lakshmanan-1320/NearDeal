@@ -108,7 +108,7 @@ const EditAdd = () => {
       const data = await response.json();
       console.log(data);
       toast.success("Success");
-      navigate("/campaign"); 
+      navigate("/campaign?tab=ads"); 
     } catch (error) {
       console.error("Error:", error);
       toast.error("Error:", error);
@@ -156,7 +156,7 @@ const EditAdd = () => {
       />
       <div className="create-package" style={{ width: "80%" }}>
         <span className="heading">
-          <Link to="/campaign">
+          <Link to="/campaign?tab=ads">
             <img src={leftArrow} alt="left arrow" />
           </Link>{" "}
           Activate Ads
@@ -270,14 +270,8 @@ const EditAdd = () => {
                   />
                 </div>
 
-                <div
-                  style={{
-                    margin: "0px 10px",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <label htmlFor="endDate" className="grey">
+                <div style={{ display: "flex", flexDirection: "column",marginTop:"5px" }}>
+                <label htmlFor="endDate" className="grey">
                     End Date:
                   </label>
                   <input

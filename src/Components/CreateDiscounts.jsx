@@ -152,7 +152,7 @@ const CreatePackage = () => {
       />
       <div className="create-package" style={{ width: "80%" }}>
         <span className="heading">
-          <Link to="/campaign">
+          <Link to="/campaign?tab=discounts">
             <img src={leftArrow} alt="left arrow" />
           </Link>{" "}
           Create Discount
@@ -242,7 +242,7 @@ const CreatePackage = () => {
                   <div className="grey mt-2">Discount Unit</div>
                   <div className="discount-unit-options">
                     <div className="flex flex-column mb-1">
-                      <label>
+                      <label style={{marginRight:"20px",marginTop:"10px"}}>
                         <input
                           type="radio"
                           name="unit"

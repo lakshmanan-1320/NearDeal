@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
-const CampaignAds = () => {
+const CampaignAds = ({ searchQuery }) => {
     const navigate = useNavigate();
     const jwtUserToken = Cookies.get("user_token");
     const userData = JSON.parse(jwtUserToken);
     const [isChecked, setIsChecked] = useState(false);
     const [ads, setAds] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const handleToggle = () => {
         setIsChecked(!isChecked);
         console.log('Toggle state:', !isChecked);
@@ -41,16 +43,26 @@ const CampaignAds = () => {
             // setNearreel(data.message);
             console.log("Coupon data:", data);
             setAds(data.message);
+            setLoading(false);
+
         } catch (error) {
             console.error("Fetch error:", error);
+            setLoading(false);
+
         }
     };
+    const filteredAds = ads.filter(ad =>
+        ad.CampaignName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <motion.div initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}>
-            {ads.length === 0 ? (
+            {loading ? (
+                "Loading..."
+            ) : filteredAds.length === 0 ? (
                 <table className="table">
                     <tbody>
                         <tr>
@@ -61,7 +73,7 @@ const CampaignAds = () => {
                     </tbody>
                 </table>
             ) : (
-                ads.map((item, index) => (
+                filteredAds.map((item, index) => (
                     <div
                         key={index}
                         style={{ padding: "10px 20px", marginBottom: "10px" }}

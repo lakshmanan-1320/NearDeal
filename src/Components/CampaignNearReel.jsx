@@ -8,13 +8,14 @@ import { motion } from 'framer-motion';
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
-const CampaignNearReel = () => {
+const CampaignNearReel = ({ searchQuery }) => {
     const jwtUserToken = Cookies.get("user_token");
     const userData = JSON.parse(jwtUserToken);
     const [isChecked, setIsChecked] = useState(false);
     const [nearreel, setNearreel] = useState([]);
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const handleToggle = () => {
         setIsChecked(!isChecked);
@@ -43,9 +44,13 @@ const CampaignNearReel = () => {
 
             const data = await response.json();
             setNearreel(data.message);
+            setLoading(false);
+
             console.log("Coupon data:", data);
         } catch (error) {
             console.error("Fetch error:", error);
+            setLoading(false);
+
         }
     };
 
@@ -82,6 +87,9 @@ const CampaignNearReel = () => {
         setShowConfirm(false);
         setDeleteId(null);
     };
+    const filteredNearreel = nearreel.filter(ad =>
+        ad.CampaignName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <motion.div
@@ -91,11 +99,13 @@ const CampaignNearReel = () => {
             transition={{ duration: 1 }}
         >
             <div className='campaign-nearreel' style={{ background: 'none' }}>
-                {
-                    nearreel.length === 0 ?
+            {loading ? (
+                "Loading..."
+            ) : 
+                    filteredNearreel.length === 0 ?
                         'No NearReel Campaigns Available'
                         :
-                        nearreel.map((data) => (
+                        filteredNearreel.map((data) => (
                             <div key={data.CampaignID} className='item' style={{ justifyContent: 'space-between', marginBottom: '10px' }}>
                                 <div className='left' style={{ width: '84%' }}>
                                     <video

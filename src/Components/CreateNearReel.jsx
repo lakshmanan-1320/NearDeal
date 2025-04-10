@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import 'react-quill/dist/quill.snow.css';
 import SideBar from "./SideBar";
 import background from "../assets/background.svg";
@@ -29,8 +29,41 @@ const CreatePackage = () => {
     const [packageTitle, setPackageTitle] = useState('');
     const [showPreview, setShowPreview] = useState(false);
     const fileInputRef = useRef(null);
+    const [inventory, setInventory] = useState([]);
+    const [selectedInventoryId, setSelectedInventoryId] = useState('');
+
+
     const navigate = useNavigate();
 
+    const fetchInventory = async () => {
+        try {
+            const response = await fetch(
+                "https://staging.neardeal.me/api/invListingMW.php",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        vendorId: userData.ID,
+                        invCat: "All",
+                        fetchType: "List",
+                    }),
+                }
+            );
+
+            const data = await response.json();
+            setInventory(data.data);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchInventory();
+    }, []);
+
+    console.log(inventory)
     const handleUpload = async () => {
         setIsLoading(true);
         if (!images) {
@@ -100,6 +133,7 @@ const CreatePackage = () => {
     };
 
     const handleSaveChanges = async () => {
+        console.log(selectedInventoryId,"selewfaew")
         if (!packageTitle.trim()) {
             toast.error("Ads title is required.");
             return;
@@ -128,6 +162,9 @@ const CreatePackage = () => {
                         "reelDate": date,
                         "status": isChecked,
                         "reelFilePath": reel,
+                        "inventoryId": selectedInventoryId || "", // will be "" if nothing is selected
+                        "campaignId": "",
+                    
                     }),
                 }
             );
@@ -202,7 +239,30 @@ const CreatePackage = () => {
                                     value={packageTitle}
                                     onChange={handleInputChange}
                                 />
+                                
                                 <input style={{ width: '35%', padding: '10px 20px', border: '2px solid #E9ECEE', color: '#637381', borderRadius: '10px' }} type="date" value={date} onChange={(e) => { setDate(e.target.value) }} placeholder="Valid Date & time"></input>
+
+                                <span style={{margin:"10px 0"}}>Package List</span>
+                                <select
+                                    name="category"
+                                    style={{
+                                        width: '35%',
+                                        padding: '10px 20px',
+                                        border: '2px solid #E9ECEE',
+                                        color: '#637381',
+                                        borderRadius: '10px',
+                                        margin: '10px 0'
+                                    }}
+                                    value={selectedInventoryId}
+                                    onChange={(e) => setSelectedInventoryId(e.target.value)}
+                                >
+                                    <option value="">Select Package</option>
+                                    {inventory && inventory.map((item, index) => (
+                                        <option key={item.InventoryID || index} value={item.InventoryID}>
+                                            {item.InventoryName}
+                                        </option>
+                                    ))}
+                                </select>
 
                                 <Link to={'/nearai'} style={{ marginTop: '20px', textDecoration: 'none', border: '2px solid #E9ECEE', width: 'fit-content', padding: '5px', borderRadius: '20px' }}><img src={ai} /> Generate Video with Near.AI</Link>
                                 {isLoading && <div className='position-relative'><div className="position-absolute top-50 start-50 translate-middle"><div className='loader'></div></div></div>}
@@ -236,12 +296,12 @@ const CreatePackage = () => {
                                     <button onClick={handleUpload} className="button">Upload</button>
                                     {reel && (
                                         // <div style={{ marginTop: '10px' }}>
-                                            <button
-                                                style={{ marginLeft:'10px',padding: '5px 15px', borderRadius: '5px', backgroundColor: '#00A76F', color: '#fff', border: 'none' }}
-                                                onClick={() => setShowPreview(true)}
-                                            >
-                                                Preview {images?.type?.startsWith("image") ? "Image" : "Video"}
-                                            </button>
+                                        <button
+                                            style={{ marginLeft: '10px', padding: '5px 15px', borderRadius: '5px', backgroundColor: '#00A76F', color: '#fff', border: 'none' }}
+                                            onClick={() => setShowPreview(true)}
+                                        >
+                                            Preview {images?.type?.startsWith("image") ? "Image" : "Video"}
+                                        </button>
                                         // </div>
                                     )}
                                 </div>

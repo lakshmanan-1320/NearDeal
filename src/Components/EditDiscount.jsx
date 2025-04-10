@@ -22,6 +22,8 @@ const EditDiscount = () => {
   const [inventory, setInventory] = useState([]);
   const [selectedIds, setSelectedIds] = useState("");
   const [inventoryData, setInventoryData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const [editorStates, setEditorStates] = useState({
     discount: { content: "", operations: [] },
     unit: { content: "", operations: [] },
@@ -59,17 +61,25 @@ const EditDiscount = () => {
       const userData = await response.json();
       console.log("dsidsidisdhisdhsid", userData);
       setInventoryData(userData.message[0]); // Assuming the data is an array
+      setLoading(false);
       console.log(userData);
       return;
     } catch (error) {
       console.error("Failed to fetch user data:", error);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (inventoryData) {
       setPackageTitle(inventoryData.CouponTitle);
-      setIsChecked(inventoryData.Status);
+      console.log(inventoryData.Status, "..................")
+      setIsChecked(
+        inventoryData.Status === true ||
+        inventoryData.Status === 1 ||
+        inventoryData.Status === "1" ||
+        inventoryData.Status === "true"
+      );
       setSelectedIds(inventoryData.InventoryID);
       setEditorStates((prev) => ({
         ...prev,
@@ -241,7 +251,9 @@ const EditDiscount = () => {
   };
 
   return (
+
     <div style={{ display: "flex" }}>
+
       <SideBar />
       <img
         style={{ position: "absolute", top: 0, zIndex: "-1", width: "100%" }}
@@ -250,216 +262,229 @@ const EditDiscount = () => {
       />
       <div className="create-package" style={{ width: "80%" }}>
         <span className="heading">
-          <Link to="/campaign">
+          <Link to="/campaign?tab=discounts">
             <img src={leftArrow} alt="left arrow" />
           </Link>{" "}
           Create Discount
         </span>
+        {loading ? (
+          <div style={{ marginTop: "20px" }}> Loading...</div>
 
-        <div>
-          <div className="left">
-            <button
-              className={`${isActive(
-                "setup"
-              )} btn-outline-secondary border-0 active me-2`}
-              onClick={() => setActive("setup")}
-              style={{ textDecoration: "none" }}
-            >
-              Coupon Setup
-            </button>
-            <button
-              className={`${isActive(
-                "availability"
-              )} btn-outline-secondary border-0 active me-2`}
-              style={{ textDecoration: "none" }}
-            >
-              Analytics (Soon)
-            </button>
-          </div>
+        ) :
+          (<div>
+            <div className="left">
+              <button
+                className={`${isActive(
+                  "setup"
+                )} btn-outline-secondary border-0 active me-2`}
+                onClick={() => setActive("setup")}
+                style={{ textDecoration: "none" }}
+              >
+                Coupon Setup
+              </button>
+              <button
+                className={`${isActive(
+                  "availability"
+                )} btn-outline-secondary border-0 active me-2`}
+                style={{ textDecoration: "none" }}
+              >
+                Analytics (Soon)
+              </button>
+            </div>
 
-          {active === "setup" && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
-              className="right"
-            >
-              <div className="header">
-                <div
-                  className="left"
-                  style={{ display: "flex", flexDirection: "row" }}
-                >
-                  <div className="toggle-switch">
-                    <input
-                      type="checkbox"
-                      id="toggle"
-                      className="toggle-checkbox"
-                      checked={isChecked}
-                      onChange={handleToggle}
-                    />
-                    <label htmlFor="toggle" className="toggle-label"></label>
+            {active === "setup" && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+                className="right"
+              >
+                <div className="header">
+                  <div
+                    className="left"
+                    style={{ display: "flex", flexDirection: "row" }}
+                  >
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="toggle"
+                        className="toggle-checkbox"
+                        checked={isChecked}
+                        onChange={handleToggle}
+                      />
+                      <label htmlFor="toggle" className="toggle-label"></label>
+                    </div>
+                    <span>Publish</span>
                   </div>
-                  <span>Publish</span>
-                </div>
 
-                <div className="right">
-                  <button className="button" onClick={handleSaveChanges}>
-                    Save Changes
-                  </button>
+                  <div className="right">
+                    <button className="button" onClick={handleSaveChanges}>
+                      Save Changes
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="body">
-                <input
-                  name="packageTitle"
-                  className="package-title"
-                  type="text"
-                  placeholder="Discount Title"
-                  value={packageTitle}
-                  onChange={handleInputChange}
-                />
-
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1 }}
-                  style={{ flexDirection: "column", margin: "20px 0px" }}
-                >
-                  <div className="grey mt-2">Discount Amount</div>
+                <div className="body">
                   <input
-                    type="number"
-                    value={editorStates.discount.content}
-                    onChange={(e) => {
-                      const value = e.target.value;
-
-                      // Only allow positive integers
-                      if (/^\d*$/.test(value)) {
-                        setEditorStates((prevStates) => ({
-                          ...prevStates,
-                          discount: {
-                            content: value,
-                            operations: prevStates.discount.operations,
-                          },
-                        }));
-                        updateEditorState("discount", value, null, "user");
-                      }
-                    }}
-                    style={{ width: "5rem" }}
-                    className="text-area px-2  text-center number-arrow-hidden"
-                    placeholder="type"
-                    ref={(el) => {
-                      if (el) {
-                        quillRefs.current.discount = el; // No need for getEditor, just referencing the input element
-                      }
-                    }}
+                    name="packageTitle"
+                    className="package-title"
+                    type="text"
+                    placeholder="Discount Title"
+                    value={packageTitle}
+                    onChange={handleInputChange}
                   />
 
-                  <div className="grey mt-2">Discount Unit</div>
-                  <div className="discount-unit-options">
-                    <div className="flex flex-column mb-1">
-                      <label>
-                        <input
-                          type="radio"
-                          name="unit"
-                          value="$"
-                          checked={editorStates.unit.content === "$"}
-                          onChange={(e) => {
-                            setEditorStates((prevStates) => ({
-                              ...prevStates,
-                              unit: {
-                                content: e.target.value,
-                                operations: prevStates.unit.operations,
-                              },
-                            }));
-                            updateEditorState(
-                              "unit",
-                              e.target.value,
-                              null,
-                              "user"
-                            );
-                          }}
-                        />{" "}
-                        $
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="unit"
-                          value="%"
-                          checked={editorStates.unit.content === "%"}
-                          onChange={(e) => {
-                            setEditorStates((prevStates) => ({
-                              ...prevStates,
-                              unit: {
-                                content: e.target.value,
-                                operations: prevStates.unit.operations,
-                              },
-                            }));
-                            updateEditorState(
-                              "unit",
-                              e.target.value,
-                              null,
-                              "user"
-                            );
-                          }}
-                        />{" "}
-                        %
-                      </label>
-                    </div>
-                  </div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
+                    style={{ flexDirection: "column", margin: "20px 0px" }}
+                  >
+                    <div className="grey mt-2">Discount Amount</div>
+                    <input
+                      type="number"
+                      value={editorStates.discount.content}
+                      onChange={(e) => {
+                        const value = e.target.value;
 
-                  {/* Product Table */}
-                  <div className="product-table-wrapper">
-                    <table className="table table-hover product-table">
-                      <thead>
-                        <tr>
-                          <th scope="col"></th>
-                          <th scope="col">Product</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {inventory.map((data) => (
-                          <tr key={data.ID}>
-                            <td>
-                              <input
-                                type="checkbox"
-                                checked={selectedIds
-                                  .split(",")
-                                  .includes(data.InventoryID)}
-                                onChange={() =>
-                                  handleCheckboxChange(data.InventoryID)
-                                }
-                              />
-                            </td>
-                            <td>
-                              <div style={{ justifyContent: "start" }}>
-                                <img
-                                  src={product}
-                                  alt="product"
-                                  style={{ width: "50px", height: "50px" }}
+                        // Only allow positive integers
+                        if (/^\d*$/.test(value)) {
+                          setEditorStates((prevStates) => ({
+                            ...prevStates,
+                            discount: {
+                              content: value,
+                              operations: prevStates.discount.operations,
+                            },
+                          }));
+                          updateEditorState("discount", value, null, "user");
+                        }
+                      }}
+                      style={{ width: "5rem" }}
+                      className="text-area px-2  text-center number-arrow-hidden"
+                      placeholder="type"
+                      ref={(el) => {
+                        if (el) {
+                          quillRefs.current.discount = el; // No need for getEditor, just referencing the input element
+                        }
+                      }}
+                    />
+
+                    <div className="grey mt-2">Discount Unit</div>
+                    <div className="discount-unit-options">
+                      <div className="flex flex-column mb-1">
+                      <label style={{marginRight:"20px",marginTop:"10px"}}>
+                          <input
+                            type="radio"
+                            name="unit"
+                            value="$"
+                            checked={editorStates.unit.content === "$"}
+                            onChange={(e) => {
+                              setEditorStates((prevStates) => ({
+                                ...prevStates,
+                                unit: {
+                                  content: e.target.value,
+                                  operations: prevStates.unit.operations,
+                                },
+                              }));
+                              updateEditorState(
+                                "unit",
+                                e.target.value,
+                                null,
+                                "user"
+                              );
+                            }}
+                          />{" "}
+                          $
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="unit"
+                            value="%"
+                            checked={editorStates.unit.content === "%"}
+                            onChange={(e) => {
+                              setEditorStates((prevStates) => ({
+                                ...prevStates,
+                                unit: {
+                                  content: e.target.value,
+                                  operations: prevStates.unit.operations,
+                                },
+                              }));
+                              updateEditorState(
+                                "unit",
+                                e.target.value,
+                                null,
+                                "user"
+                              );
+                            }}
+                          />{" "}
+                          %
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Product Table */}
+                    <div className="product-table-wrapper">
+                      <table className="table table-hover product-table">
+                        <thead>
+                          <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Product</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {inventory.map((data) => (
+                            <tr key={data.ID}>
+                              <td>
+                                <input
+                                  type="checkbox"
+                                  checked={selectedIds.split(",").includes(data.InventoryID)}
+                                  onChange={() => handleCheckboxChange(data.InventoryID)}
                                 />
+                              </td>
+                              <td>
                                 <div
                                   style={{
-                                    flexDirection: "column",
-                                    padding: "0px 20px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "start",
                                   }}
                                 >
-                                  <span>{data.InventoryName}</span>
-                                  <span className="grey">$ {data.Price}</span>
+                                  <img
+                                    src={product}
+                                    alt="product"
+                                    style={{
+                                      width: "50px",
+                                      height: "50px",
+                                      objectFit: "cover",
+                                      borderRadius: "4px",
+                                    }}
+                                  />
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      paddingLeft: "15px",
+                                    }}
+                                  >
+                                    <span>{data.InventoryName}</span>
+                                    <span className="grey">$ {data.Price}</span>
+                                  </div>
                                 </div>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </div>
           )}
-        </div>
       </div>
     </div>
   );

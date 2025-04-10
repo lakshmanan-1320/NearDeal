@@ -12,14 +12,19 @@ import aaaa from "../assets/bannerLogo.svg";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 
 const EditAdd = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const jwtUserToken = Cookies.get("user_token");
   const userData = JSON.parse(jwtUserToken);
   const [invImgFileName, setInvImgFileName] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [CampaignName, setCampaignName] = useState("");
+
   const [images, setImages] = useState(null); // Use a single image instead of an array
   const [isChecked, setIsChecked] = useState(false);
   const fileInputRef = useRef(null);
@@ -28,6 +33,54 @@ const EditAdd = () => {
   const handleRemoveImage = () => {
     setImages(null);
   };
+
+
+  const fetchAd = async () => {
+
+    try {
+      const response = await fetch(
+        "https://staging.neardeal.me/api/AdsDetailsMW.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            campaignid: id
+          }),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data.message[0]);
+      setData(data.message[0]);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Error:", error);
+    }
+  };
+console.log(data,"dataaaaa")
+useEffect(() => {
+  fetchAd();
+
+}, []);
+
+useEffect(() => {
+
+  if (data?.StartDate) {
+    setStartDate(formatDate(data.StartDate));
+  }
+  if (data?.EndDate) {
+    setEndDate(formatDate(data.EndDate));
+  }
+
+  if (data?.Status !== undefined) setIsChecked(data.Status === "1" || data.Status === 1);
+if(data?.CampaignName){
+  setCampaignName(data.CampaignName)
+}
+
+    
+}, [data]);
 
   const handleSubmit = async () => {
     // Validation check
@@ -64,7 +117,7 @@ const EditAdd = () => {
           body: JSON.stringify({
             vendorId: userData.ID,
             campaignId: id,
-            campaignTitle: data.CampaignName,
+            campaignTitle: CampaignName,
             startDate: startDate,
             endDate: endDate,
             status: isChecked ? 1 : 0,
@@ -77,41 +130,14 @@ const EditAdd = () => {
       const data = await response.json();
       console.log(data);
       toast.success("Success");
+      navigate('/campaign?tab=ads')
     } catch (error) {
       console.error("Error:", error);
       toast.error("Error:", error);
     }
   };
 
-  const fetchAd = async () => {
 
-    try {
-      const response = await fetch(
-        "https://staging.neardeal.me/api/AdsDetailsMW.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            campaignid: id
-          }),
-        }
-      );
-
-      const data = await response.json();
-      console.log(data.message[0]);
-      setData(data.message[0]);
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Error:", error);
-    }
-  };
-console.log(data,"dataaaaa")
-useEffect(() => {
-  fetchAd();
-
-}, []);
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
@@ -139,20 +165,7 @@ useEffect(() => {
     fileInputRef.current.click();
   };
 
-  useEffect(() => {
 
-    if (data?.StartDate) {
-      setStartDate(formatDate(data.StartDate));
-    }
-    if (data?.EndDate) {
-      setEndDate(formatDate(data.EndDate));
-    }
-
-    if (data?.Status !== undefined) setIsChecked(data.Status === "1" || data.Status === 1);
-
-
-      
-}, [data]);
 
 // Function to extract the correct date format
 const formatDate = (dateString) => {
@@ -300,14 +313,8 @@ console.log("Formatted End Date:", formatDate(endDate));
                   />
                 </div>
 
-                <div
-                  style={{
-                    margin: "0px 10px",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <label htmlFor="endDate" className="grey">
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                <label htmlFor="startDate" className="grey">
                     End Date:
                   </label>
                   <input
