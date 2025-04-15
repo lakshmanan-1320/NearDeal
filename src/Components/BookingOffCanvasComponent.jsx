@@ -16,13 +16,23 @@ const BookingOffCanvasComponent = ({
   selectedBookingId,
 }) => {
   const [data, setData] = useState(null);
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      console.log("Copied to clipboard:", text);
+    }).catch((err) => {
+      console.error("Failed to copy:", err);
+    });
+  };
+
+
   useEffect(() => {
     if (uniqueData != null) {
       console.log(uniqueData);
       setData(uniqueData);
     }
   }, [uniqueData, setData]);
-
+  console.log(data, "dataaaaaaaaaaaaaaa")
   if (fetchSelectedDataComplete == false)
     return (
       <>
@@ -122,6 +132,9 @@ const BookingOffCanvasComponent = ({
             </div>
             <div className="card-body pb-0">
               <div className="row">
+                <label style={{ marginBottom: "5px", fontWeight: "bold" }}>
+                  Booking Status
+                </label>
                 <select
                   style={{ padding: "10px", borderRadius: "5px" }}
                   value={bookingStatus}
@@ -136,10 +149,11 @@ const BookingOffCanvasComponent = ({
                   <option>Cancelled</option>
                 </select>
               </div>
-              <div
-                style={{ marginTop: "10px", marginBottom: "10px" }}
-                className="row"
-              >
+
+              <div style={{ marginTop: "10px", marginBottom: "10px" }} className="row">
+                <label style={{ marginBottom: "5px", fontWeight: "bold" }}>
+                  Payment Status
+                </label>
                 <select
                   style={{ padding: "10px", borderRadius: "5px" }}
                   value={paymentStatus}
@@ -150,6 +164,7 @@ const BookingOffCanvasComponent = ({
                 </select>
               </div>
             </div>
+
           </div>
         </div>
         <div className="card mt-4">
@@ -170,39 +185,73 @@ const BookingOffCanvasComponent = ({
                   alt="Customer"
                 />
               </div>
-              <div className="col-lg-8 my-auto">
-                <p id="custName">{data.AssignedTo}</p>
+              {/* <div className="col-lg-8 my-auto">
+                <p id="custName">{data.username}</p>
+              </div> */}
+            </div>
+            <div className="mt-3">
+              <label htmlFor="custName" style={{ fontWeight: "bold", marginBottom: "5px" }}>
+                Customer Name
+              </label>
+
+              <div className="input-group mt-3 w-50">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="custName"
+                  value={data.username}
+                  defaultValue={data.username}
+                />
+                <button
+                  className="btn btn-outline-secondary border-0"
+                  type="button"
+                  onClick={() => copyToClipboard(data.username)}
+                >
+                  <i className="fa fa-clone"></i>
+                </button>
               </div>
             </div>
-            <div className="input-group mt-3 w-50">
-              <input
-                type="text"
-                className="form-control"
-                id="cName"
-                value={data.userPhone}
-                defaultValue={data.userPhone}
-              />
-              <button
-                className="btn btn-outline-secondary border-0"
-                type="submit"
-              >
-                <i className="fa fa-clone"></i>
-              </button>
+            <div className="mt-3 ">
+              <label htmlFor="custName" style={{ fontWeight: "bold", marginBottom: "5px" }}>
+               Phone Number
+              </label>
+              <div className="input-group mt-3 w-50">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="cName"
+                  value={data.userPhone}
+                  defaultValue={data.userPhone}
+                />
+                <button
+                  className="btn btn-outline-secondary border-0"
+                  type="button"
+                  onClick={() => copyToClipboard(data.userPhone)}
+                >
+                  <i className="fa fa-clone"></i>
+                </button>
+              </div>
             </div>
-            <div className="input-group mb-3 mt-3 w-auto">
-              <input
-                type="text"
-                className="form-control"
-                id="cEmail"
-                defaultValue={data.userMail}
-                value={data.userMail}
-              />
-              <button
-                className="btn btn-outline-secondary border-0"
-                type="submit"
-              >
-                <i className="fa fa-clone"></i>
-              </button>
+            <div className="mt-3 ">
+              <label htmlFor="custName" style={{ fontWeight: "bold", marginBottom: "5px" }}>
+               Email
+              </label>
+              <div className="input-group mb-3 mt-3 w-auto">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="cEmail"
+                  defaultValue={data.userMail}
+                  value={data.userMail}
+                />
+                <button
+                  className="btn btn-outline-secondary border-0"
+                  type="button"
+                  onClick={() => copyToClipboard(data.userMail)}
+                >
+                  <i className="fa fa-clone"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>

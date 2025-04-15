@@ -31,7 +31,7 @@ const CreatePackage = () => {
     const fileInputRef = useRef(null);
     const [inventory, setInventory] = useState([]);
     const [selectedInventoryId, setSelectedInventoryId] = useState('');
-
+    const [preview, setPreview] = useState('');
 
     const navigate = useNavigate();
 
@@ -93,7 +93,8 @@ const CreatePackage = () => {
 
             const data = await response.json();
             console.log(data);
-            setReel(`https://staging.neardeal.me/api/${data.message}`);
+            setReel(data.message)
+            setPreview(`https://staging.neardeal.me/api/${data.message}`);
             setIsLoading(false);
             toast.success(`Successfully uploaded ${fileExtension} file`);
 
@@ -235,7 +236,7 @@ const CreatePackage = () => {
                                     name="packageTitle"
                                     className="package-title"
                                     type="text"
-                                    placeholder="Ads Title"
+                                    placeholder="Reel Title"
                                     value={packageTitle}
                                     onChange={handleInputChange}
                                 />
@@ -294,7 +295,7 @@ const CreatePackage = () => {
                                         Remove All
                                     </button>
                                     <button onClick={handleUpload} className="button">Upload</button>
-                                    {reel && (
+                                    {preview && (
                                         // <div style={{ marginTop: '10px' }}>
                                         <button
                                             style={{ marginLeft: '10px', padding: '5px 15px', borderRadius: '5px', backgroundColor: '#00A76F', color: '#fff', border: 'none' }}
@@ -552,13 +553,13 @@ const CreatePackage = () => {
 
                                 {images?.type?.startsWith("image") ? (
                                     <img
-                                        src={reel}
+                                        src={preview}
                                         alt="Preview"
                                         style={{ maxWidth: "100%", maxHeight: "80vh" }}
                                     />
                                 ) : (
                                     <video
-                                        src={reel}
+                                        src={preview}
                                         controls
                                         style={{ maxWidth: "100%", maxHeight: "80vh" }}
                                     />

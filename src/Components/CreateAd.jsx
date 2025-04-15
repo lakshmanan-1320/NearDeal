@@ -1,4 +1,4 @@
-import { useState, useRef,useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import "react-quill/dist/quill.snow.css"; // Import Quill's styles
 import SideBar from "./SideBar";
 import background from "../assets/background.svg";
@@ -25,45 +25,47 @@ const EditAdd = () => {
   const [endDate, setEndDate] = useState("");
   const [images, setImages] = useState(null); // Use a single image instead of an array
   const [isChecked, setIsChecked] = useState(false);
-  const [usersdata,setUsersdata] = useState();
+  const [usersdata, setUsersdata] = useState();
   const fileInputRef = useRef(null);
+  const [CampaignName, setCampaignName] = useState("");
 
   var cookieValue = Cookies.get('user_token');
   cookieValue = JSON.parse(cookieValue);
 
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              var payload = {
-                  "userID": cookieValue.ID
-              }
+    const fetchData = async () => {
+      try {
+        var payload = {
+          "userID": cookieValue.ID
+        }
 
-              // Fetch user data
-              const response = await fetch('https://staging.neardeal.me/api/fetchUserData.php', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(payload)
-              });
+        // Fetch user data
+        const response = await fetch('https://staging.neardeal.me/api/fetchUserData.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
 
-              const userData = await response.json();
-              setUsersdata(userData);
-              console.log("User Data:", userData); // Log the user data
+        const userData = await response.json();
+        setUsersdata(userData);
+        setCampaignName(userData.name)
+        console.log("User Data:", userData); // Log the user data
 
-          } catch (error) {
-              console.error('Failed to parse JSON from cookie or fetch user data:', error);
-          }
+      } catch (error) {
+        console.error('Failed to parse JSON from cookie or fetch user data:', error);
+      }
 
-      };
+    };
 
-      fetchData();
+    fetchData();
   }, []);
 
 
   const handleSubmit = async () => {
-     // Validation check
-     if (!startDate) {
+    // Validation check
+    if (!startDate) {
       toast.error("Start date is required!");
       return;
     }
@@ -95,7 +97,7 @@ const EditAdd = () => {
           },
           body: JSON.stringify({
             vendorId: userData.ID,
-            campaignTitle: usersdata.name,
+            campaignTitle: CampaignName,
             startDate: startDate,
             endDate: endDate,
             status: isChecked ? 1 : 0,
@@ -108,7 +110,7 @@ const EditAdd = () => {
       const data = await response.json();
       console.log(data);
       toast.success("Success");
-      navigate("/campaign?tab=ads"); 
+      navigate("/campaign?tab=ads");
     } catch (error) {
       console.error("Error:", error);
       toast.error("Error:", error);
@@ -270,8 +272,8 @@ const EditAdd = () => {
                   />
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column",marginTop:"5px" }}>
-                <label htmlFor="endDate" className="grey">
+                <div style={{ display: "flex", flexDirection: "column", marginTop: "5px" }}>
+                  <label htmlFor="endDate" className="grey">
                     End Date:
                   </label>
                   <input
@@ -294,7 +296,7 @@ const EditAdd = () => {
               </div>
               <div
                 className="image-upload"
-                style={{ cursor: "pointer", textAlign: "center",width:"80%" }}
+                style={{ cursor: "pointer", textAlign: "center", width: "80%" }}
                 onClick={handleUploadClick}
               >
                 <img src={imageUpload} alt="upload" />
@@ -340,7 +342,7 @@ const EditAdd = () => {
                       left: '5px',
                     }}
                   >
-                    <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position:'absolute', left:'0px' }} />
+                    <img src={crossIcon} alt="remove" style={{ width: '20px', height: '20px', position: 'absolute', left: '0px' }} />
                   </button>
                 </div>
               )}
