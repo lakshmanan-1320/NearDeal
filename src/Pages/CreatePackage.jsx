@@ -250,7 +250,6 @@ const CreatePackage = () => {
                                         </button>
                                     </Link>
                                 </div>
-
                                 {active === 'all' && (
                                     all.length > 0 && all.some(item => item.InventoryName.toLowerCase().includes(searchQuery.toLowerCase())) ? (
                                         all
@@ -263,33 +262,66 @@ const CreatePackage = () => {
                                                     transition={{ duration: 1 }}
                                                     className='item'
                                                     key={index}
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        padding: '10px 15px',
+                                                        borderBottom: '1px solid #ccc',
+                                                        backgroundColor: '#fff',
+                                                        borderRadius: '8px',
+                                                        marginBottom: '10px'
+                                                    }}
                                                 >
-                                                    <div className='left' style={{ width: '84%' }}>
+                                                    <div
+                                                        className='left'
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: '15px',
+                                                            width: '84%'
+                                                        }}
+                                                    >
                                                         <img
-                                                            style={{ borderRadius: '50%', height: '50px', width: '50px' }}
+                                                            style={{
+                                                                borderRadius: '10px',
+                                                                height: '60px',
+                                                                width: '60px',
+                                                                objectFit: 'cover'
+                                                            }}
                                                             src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
                                                             alt="item"
                                                         />
-                                                        <div style={{ margin: 'auto 0px' }}>
-                                                            <span>{item.InventoryName}</span>
+                                                        <div>
+                                                            <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold' }}>{item.InventoryName}</h4>
                                                         </div>
                                                     </div>
-                                                    <div className='right' style={{ width: '14%', justifyContent: 'space-between' }}>
-                                                        <div>
-                                                            <div className="toggle-switch">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    id={`toggle-all-${index}`}
-                                                                    className="toggle-checkbox"
-                                                                    checked={item.Status === '1'}
-                                                                    onChange={() => handleToggle(index)}
-                                                                />
 
-                                                                <label htmlFor={`toggle-all-${index}`} className="toggle-label"></label>
-                                                                <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
-                                                            </div>
+                                                    <div
+                                                        className='right'
+                                                        style={{
+                                                            width: '14%',
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            alignItems: 'flex-end',
+                                                            gap: '10px'
+                                                        }}
+                                                    >
+                                                        <div className="toggle-switch">
+                                                            <input
+                                                                type="checkbox"
+                                                                id={`toggle-all-${index}`}
+                                                                className="toggle-checkbox"
+                                                                checked={item.Status === '1'}
+                                                                onChange={() => handleToggle(index)}
+                                                            />
+                                                            <label htmlFor={`toggle-all-${index}`} className="toggle-label"></label>
+                                                            <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
                                                         </div>
-                                                        <div onClick={() => navigate(`/package/${item.InventoryID}`)}>
+                                                        <div
+                                                            onClick={() => navigate(`/package/${item.InventoryID}`)}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
                                                             <img width={25} src={edit1} alt="edit" />
                                                         </div>
                                                     </div>
@@ -307,7 +339,6 @@ const CreatePackage = () => {
                                         </table>
                                     )
                                 )}
-
 
 
                                 {active === 'spa' && (
@@ -322,33 +353,66 @@ const CreatePackage = () => {
                                                     transition={{ duration: 1 }}
                                                     className='item'
                                                     key={index}
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        padding: '10px 15px',
+                                                        borderBottom: '1px solid #ccc',
+                                                        backgroundColor: '#fff',
+                                                        borderRadius: '8px',
+                                                        marginBottom: '10px'
+                                                    }}
                                                 >
-                                                    <div className='left' style={{ width: '84%' }}>
+                                                    <div
+                                                        className='left'
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: '15px',
+                                                            width: '84%'
+                                                        }}
+                                                    >
                                                         <img
-                                                            style={{ borderRadius: '50%', height: '50px', width: '50px' }}
+                                                            style={{
+                                                                borderRadius: '10px',
+                                                                height: '60px',
+                                                                width: '60px',
+                                                                objectFit: 'cover'
+                                                            }}
                                                             src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
                                                             alt="spa"
                                                         />
-                                                        <div style={{ margin: 'auto 0px' }}>
-                                                            <span>{item.InventoryName}</span>
+                                                        <div>
+                                                            <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold' }}>{item.InventoryName}</h4>
                                                         </div>
                                                     </div>
-                                                    <div className='right' style={{ width: '14%', justifyContent: 'space-between' }}>
-                                                        <div>
-                                                            <div className="toggle-switch">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    id={`toggle-all-${index}`}
-                                                                    className="toggle-checkbox"
-                                                                    checked={item.Status === '1'}
-                                                                    onChange={() => handleToggle(index)}
-                                                                />
 
-                                                                <label htmlFor={`toggle-spa-${index}`} className="toggle-label"></label>
-                                                                <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
-                                                            </div>
+                                                    <div
+                                                        className='right'
+                                                        style={{
+                                                            width: '14%',
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            alignItems: 'flex-end',
+                                                            gap: '10px'
+                                                        }}
+                                                    >
+                                                        <div className="toggle-switch">
+                                                            <input
+                                                                type="checkbox"
+                                                                id={`toggle-spa-${index}`}
+                                                                className="toggle-checkbox"
+                                                                checked={item.Status === '1'}
+                                                                onChange={() => handleToggle(index)}
+                                                            />
+                                                            <label htmlFor={`toggle-spa-${index}`} className="toggle-label"></label>
+                                                            <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
                                                         </div>
-                                                        <div onClick={() => navigate(`/package/${item.InventoryID}`)}>
+                                                        <div
+                                                            onClick={() => navigate(`/package/${item.InventoryID}`)}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
                                                             <img width={25} src={edit1} alt="edit" />
                                                         </div>
                                                     </div>
@@ -367,6 +431,7 @@ const CreatePackage = () => {
                                     )
                                 )}
 
+
                                 {active === 'massage' && (
                                     massage.length > 0 && massage.some(item => item.InventoryName.toLowerCase().includes(searchQuery.toLowerCase())) ? (
                                         massage
@@ -379,33 +444,66 @@ const CreatePackage = () => {
                                                     transition={{ duration: 1 }}
                                                     className='item'
                                                     key={index}
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        padding: '10px 15px',
+                                                        borderBottom: '1px solid #ccc',
+                                                        backgroundColor: '#fff',
+                                                        borderRadius: '8px',
+                                                        marginBottom: '10px'
+                                                    }}
                                                 >
-                                                    <div className='left' style={{ width: '84%' }}>
+                                                    <div
+                                                        className='left'
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: '15px',
+                                                            width: '84%'
+                                                        }}
+                                                    >
                                                         <img
-                                                            style={{ borderRadius: '50%', height: '50px', width: '50px' }}
+                                                            style={{
+                                                                borderRadius: '10px',
+                                                                height: '60px',
+                                                                width: '60px',
+                                                                objectFit: 'cover'
+                                                            }}
                                                             src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
                                                             alt="massage"
                                                         />
-                                                        <div style={{ margin: 'auto 0px' }}>
-                                                            <span>{item.InventoryName}</span>
+                                                        <div>
+                                                            <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold' }}>{item.InventoryName}</h4>
                                                         </div>
                                                     </div>
-                                                    <div className='right' style={{ width: '14%', justifyContent: 'space-between' }}>
-                                                        <div>
-                                                            <div className="toggle-switch">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    id={`toggle-all-${index}`}
-                                                                    className="toggle-checkbox"
-                                                                    checked={item.Status === '1'}
-                                                                    onChange={() => handleToggle(index)}
-                                                                />
 
-                                                                <label htmlFor={`toggle-massage-${index}`} className="toggle-label"></label>
-                                                                <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
-                                                            </div>
+                                                    <div
+                                                        className='right'
+                                                        style={{
+                                                            width: '14%',
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            alignItems: 'flex-end',
+                                                            gap: '10px'
+                                                        }}
+                                                    >
+                                                        <div className="toggle-switch">
+                                                            <input
+                                                                type="checkbox"
+                                                                id={`toggle-massage-${index}`}
+                                                                className="toggle-checkbox"
+                                                                checked={item.Status === '1'}
+                                                                onChange={() => handleToggle(index)}
+                                                            />
+                                                            <label htmlFor={`toggle-massage-${index}`} className="toggle-label"></label>
+                                                            <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
                                                         </div>
-                                                        <div onClick={() => navigate(`/package/${item.InventoryID}`)}>
+                                                        <div
+                                                            onClick={() => navigate(`/package/${item.InventoryID}`)}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
                                                             <img width={25} src={edit1} alt="edit" />
                                                         </div>
                                                     </div>
@@ -436,33 +534,66 @@ const CreatePackage = () => {
                                                     transition={{ duration: 1 }}
                                                     className='item'
                                                     key={index}
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        padding: '10px 15px',
+                                                        borderBottom: '1px solid #ccc',
+                                                        backgroundColor: '#fff',
+                                                        borderRadius: '8px',
+                                                        marginBottom: '10px'
+                                                    }}
                                                 >
-                                                    <div className='left' style={{ width: '84%' }}>
+                                                    <div
+                                                        className='left'
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: '15px',
+                                                            width: '84%'
+                                                        }}
+                                                    >
                                                         <img
-                                                            style={{ borderRadius: '50%', height: '50px', width: '50px' }}
+                                                            style={{
+                                                                borderRadius: '10px',
+                                                                height: '60px',
+                                                                width: '60px',
+                                                                objectFit: 'cover'
+                                                            }}
                                                             src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
-                                                            alt="spa"
+                                                            alt="sauna"
                                                         />
-                                                        <div style={{ margin: 'auto 0px' }}>
-                                                            <span>{item.InventoryName}</span>
+                                                        <div>
+                                                            <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold' }}>{item.InventoryName}</h4>
                                                         </div>
                                                     </div>
-                                                    <div className='right' style={{ width: '14%', justifyContent: 'space-between' }}>
-                                                        <div>
-                                                            <div className="toggle-switch">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    id={`toggle-all-${index}`}
-                                                                    className="toggle-checkbox"
-                                                                    checked={item.Status === '1'}
-                                                                    onChange={() => handleToggle(index)}
-                                                                />
 
-                                                                <label htmlFor={`toggle-${index}`} className="toggle-label"></label>
-                                                                <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
-                                                            </div>
+                                                    <div
+                                                        className='right'
+                                                        style={{
+                                                            width: '14%',
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            alignItems: 'flex-end',
+                                                            gap: '10px'
+                                                        }}
+                                                    >
+                                                        <div className="toggle-switch">
+                                                            <input
+                                                                type="checkbox"
+                                                                id={`toggle-sauna-${index}`}
+                                                                className="toggle-checkbox"
+                                                                checked={item.Status === '1'}
+                                                                onChange={() => handleToggle(index)}
+                                                            />
+                                                            <label htmlFor={`toggle-sauna-${index}`} className="toggle-label"></label>
+                                                            <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
                                                         </div>
-                                                        <div onClick={() => navigate(`/package/${item.InventoryID}`)}>
+                                                        <div
+                                                            onClick={() => navigate(`/package/${item.InventoryID}`)}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
                                                             <img width={25} src={edit1} alt="edit" />
                                                         </div>
                                                     </div>
@@ -493,33 +624,66 @@ const CreatePackage = () => {
                                                     transition={{ duration: 1 }}
                                                     className='item'
                                                     key={index}
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        padding: '10px 15px',
+                                                        borderBottom: '1px solid #ccc',
+                                                        backgroundColor: '#fff',
+                                                        borderRadius: '8px',
+                                                        marginBottom: '10px'
+                                                    }}
                                                 >
-                                                    <div className='left' style={{ width: '84%' }}>
+                                                    <div
+                                                        className='left'
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: '15px',
+                                                            width: '84%'
+                                                        }}
+                                                    >
                                                         <img
-                                                            style={{ borderRadius: '50%', height: '50px', width: '50px' }}
+                                                            style={{
+                                                                borderRadius: '10px',
+                                                                height: '60px',
+                                                                width: '60px',
+                                                                objectFit: 'cover'
+                                                            }}
                                                             src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
                                                             alt="gym"
                                                         />
-                                                        <div style={{ margin: 'auto 0px' }}>
-                                                            <span>{item.InventoryName}</span>
+                                                        <div>
+                                                            <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold' }}>{item.InventoryName}</h4>
                                                         </div>
                                                     </div>
-                                                    <div className='right' style={{ width: '14%', justifyContent: 'space-between' }}>
-                                                        <div>
-                                                            <div className="toggle-switch">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    id={`toggle-all-${index}`}
-                                                                    className="toggle-checkbox"
-                                                                    checked={item.Status === '1'}
-                                                                    onChange={() => handleToggle(index)}
-                                                                />
 
-                                                                <label htmlFor={`toggle-gym-${index}`} className="toggle-label"></label>
-                                                                <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
-                                                            </div>
+                                                    <div
+                                                        className='right'
+                                                        style={{
+                                                            width: '14%',
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            alignItems: 'flex-end',
+                                                            gap: '10px'
+                                                        }}
+                                                    >
+                                                        <div className="toggle-switch">
+                                                            <input
+                                                                type="checkbox"
+                                                                id={`toggle-gym-${index}`}
+                                                                className="toggle-checkbox"
+                                                                checked={item.Status === '1'}
+                                                                onChange={() => handleToggle(index)}
+                                                            />
+                                                            <label htmlFor={`toggle-gym-${index}`} className="toggle-label"></label>
+                                                            <span>{item.Status === '1' ? 'Published' : 'Draft Saved'}</span>
                                                         </div>
-                                                        <div onClick={() => navigate(`/package/${item.InventoryID}`)}>
+                                                        <div
+                                                            onClick={() => navigate(`/package/${item.InventoryID}`)}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
                                                             <img width={25} src={edit1} alt="edit" />
                                                         </div>
                                                     </div>
@@ -537,6 +701,7 @@ const CreatePackage = () => {
                                         </table>
                                     )
                                 )}
+
                             </div>
                         </div>
 

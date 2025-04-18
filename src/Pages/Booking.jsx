@@ -323,24 +323,35 @@ const Booking = () => {
                 <table className="table table-hover mt-5">
                   <thead>
                     <tr>
-                      <th>Booking Status</th>
-                      <th>Booking Start Date</th>
                       <th>Inventory Name</th>
+                      <th>Booking Start Date</th>
+                      <th>Booking Status</th>
                       <th></th>
                       <th>Payment Status</th>
+                      <th>Customer Name</th>
                       <th></th> {/* Empty for the action button */}
                     </tr>
                   </thead>
                   <tbody>
                     {filteredBookings.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="text-center">
+                        <td colSpan="7" className="text-center">
                           No booking available
                         </td>
                       </tr>
                     ) : (
                       filteredBookings.map((data) => (
                         <tr className="align-middle" key={data.BookingID}>
+                          <td>{data.InventoryName}</td>
+
+                          <td>{new Date(data.BookingStartDate).toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                          })}</td>
                           <td
                             style={{
                               display: "flex",
@@ -387,13 +398,19 @@ const Booking = () => {
                                 </div>
                                 <span>Finished</span>
                               </>
-                            ) : data.BookingStatus === "Cancelled" ? (
+                            ) :data.BookingStatus === "Cancelled" ? (
                               <>
                                 <img
                                   style={{ width: "25%", margin: "auto" }}
                                   src={cross}
                                 />
-                                <span>Cancelled</span>
+                                <span>
+                                  {data.CancelledBy === "User"
+                                    ? "Cancelled by You"
+                                    : data.CancelledBy === "Vendor"
+                                    ? "Cancelled by Vendor"
+                                    : "Cancelled"}
+                                </span>
                               </>
                             ) : (
                               <>
@@ -405,8 +422,6 @@ const Booking = () => {
                               </>
                             )}
                           </td>
-                          <td>{data.BookingStartDate}</td>
-                          <td>{data.InventoryName}</td>
                           <td>{data.AssignedTo}</td>
                           <td
                             className={
@@ -417,6 +432,9 @@ const Booking = () => {
                           >
                             {data.PaymentStatus}
                           </td>
+                          <td>{data.CustomerName}</td>
+
+
                           <td>
                             <button
                               className="btn"
@@ -521,26 +539,38 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
-                   <thead>
+                  <thead>
                     <tr>
-                      <th>Booking Status</th>
-                      <th>Booking Start Date</th>
                       <th>Inventory Name</th>
+                      <th>Booking Start Date</th>
+                      <th>Booking Status</th>
                       <th></th>
                       <th>Payment Status</th>
+                      <th>Customer Name</th>
+
                       <th></th> {/* Empty for the action button */}
                     </tr>
                   </thead>
                   <tbody>
                     {bookingData.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="text-center">
+                        <td colSpan="7" className="text-center">
                           No booking available
                         </td>
                       </tr>
                     ) : (
                       bookingData.map((data) => console.log(data) || (
                         <tr className="align-middle" key={data.BookingID}>
+                          <td>{data.InventoryName}</td>
+
+                          <td>{new Date(data.BookingStartDate).toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                          })}</td>
                           <td
                             style={{
                               display: "flex",
@@ -593,7 +623,13 @@ const Booking = () => {
                                   style={{ width: "25%", margin: "auto" }}
                                   src={cross}
                                 />
-                                <span>Cancelled</span>
+                                <span>
+                                  {data.CancelledBy === "User"
+                                    ? "Cancelled by You"
+                                    : data.CancelledBy === "Vendor"
+                                    ? "Cancelled by Vendor"
+                                    : "Cancelled"}
+                                </span>
                               </>
                             ) : (
                               <>
@@ -605,8 +641,6 @@ const Booking = () => {
                               </>
                             )}
                           </td>
-                          <td>{data.BookingStartDate}</td>
-                          <td>{data.InventoryName}</td>
                           <td>{data.AssignedTo}</td>
                           <td
                             className={
@@ -617,6 +651,9 @@ const Booking = () => {
                           >
                             {data.PaymentStatus}
                           </td>
+                          <td>{data.CustomerName}</td>
+
+
                           <td>
                             <button
                               className="btn"
@@ -721,26 +758,38 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
-                   <thead>
+                  <thead>
                     <tr>
-                      <th>Booking Status</th>
-                      <th>Booking Start Date</th>
                       <th>Inventory Name</th>
+                      <th>Booking Start Date</th>
+                      <th>Booking Status</th>
                       <th></th>
                       <th>Payment Status</th>
+                      <th>Customer Name</th>
+
                       <th></th> {/* Empty for the action button */}
                     </tr>
                   </thead>
                   <tbody>
                     {currentBookings.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="text-center">
+                        <td colSpan="7" className="text-center">
                           No booking available
                         </td>
                       </tr>
                     ) : (
                       currentBookings.map((data) => (
                         <tr className="align-middle" key={data.BookingID}>
+                          <td>{data.InventoryName}</td>
+
+                          <td>{new Date(data.BookingStartDate).toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                          })}</td>
                           <td
                             style={{
                               display: "flex",
@@ -793,7 +842,13 @@ const Booking = () => {
                                   style={{ width: "25%", margin: "auto" }}
                                   src={cross}
                                 />
-                                <span>Cancelled</span>
+                                <span>
+                                  {data.CancelledBy === "User"
+                                    ? "Cancelled by You"
+                                    : data.CancelledBy === "Vendor"
+                                    ? "Cancelled by Vendor"
+                                    : "Cancelled"}
+                                </span>
                               </>
                             ) : (
                               <>
@@ -805,8 +860,6 @@ const Booking = () => {
                               </>
                             )}
                           </td>
-                          <td>{data.BookingStartDate}</td>
-                          <td>{data.InventoryName}</td>
                           <td>{data.AssignedTo}</td>
                           <td
                             className={
@@ -817,6 +870,9 @@ const Booking = () => {
                           >
                             {data.PaymentStatus}
                           </td>
+                          <td>{data.CustomerName}</td>
+
+
                           <td>
                             <button
                               className="btn"
@@ -921,26 +977,38 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
-                   <thead>
+                  <thead>
                     <tr>
-                      <th>Booking Status</th>
-                      <th>Booking Start Date</th>
                       <th>Inventory Name</th>
+                      <th>Booking Start Date</th>
+                      <th>Booking Status</th>
                       <th></th>
                       <th>Payment Status</th>
+                      <th>Customer Name</th>
+
                       <th></th> {/* Empty for the action button */}
                     </tr>
                   </thead>
                   <tbody>
                     {currentBookings.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="text-center">
+                        <td colSpan="7" className="text-center">
                           No booking available
                         </td>
                       </tr>
                     ) : (
                       currentBookings.map((data) => (
                         <tr className="align-middle" key={data.BookingID}>
+                          <td>{data.InventoryName}</td>
+
+                          <td>{new Date(data.BookingStartDate).toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                          })}</td>
                           <td
                             style={{
                               display: "flex",
@@ -953,8 +1021,6 @@ const Booking = () => {
                             </div>
                             <span>Finished</span>
                           </td>
-                          <td>{data.BookingStartDate}</td>
-                          <td>{data.InventoryName}</td>
                           <td>{data.AssignedTo}</td>
                           <td
                             className={
@@ -965,6 +1031,9 @@ const Booking = () => {
                           >
                             {data.PaymentStatus}
                           </td>
+                          <td>{data.CustomerName}</td>
+
+
                           <td>
                             <button
                               className="btn"
@@ -1069,26 +1138,38 @@ const Booking = () => {
                 </div>
               ) : (
                 <table className="table table-hover mt-5">
-                   <thead>
+                  <thead>
                     <tr>
-                      <th>Booking Status</th>
-                      <th>Booking Start Date</th>
                       <th>Inventory Name</th>
+                      <th>Booking Start Date</th>
+                      <th>Booking Status</th>
                       <th></th>
                       <th>Payment Status</th>
+                      <th>Customer Name</th>
+
                       <th></th> {/* Empty for the action button */}
                     </tr>
                   </thead>
                   <tbody>
                     {currentBookings.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="text-center">
+                        <td colSpan="7" className="text-center">
                           No booking available
                         </td>
                       </tr>
                     ) : (
                       currentBookings.map((data) => (
                         <tr className="align-middle" key={data.BookingID}>
+                          <td>{data.InventoryName}</td>
+
+                          <td>{new Date(data.BookingStartDate).toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                          })}</td>
                           <td
                             style={{
                               display: "flex",
@@ -1102,8 +1183,6 @@ const Booking = () => {
                             />
                             <span>Cancelled</span>
                           </td>
-                          <td>{data.BookingStartDate}</td>
-                          <td>{data.InventoryName}</td>
                           <td>{data.AssignedTo}</td>
                           <td
                             className={
@@ -1114,6 +1193,8 @@ const Booking = () => {
                           >
                             {data.PaymentStatus}
                           </td>
+                          <td>{data.CustomerName}</td>
+
                           <td>
                             <button
                               className="btn"

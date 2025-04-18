@@ -150,10 +150,10 @@ const CreatePackage = () => {
         // Ensure at least one image is present (either newly uploaded or retrieved)
         const finalImage = images && images.length > 0 ? images : null;
 
-        if (!finalImage && !invImgFileName) {
-            toast.error("Image is required");
-            return;
-        }
+        // if (!finalImage && !invImgFileName) {
+        //     toast.error("Image is required");
+        //     return;
+        // }
 
         let datas = [];
 

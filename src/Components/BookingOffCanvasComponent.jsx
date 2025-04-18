@@ -199,6 +199,7 @@ const BookingOffCanvasComponent = ({
                   type="text"
                   className="form-control"
                   id="custName"
+                  placeholder="customer name"
                   value={data.username}
                   defaultValue={data.username}
                 />
@@ -211,15 +212,70 @@ const BookingOffCanvasComponent = ({
                 </button>
               </div>
             </div>
+            <div className="mt-3">
+              <label htmlFor="custName" style={{ fontWeight: "bold", marginBottom: "5px" }}>
+                Date Of Birth
+              </label>
+
+              <div className="input-group mt-3 w-50">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="custDOB"
+                  placeholder="date of birth"
+                  value={
+                    data.dob && data.dob !== "0000-00-00"
+                      ? new Date(data.dob).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })
+                      : ""
+                  }
+                />
+
+                <button
+                  className="btn btn-outline-secondary border-0"
+                  type="button"
+                  onClick={() => copyToClipboard(data.dob)}
+                >
+                  <i className="fa fa-clone"></i>
+                </button>
+              </div>
+            </div>
+            <div className="mt-3">
+              <label htmlFor="custName" style={{ fontWeight: "bold", marginBottom: "5px" }}>
+                Gender
+              </label>
+
+              <div className="input-group mt-3 w-50">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="custGender"
+                  value={data.gender}
+                  defaultValue={data.gender}
+                  placeholder="gender"
+                />
+                <button
+                  className="btn btn-outline-secondary border-0"
+                  type="button"
+                  onClick={() => copyToClipboard(data.gender)}
+                >
+                  <i className="fa fa-clone"></i>
+                </button>
+              </div>
+            </div>
             <div className="mt-3 ">
               <label htmlFor="custName" style={{ fontWeight: "bold", marginBottom: "5px" }}>
-               Phone Number
+                Phone Number
               </label>
               <div className="input-group mt-3 w-50">
                 <input
                   type="text"
                   className="form-control"
                   id="cName"
+                  placeholder="phone number"
                   value={data.userPhone}
                   defaultValue={data.userPhone}
                 />
@@ -234,13 +290,14 @@ const BookingOffCanvasComponent = ({
             </div>
             <div className="mt-3 ">
               <label htmlFor="custName" style={{ fontWeight: "bold", marginBottom: "5px" }}>
-               Email
+                Email
               </label>
               <div className="input-group mb-3 mt-3 w-auto">
                 <input
                   type="text"
                   className="form-control"
                   id="cEmail"
+                  placeholder="email"
                   defaultValue={data.userMail}
                   value={data.userMail}
                 />

@@ -111,7 +111,7 @@ const SideBar = () => {
 
             <div className="sidebar-profile-container">
                 <div className="sidebar-profile">
-                    <div className="profile-container" onClick={handleProfileClick}>
+                    <div className="profile-container"  onClick={handleProfileClick}>
                         <img
                             src={userData?.profilePic
                                 ? `https://staging.neardeal.me/api/${userData.profilePic}`
@@ -121,7 +121,7 @@ const SideBar = () => {
                         />
 
                         <div className="profile-info">
-                            <span style={{ textAlign: 'center' }} className="profile-name">{userData && userData.Name}</span>
+                            <span style={{ textAlign: 'center',marginRight:"10px" }} className="profile-name">{userData && userData.Name}</span>
                             <span style={{ textAlign: 'center' }} className="profile-email">{userData && userData.Email}</span>
                         </div>
                     </div>

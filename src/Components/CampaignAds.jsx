@@ -85,10 +85,10 @@ const CampaignAds = ({ searchQuery }) => {
                                 src={`https://staging.neardeal.me/api/${item.ContentLocation}`}
                                 alt="item"
                             />
-                            <span>{item.CampaignName}</span>
-                            <span style={{ fontSize: "14px" }} className="grey">
+                            <span style={{marginLeft:"5px"}}>{item.CampaignName}</span>
+                            {/* <span style={{ fontSize: "14px" }} className="grey">
                                 Total Cost: $100
-                            </span>
+                            </span> */}
                         </div>
                         <div className="edit">
                             <Link to={`/campaign/ads/${item.CampaignID}`}>

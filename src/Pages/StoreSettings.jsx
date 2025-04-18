@@ -116,7 +116,7 @@ const StoreSetting = () => {
                         "zip": "XYZ 456",
                         "storeimage_name": invImgFileName,
                         "storelogo_name": logoName,
-                        "workingHours": storeData.workingHours,
+                        "workingHours": storeData.timing,
                         "workingHoursDetails": "Mon-Fri (Sat: 10:00 AM - 7:00 PM)",
                         "storelogo": logo,  // Use the first logo image
                         "storeimage": images  // Use the first image uploaded
@@ -192,7 +192,7 @@ const StoreSetting = () => {
                         </div>
                         <div className="time">
                             <img src={clock1} alt="clock" />
-                            <span style={{ margin: '10px 10px' }}>{storeData.workingHours || 'N/A'}</span>
+                            <span style={{ margin: '10px 10px' }}>{storeData.timing || 'N/A'}</span>
                         </div>
                         <div className="social-media">
                             <img style={{ width: '80px' }} src={email} alt="email" />
@@ -337,10 +337,10 @@ const StoreSetting = () => {
 
                                 <div className="grey" style={{ marginTop: '20px' }}>Availability</div>
                                 <input
-                                    name="workingHours"
+                                    name="timing"
                                     className="text-section"
                                     type="text"
-                                    value={storeData.workingHours || ''}
+                                    value={storeData.timing || ''}
                                     placeholder="No hours available"
                                     onChange={handleInputChange}
                                 />
