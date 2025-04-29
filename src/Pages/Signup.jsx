@@ -216,6 +216,7 @@ const SignUp = () => {
                         storeaddress: storeData.storeAddress,
                         email: storeData.email,
                         storedoo: merchantData.dob,
+                        contactno:merchantData.contact,
                         city: storeData.city,
                         country: storeData.country,
                         zip: storeData.zip,

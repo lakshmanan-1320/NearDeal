@@ -398,7 +398,7 @@ const Booking = () => {
                                 </div>
                                 <span>Finished</span>
                               </>
-                            ) :data.BookingStatus === "Cancelled" ? (
+                            ) : data.BookingStatus === "Cancelled" ? (
                               <>
                                 <img
                                   style={{ width: "25%", margin: "auto" }}
@@ -406,10 +406,10 @@ const Booking = () => {
                                 />
                                 <span>
                                   {data.CancelledBy === "User"
-                                    ? "Cancelled by You"
+                                    ? "Cancelled by Customer"
                                     : data.CancelledBy === "Vendor"
-                                    ? "Cancelled by Vendor"
-                                    : "Cancelled"}
+                                      ? "Cancelled by You"
+                                      : "Cancelled"}
                                 </span>
                               </>
                             ) : (
@@ -625,10 +625,10 @@ const Booking = () => {
                                 />
                                 <span>
                                   {data.CancelledBy === "User"
-                                    ? "Cancelled by You"
+                                    ? "Cancelled by Customer"
                                     : data.CancelledBy === "Vendor"
-                                    ? "Cancelled by Vendor"
-                                    : "Cancelled"}
+                                      ? "Cancelled by You"
+                                      : "Cancelled"}
                                 </span>
                               </>
                             ) : (
@@ -844,10 +844,10 @@ const Booking = () => {
                                 />
                                 <span>
                                   {data.CancelledBy === "User"
-                                    ? "Cancelled by You"
+                                    ? "Cancelled by Customer"
                                     : data.CancelledBy === "Vendor"
-                                    ? "Cancelled by Vendor"
-                                    : "Cancelled"}
+                                      ? "Cancelled by You"
+                                      : "Cancelled"}
                                 </span>
                               </>
                             ) : (
@@ -1177,12 +1177,20 @@ const Booking = () => {
                               textAlign: "center",
                             }}
                           >
-                            <img
-                              style={{ width: "25%", margin: "auto" }}
-                              src={cross}
-                            />
-                            <span>Cancelled</span>
+                            <img style={{ width: "25%", margin: "auto" }} src={cross} alt="cross" />
+                            {data.BookingStatus === "Cancelled" && (
+                              <>
+                                <span>
+                                  {data.CancelledBy === "User"
+                                    ? "Cancelled by Customer"
+                                    : data.CancelledBy === "Vendor"
+                                      ? "Cancelled by You"
+                                      : "Cancelled"}
+                                </span>
+                              </>
+                            )}
                           </td>
+
                           <td>{data.AssignedTo}</td>
                           <td
                             className={

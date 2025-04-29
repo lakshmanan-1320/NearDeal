@@ -133,6 +133,8 @@ const EditAdd = () => {
 
         // Update the state with the new data
         setImages(parts[1]);
+        // Clear file input value so selecting the same file again will trigger onChange
+        e.target.value = null;
       };
       reader.readAsDataURL(file);
     }

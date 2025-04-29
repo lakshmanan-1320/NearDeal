@@ -62,22 +62,22 @@ const NearAI = () => {
     window.open(videoURL, "_blank");
   };
 
-  let config = {
-    method: 'get',
-    maxBodyLength: Infinity,
-    url: 'https://ext.videogen.io/v1/get-voices?languageCode=en&quality=lifelike&gender=MALE',
-    headers: {
-      'Authorization': 'Bearer cb58f438b644326901d62480a504067996448a5a'
-    }
-  };
+  // let config = {
+  //   method: 'get',
+  //   maxBodyLength: Infinity,
+  //   url: 'https://ext.videogen.io/v1/get-voices?languageCode=en&quality=lifelike&gender=MALE',
+  //   headers: {
+  //     'Authorization': 'Bearer cb58f438b644326901d62480a504067996448a5a'
+  //   }
+  // };
 
-  axios.request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  // axios.request(config)
+  //   .then((response) => {
+  //     console.log(JSON.stringify(response.data));
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
 
 
 

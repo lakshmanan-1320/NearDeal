@@ -316,6 +316,41 @@ const CreatePackage = () => {
                                         </button>
                                     </div>
                                 )}
+                                      <div className="grey">What's included</div>
+                <div className="text-section">
+                  <ReactQuill
+                    value={editorStates.included.content}
+                    onChange={(content, delta, source) => {
+                      setEditorStates((prevStates) => ({
+                        ...prevStates,
+                        included: {
+                          content,
+                          operations: prevStates.included.operations,
+                        },
+                      }));
+                      updateEditorState("included", delta, null, source);
+                    }}
+                    className="text-area"
+                    modules={CreatePackage.modules}
+                    formats={CreatePackage.formats}
+                    placeholder="Type here"
+                    ref={(el) => {
+                      if (el) {
+                        quillRefs.current.included = el.getEditor();
+                        quillRefs.current.included.on(
+                          "text-change",
+                          (delta, oldDelta, source) =>
+                            updateEditorState(
+                              "included",
+                              delta,
+                              oldDelta,
+                              source
+                            )
+                        );
+                      }
+                    }}
+                  />
+                </div>
                                 <div className="grey">TNC</div>
                                 <div className="text-section">
                                     <ReactQuill
