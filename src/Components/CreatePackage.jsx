@@ -149,14 +149,16 @@ const CreatePackage = () => {
 
         // Update the state with the new data
         setImages(parts[1]);
+        e.target.value = null;
+
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleRemoveImage = (index) => {
-    setImages(null); // Clear the selected image
-  };
+    setImages([]);
+    };
 
   const handleUploadClick = () => {
     fileInputRef.current.click();

@@ -72,7 +72,7 @@ const CreatePackage = () => {
     };
 
     const handleRemoveImage = () => {
-        setImages(null);
+        setImages([]);
     };
     const handleChildData = (data) => {
         setRowsData(data);
@@ -119,6 +119,8 @@ const CreatePackage = () => {
 
                 // Update the state with the new data
                 setImages(parts[1]);
+                e.target.value = null;
+
             };
             reader.readAsDataURL(file);
         }
