@@ -41,7 +41,20 @@ const SignUp = () => {
         storelogo_name: "",
         profilePic: null,
     });
-
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const step = parseInt(params.get("step"), 10);
+        const userId = parseInt(params.get("user_id"), 10);
+      
+        if (step && !isNaN(step)) {
+          setCurrentStep(step);
+        }
+      
+        if (userId && !isNaN(userId)) {
+          setUserId(userId);
+        }
+      }, []);
+      
     const handleAccountChange = (e) => {
         const { name, value } = e.target;
 
