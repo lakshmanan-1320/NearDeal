@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'; // Import toast notifications
 import logo from '../assets/logo.svg' // Adjust import path as needed
@@ -44,11 +44,19 @@ const SignUp = () => {
 
     const handleAccountChange = (e) => {
         const { name, value } = e.target;
+
+        // Remove spaces for specific fields
+        const cleanValue = ["email", "username", "password", "confirmPassword",].includes(name)
+            ? value.replace(/\s/g, "")
+            : value;
+
         setAccountData(prev => ({
             ...prev,
-            [name]: value,
+            [name]: cleanValue,
         }));
     };
+
+
 
     const handleMerchantChange = (e) => {
         const { name, value } = e.target;
@@ -60,9 +68,13 @@ const SignUp = () => {
 
     const handleStoreChange = (e) => {
         const { name, value } = e.target;
+        // Remove spaces for specific fields
+        const cleanValue = ["storeAddress", "city", "country", "zip"].includes(name)
+            ? value.replace(/\s/g, "")
+            : value;
         setStoreData(prev => ({
             ...prev,
-            [name]: value,
+            [name]: cleanValue,
         }));
     };
 
@@ -74,7 +86,7 @@ const SignUp = () => {
                 const base64String = reader.result; // Get the Base64 string from the reader
                 const parts = base64String.split(","); // Split the string at the comma
                 console.log("--------", parts); // Now you can log it
-                
+
                 // Update the state with the new data
                 setStoreData(prev => ({
                     ...prev,
@@ -84,30 +96,30 @@ const SignUp = () => {
             };
             reader.readAsDataURL(file);
         }
-    };    
+    };
 
     const handleOtherCategoryChange = (e) => {
         const category = e.target.value;
         setOtherCategory(category);
     };
-    
+
     const handleCategoryChange = (category) => {
         // const category=event.target.value;
         setSelectedCategory((prevCategories) => {
             let updatedCategories;
-            
+
             if (prevCategories.includes(category)) {
                 updatedCategories = prevCategories.filter((cat) => cat !== category); // Remove if already selected
             } else {
                 updatedCategories = [...prevCategories, category]; // Add new category
             }
-    
+
             // Update merchant data with the full category list
             setMerchantData(prev => ({
                 ...prev,
                 category: updatedCategories, // Store full category list
             }));
-    
+
             return updatedCategories;
         });
         console.log(selectedCategory);
@@ -134,22 +146,50 @@ const SignUp = () => {
 
     useEffect(() => {
         console.log("Updated selectedCategory:", selectedCategory);
-    }, [selectedCategory]); 
+    }, [selectedCategory]);
     const callApi = async (step) => {
         setLoading(true);
-        let payload = {};        
+        let payload = {};
 
         try {
             if (step === 1) {
                 // Handle Step 1 API call
                 payload = {
-                    // Extracting user data from accountData for Step 1
-                    email: accountData.email,
-                    username: accountData.username,
-                    password: accountData.password,
-                    confirmPassword: accountData.confirmPassword
+                    email: accountData.email.trim(), // Trim spaces
+                    username: accountData.username.trim(),
+                    password: accountData.password.trim(),
+                    confirmPassword: accountData.confirmPassword.trim()
                 };
 
+                // Validation for empty fields (including spaces)
+                if (!payload.email || !payload.username || !payload.password || !payload.confirmPassword) {
+                    toast.error("All fields are required. Please fill in all the fields.");
+                    return;
+                }
+                // Email format validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(payload.email)) {
+                    toast.error("Please enter a valid email address.");
+                    return;
+                }
+                // Check for whitespace in password
+                if (/\s/.test(payload.password)) {
+                    toast.error("Password cannot contain spaces.");
+                    return;
+                }
+
+                // Password validation conditions
+                const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // At least 8 characters, 1 letter, 1 number, and 1 special character
+                if (!passwordRegex.test(payload.password)) {
+                    toast.error("Password must be at least 8 characters long, contain at least one letter, one number, and one special character.");
+                    return;
+                }
+
+                // Password and confirmPassword match validation
+                if (payload.password !== payload.confirmPassword) {
+                    toast.error("Passwords do not match. Please make sure both password fields are the same.");
+                    return;
+                }
                 const response = await fetch('https://staging.neardeal.me/api/merchantSignup.php', {
                     method: 'POST',
                     headers: {
@@ -158,11 +198,16 @@ const SignUp = () => {
                     body: JSON.stringify(payload),
                 });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok.');
-                }
 
                 const data = await response.json();
+                if (!response.ok) {
+                    if (response.status === 409 && data.message) {
+                        toast.error(data.message); // Show "Email is already taken"
+                    } else {
+                        toast.error('An unexpected error occurred.');
+                    }
+                    return false; // Prevent further execution
+                }
                 setUserId(data.userid);
                 toast.success('Account credentials saved successfully');
             } else if (step === 2) {
@@ -198,12 +243,23 @@ const SignUp = () => {
 
                 const location = await getLocation();
                 const coordinates = `${location.latitude},${location.longitude}`;
-    
+
                 console.log("Current Coordinates:", coordinates);
-            
+                if (!storeData.storeAddress || !storeData.country || !storeData.city || !storeData.zip) {
+                    toast.error("Address, Country, City, and Zip cannot be empty.");
+                }
+
+                // Validate that zip is exactly 6 digits
+                const zipPattern = /^\d{6}$/;
+
+                if (!zipPattern.test(storeData.zip)) {
+                    toast.error("Zip code must be exactly 6 digits and cannot contain characters.");
+                }
+
+
                 // Handle final API call directly after successful verification
 
-                console.log(storeData.storelogo_name,":", storeData.profilePic);
+                console.log(storeData.storelogo_name, ":", storeData.profilePic);
                 const finalResponse = await fetch('https://staging.neardeal.me/api/merchantSignup.php', {
                     method: 'POST',
                     headers: {
@@ -216,7 +272,7 @@ const SignUp = () => {
                         storeaddress: storeData.storeAddress,
                         email: storeData.email,
                         storedoo: merchantData.dob,
-                        contactno:merchantData.contact,
+                        contactno: merchantData.contact,
                         city: storeData.city,
                         country: storeData.country,
                         zip: storeData.zip,
@@ -247,6 +303,9 @@ const SignUp = () => {
         }
     };
 
+
+
+
     return (
         <div className="bg-grad">
             <nav className="navbar navbar-expand-sm navbar-light p-4">
@@ -269,7 +328,7 @@ const SignUp = () => {
                             <div id="signup1">
                                 <h2 className="form-header">Account Credentials</h2>
                                 <input
-                                    type="email"
+                                    type="text"
                                     className="form-control-plaintext formFields my-2"
                                     placeholder="Email"
                                     id="email"
@@ -373,13 +432,13 @@ const SignUp = () => {
                                     <div className="col-lg-6 col-sm-12" style={{ paddingRight: "1%" }}>
                                         <div className="card mb-2" onClick={() => handleCategoryChange("Spa")} id="Spa"
                                             style={{
-                                                border: selectedCategory.includes("Spa")  ? "2px solid black" : "none",
+                                                border: selectedCategory.includes("Spa") ? "2px solid black" : "none",
                                                 transform: selectedCategory.includes("Spa") ? "translateY(-5px)" : "none",
                                                 transition: "all 0.3s ease",
                                                 cursor: "pointer",
                                             }}
-                            
-                                            >
+
+                                        >
                                             <div className="row g-0">
                                                 <div className="col-md-6 m-auto">
                                                     <div className="card-body">
@@ -393,12 +452,12 @@ const SignUp = () => {
                                         </div>
                                         <div className="card mb-2" onClick={() => handleCategoryChange("Gym")} id="Gym"
                                             style={{
-                                                border: selectedCategory.includes("Gym")? "2px solid black" : "none",
+                                                border: selectedCategory.includes("Gym") ? "2px solid black" : "none",
                                                 transform: selectedCategory.includes("Gym") === "Gym" ? "translateY(-5px)" : "none",
                                                 transition: "all 0.3s ease",
                                                 cursor: "pointer",
                                             }}
-                            >
+                                        >
                                             <div className="row g-0">
                                                 <div className="col-md-6 m-auto">
                                                     <div className="card-body">
@@ -416,12 +475,12 @@ const SignUp = () => {
                                     <div className="col-lg-6 col-sm-12" style={{ paddingRight: "1%" }}>
                                         <div className="card mb-2" onClick={() => handleCategoryChange("salon")} id="Salon"
                                             style={{
-                                                border: selectedCategory.includes("salon")  ? "2px solid black" : "none",
-                                                transform: selectedCategory.includes("salon")  ? "translateY(-5px)" : "none",
+                                                border: selectedCategory.includes("salon") ? "2px solid black" : "none",
+                                                transform: selectedCategory.includes("salon") ? "translateY(-5px)" : "none",
                                                 transition: "all 0.3s ease",
                                                 cursor: "pointer",
                                             }}
-                            >
+                                        >
                                             <div className="row g-0">
                                                 <div className="col-md-6 m-auto">
                                                     <div className="card-body">
@@ -440,8 +499,8 @@ const SignUp = () => {
                                                 transition: "all 0.3s ease",
                                                 cursor: "pointer",
                                             }}
-                            
-                                            >
+
+                                        >
                                             <div className="row g-0">
                                                 <div className="col-md-6 m-auto">
                                                     <div className="card-body">
@@ -458,16 +517,16 @@ const SignUp = () => {
 
                                     {/* Repeat for other categories */}
                                     <div>
-                                    <input
-                                    type="text"
-                                    className="form-control-plaintext formFields mt-3"
-                                    placeholder="Other"
-                                    id="city"
-                                    name="city"
-                                    onChange={handleOtherCategoryChange}
-                                    required
-                                />
-                                        </div>
+                                        <input
+                                            type="text"
+                                            className="form-control-plaintext formFields mt-3"
+                                            placeholder="Other"
+                                            id="city"
+                                            name="city"
+                                            onChange={handleOtherCategoryChange}
+                                            required
+                                        />
+                                    </div>
                                 </div>
                                 <div className="d-grid mt-3">
                                     <button type="button" className="btn btn-dark btn-block" onClick={() => handleNextStep(5)}>
