@@ -15,6 +15,7 @@ const SignUp = () => {
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [otherCategory, setOtherCategory] = useState([]);
 
+    const [verificationStatus, setVerificationStatus] = useState(false);
 
     // Step 1: Account Credentials
     const [accountData, setAccountData] = useState({
@@ -45,16 +46,16 @@ const SignUp = () => {
         const params = new URLSearchParams(window.location.search);
         const step = parseInt(params.get("step"), 10);
         const userId = parseInt(params.get("user_id"), 10);
-      
+
         if (step && !isNaN(step)) {
-          setCurrentStep(step);
+            setCurrentStep(step);
         }
-      
+
         if (userId && !isNaN(userId)) {
-          setUserId(userId);
+            setUserId(userId);
         }
-      }, []);
-      
+    }, []);
+
     const handleAccountChange = (e) => {
         const { name, value } = e.target;
 
@@ -73,16 +74,19 @@ const SignUp = () => {
 
     const handleMerchantChange = (e) => {
         const { name, value } = e.target;
+        const cleanValue = ["contact"].includes(name)
+        ? value.replace(/\s/g, "")
+        : value;
         setMerchantData(prev => ({
             ...prev,
-            [name]: value,
+            [name]: cleanValue,
         }));
     };
 
     const handleStoreChange = (e) => {
         const { name, value } = e.target;
         // Remove spaces for specific fields
-        const cleanValue = ["storeAddress", "city", "country", "zip"].includes(name)
+        const cleanValue = [ "city", "country", "zip"].includes(name)
             ? value.replace(/\s/g, "")
             : value;
         setStoreData(prev => ({
@@ -185,6 +189,14 @@ const SignUp = () => {
                     toast.error("Please enter a valid email address.");
                     return;
                 }
+
+                // Username minimum 4 characters
+                if (payload.username.length < 4) {
+                    toast.error("Username must be at least 4 characters long.");
+                    return;
+                }
+
+
                 // Check for whitespace in password
                 if (/\s/.test(payload.password)) {
                     toast.error("Password cannot contain spaces.");
@@ -214,40 +226,53 @@ const SignUp = () => {
 
                 const data = await response.json();
                 if (!response.ok) {
-                    if (response.status === 409 && data.message) {
-                        toast.error(data.message); // Show "Email is already taken"
-                    } else {
-                        toast.error('An unexpected error occurred.');
-                    }
+                    const errorMessage = data.message || 'An unexpected error occurred.';
+                    toast.error(errorMessage);
                     return false; // Prevent further execution
                 }
+                
                 setUserId(data.userid);
-                toast.success('Account credentials saved successfully');
+                toast.success('Account created successfully. Please check your email to verify your account.');
+                navigate('/login');
             } else if (step === 2) {
                 // Handle verification API call
                 payload = {
                     userid: userId // Pass userId for verification
                 };
+                const getStatusUrl = `https://staging.neardeal.me/api/getVerifyStatus.php?vendor_id=${userId}`;
+                const statusResponse = await fetch(getStatusUrl);
+                const statusData = await statusResponse.json(); // Parse JSON
+                setVerificationStatus(statusData?.data?.is_verified)
+                // Access correctly
+                if (statusData?.data?.is_verified === true) {
+                    const verificationResponse = await fetch('https://staging.neardeal.me/api/verificationStatus.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
 
-                const verificationResponse = await fetch('https://staging.neardeal.me/api/verificationStatus.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                });
+                    if (!verificationResponse.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
 
-                if (!verificationResponse.ok) {
-                    throw new Error('Network response was not ok.');
+                    const verificationData = await verificationResponse.json();
+                    if (verificationData.status !== 'success') {
+                        throw new Error('Verification failed.');
+                    }
+
+                    toast.success('Verification successful');
+
+                    return true; // Proceed to next step if verification is successful
+                    // toast.success('Already verified');
+                    // return true;
+                } else {
+                    toast.error('Verification Pending');
+
                 }
+                console.log(statusData, "statusresponse")
 
-                const verificationData = await verificationResponse.json();
-                if (verificationData.status !== 'success') {
-                    throw new Error('Verification failed.');
-                }
-
-                toast.success('Verification successful');
-                return true; // Proceed to next step if verification is successful
             } else if (step === 5) {
                 setSelectedCategory((prev) => {
                     let updatedCategories = [...prev, otherCategory];
@@ -310,9 +335,45 @@ const SignUp = () => {
     };
 
     const handleNextStep = async (nextStep) => {
+        if (currentStep === 3) {
+            const contact = merchantData.contact;
+
+            // Only digits, at least 1 digit
+            const isValidContact = /^[0-9]+$/.test(contact);
+
+            if (!isValidContact || contact.trim() === "") {
+                toast.error("Please enter a valid contact number (digits only, no letters or special characters).");
+                return; // Prevent API call and step change
+            }
+        }
+
         const success = await callApi(currentStep);
         if (success) {
             setCurrentStep(nextStep);
+        }
+    };
+
+
+    const handleStep2Next = async () => {
+        try {
+            const getStatusUrl = `https://staging.neardeal.me/api/getVerifyStatus.php?vendor_id=${userId}`;
+            const statusResponse = await fetch(getStatusUrl);
+            const statusData = await statusResponse.json();
+            console.log(statusData?.data?.is_verified, 'statusData?.data?.is_verified')
+            const isVerified = statusData?.data?.is_verified;
+            setVerificationStatus(isVerified);
+
+            if (!isVerified) {
+                toast.error("Verification is still pending.");
+                navigate('/login');
+                return; // Stop here if not verified
+            }
+
+            // Move to next step if verified
+            handleNextStep(3);
+        } catch (error) {
+            console.error("Verification check failed:", error);
+            toast.error("Failed to check verification status.");
         }
     };
 
@@ -392,7 +453,7 @@ const SignUp = () => {
                             <div id="signup2">
                                 <h2 className="form-header">Merchant Account Created</h2>
                                 <div className="d-grid mt-3">
-                                    <button type="button" className="btn btn-dark btn-block" onClick={() => handleNextStep(3)}>
+                                    <button type="button" className="btn btn-dark btn-block" onClick={handleStep2Next}>
                                         Verification Done
                                     </button>
                                 </div>
