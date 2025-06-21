@@ -58,7 +58,7 @@ const Booking = () => {
 
       const data = await response.json();
       console.log(data.data[0].BookingID);
-      console.log(data)
+      console.log(data,"booking")
       // const uniqueIds = new Set();  // Set to store unique IDs
       // const uniqueObjects = [];     // Array to store unique objects
 
@@ -155,6 +155,7 @@ const Booking = () => {
   };
 
   const [uniqueData, setUniqueData] = useState(null);
+  //  console.log("Unique", uniqueData);
 
   const fetchBooking = async (id) => {
     setFetchSelectedDataComplete(false)
@@ -176,7 +177,7 @@ const Booking = () => {
 
       const data = await response.json();
       const booking = data.message[0];
-      console.log("Unique", uniqueData);
+     
 
       // Set the state with formatted values
       setTimeout(() => {

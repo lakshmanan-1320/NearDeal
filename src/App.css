@@ -171,6 +171,9 @@
     background-color: #e9ecef;
     border-radius: 8px;
 }
+.cus-text{
+    color:rgb(127 115 116) !important;
+}
 
 .profile-pic {
     width: 50px;

@@ -54,6 +54,7 @@ function App() {
             ></ProtectedRoutes>
           }
         ></Route>
+        
         <Route
           path="/package/:id"
           exact
