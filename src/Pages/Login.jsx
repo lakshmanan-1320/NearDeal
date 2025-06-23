@@ -16,9 +16,8 @@ const Login = () => {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-
             // Make sure to use POST if you're sending a body with your request
-            const response = await fetch('https://staging.neardeal.me/api/merchantLogin.php', {
+            const response = await fetch('https://wellness.neardeal.me/WAPI/merchantLogin.php', {
                 method: 'POST', // Correct method for sending data
                 headers: {
                     'Content-Type': 'application/json'
@@ -28,7 +27,6 @@ const Login = () => {
                     password
                 })
             });
-
             // Check if response is OK (status in the range 200-299)
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -40,7 +38,7 @@ const Login = () => {
 
             // Handle successful login logic here
             toast.success('Login successfull!');
-            window.location.href = '/app';
+            window.location.href = '/';
             // navigate('/');
             Cookies.set('user_token', data.token, { expires: 2 });
 

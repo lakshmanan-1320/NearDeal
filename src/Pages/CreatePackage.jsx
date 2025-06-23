@@ -51,7 +51,7 @@ const CreatePackage = () => {
                 }
 
                 // Fetch user data
-                const response = await fetch('https://staging.neardeal.me/api/fetchUserData.php', {
+                const response = await fetch('https://wellness.neardeal.me/WAPI/fetchUserData.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const CreatePackage = () => {
     console.log(data, "dataaaaaa")
     const fetchSpa = async () => {
         try {
-            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
+            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ const CreatePackage = () => {
 
     const fetchMassage = async () => {
         try {
-            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
+            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -119,7 +119,7 @@ const CreatePackage = () => {
 
     const fetchSauna = async () => {
         try {
-            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
+            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -141,7 +141,7 @@ const CreatePackage = () => {
 
     const fetchgym = async () => {
         try {
-            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
+            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -163,7 +163,7 @@ const CreatePackage = () => {
 
     const fetchAll = async () => {
         try {
-            const response = await fetch('https://staging.neardeal.me/api/invListingMW.php', {
+            const response = await fetch('https://wellness.neardeal.me/WAPI/invListingMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -289,7 +289,7 @@ const CreatePackage = () => {
                                                                 width: '60px',
                                                                 objectFit: 'cover'
                                                             }}
-                                                            src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
+                                                            src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`}
                                                             alt="item"
                                                         />
                                                         <div>
@@ -380,7 +380,7 @@ const CreatePackage = () => {
                                                                 width: '60px',
                                                                 objectFit: 'cover'
                                                             }}
-                                                            src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
+                                                            src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`}
                                                             alt="spa"
                                                         />
                                                         <div>
@@ -471,7 +471,7 @@ const CreatePackage = () => {
                                                                 width: '60px',
                                                                 objectFit: 'cover'
                                                             }}
-                                                            src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
+                                                            src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`}
                                                             alt="massage"
                                                         />
                                                         <div>
@@ -561,7 +561,7 @@ const CreatePackage = () => {
                                                                 width: '60px',
                                                                 objectFit: 'cover'
                                                             }}
-                                                            src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
+                                                            src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`}
                                                             alt="sauna"
                                                         />
                                                         <div>
@@ -651,7 +651,7 @@ const CreatePackage = () => {
                                                                 width: '60px',
                                                                 objectFit: 'cover'
                                                             }}
-                                                            src={`https://staging.neardeal.me/api/${item.ImageLocation}`}
+                                                            src={`https://wellness.neardeal.me/WAPI/${item.ImageLocation}`}
                                                             alt="gym"
                                                         />
                                                         <div>

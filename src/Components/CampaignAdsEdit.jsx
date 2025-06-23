@@ -39,7 +39,7 @@ const EditAdd = () => {
 
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/AdsDetailsMW.php",
+        "https://wellness.neardeal.me/WAPI/AdsDetailsMW.php",
         {
           method: "POST",
           headers: {
@@ -108,7 +108,7 @@ const EditAdd = () => {
     console.log(startDate, endDate, isChecked, invImgFileName);
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/updateAdsMW.php",
+        "https://wellness.neardeal.me/WAPI/updateAdsMW.php",
         {
           method: "POST",
           headers: {
@@ -257,7 +257,7 @@ const EditAdd = () => {
                   <h3>{data?.CampaignName || ''}</h3>
                   <span>NearDeal Certified</span>
                 </div>
-                <img style={{ width: "100%", height: '30vh', borderRadius: '10px' }} src={`https://staging.neardeal.me/api/${data?.ContentLocation || ""}`} alt="banner" />
+                <img style={{ width: "100%", height: '30vh', borderRadius: '10px' }} src={`https://wellness.neardeal.me/WAPI/${data?.ContentLocation || ""}`} alt="banner" />
                 <span
                   style={{
                     position: "absolute",

@@ -171,9 +171,6 @@
     background-color: #e9ecef;
     border-radius: 8px;
 }
-.cus-text{
-    color:rgb(127 115 116) !important;
-}
 
 .profile-pic {
     width: 50px;
@@ -1279,3 +1276,16 @@
     background: url(./assets/nearai.svg);
 }
 
+.download-button {
+    padding: 8px 16px;
+    background-color: #3B82F6; /* Tailwind blue-500 color */
+    color: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .download-button:hover {
+    background-color: #1D4ED8; /* Tailwind blue-700 hover color */
+  }

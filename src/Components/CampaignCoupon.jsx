@@ -17,7 +17,7 @@ const CampaignCoupon = ({ searchQuery }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/fetchCouponsMW.php",
+        "https://wellness.neardeal.me/WAPI/fetchCouponsMW.php",
         {
           method: "POST",
           headers: {
@@ -52,7 +52,7 @@ const CampaignCoupon = ({ searchQuery }) => {
 
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/updateCouponStatus.php",
+        "https://wellness.neardeal.me/WAPI/updateCouponStatus.php",
         {
           method: "POST",
           headers: {

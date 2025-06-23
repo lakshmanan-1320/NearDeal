@@ -98,7 +98,7 @@ const StoreSetting = () => {
         console.log(images);
         try {
             const response = await fetch(
-                "https://staging.neardeal.me/api/merchantProfileUpdatesMW.php",
+                "https://wellness.neardeal.me/WAPI/merchantProfileUpdatesMW.php",
                 {
                     method: "POST",
                     headers: {
@@ -136,7 +136,7 @@ const StoreSetting = () => {
     const fetchStore = async () => {
         try {
             const response = await fetch(
-                "https://staging.neardeal.me/api/fetchStoreDetailsMW.php",
+                "https://wellness.neardeal.me/WAPI/fetchStoreDetailsMW.php",
                 {
                     method: "POST",
                     headers: {
@@ -173,8 +173,8 @@ const StoreSetting = () => {
                 <div>
                     <div className="left">
                         <div style={{ flexDirection: 'column', position: 'relative' }}>
-                            <img style={{ width: '100%', height: '100%', borderRadius: '4%', maxHeight: '300px', objectFit: 'cover' }} src={`https://staging.neardeal.me/api/${storeData.store_image}`} alt="store logo" />
-                            <img style={{ position: 'absolute', bottom: '-15%', left: '5%', borderRadius: '50%', width: '60px', height: '60px' }} src={`https://staging.neardeal.me/api/${storeData.store_logo}`} alt="upload" />
+                            <img style={{ width: '100%', height: '100%', borderRadius: '4%', maxHeight: '300px', objectFit: 'cover' }} src={`https://wellness.neardeal.me/WAPI/${storeData.store_image}`} alt="store logo" />
+                            <img style={{ position: 'absolute', bottom: '-15%', left: '5%', borderRadius: '50%', width: '60px', height: '60px' }} src={`https://wellness.neardeal.me/WAPI/${storeData.store_logo}`} alt="upload" />
                         </div>
                         <h1 style={{ fontWeight: 'bold', marginTop: '30px' }}>{storeData.vendorName || 'Store Name'}</h1>
                         <div className="rating">

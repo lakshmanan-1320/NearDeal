@@ -48,7 +48,7 @@ const EditDiscount = () => {
       };
       console.log(payload);
       const response = await fetch(
-        "https://staging.neardeal.me/api/fetchCouponDetails.php",
+        "https://wellness.neardeal.me/WAPI/fetchCouponDetails.php",
         {
           method: "POST",
           headers: {
@@ -143,7 +143,7 @@ const EditDiscount = () => {
   const fetchInventory = async () => {
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/invListingMW.php",
+        "https://wellness.neardeal.me/WAPI/invListingMW.php",
         {
           method: "POST",
           headers: {
@@ -197,7 +197,7 @@ const EditDiscount = () => {
     }
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/updateCouponsMW.php",
+        "https://wellness.neardeal.me/WAPI/updateCouponsMW.php",
         {
           method: "POST",
           headers: {

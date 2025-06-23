@@ -158,7 +158,7 @@ const CreatePackage = () => {
 
   const handleRemoveImage = (index) => {
     setImages([]);
-    };
+  };
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -239,7 +239,7 @@ const CreatePackage = () => {
     console.log(datas);
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/createPackageMW.php",
+        "https://wellness.neardeal.me/WAPI/createPackageMW.php",
         {
           method: "POST",
           headers: {
@@ -452,7 +452,6 @@ const CreatePackage = () => {
                     }}
                   />
                 </div>
-
                 {/* <div className="grey">Opening hours</div>
                                 <div className="text-section">
                                     <ReactQuill

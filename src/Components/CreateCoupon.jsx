@@ -47,7 +47,6 @@ const CreatePackage = () => {
 
 
 
-
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
@@ -104,7 +103,7 @@ const CreatePackage = () => {
     }
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/updateCouponsMW.php",
+        "https://wellness.neardeal.me/WAPI/updateCouponsMW.php",
         {
           method: "POST",
           headers: {

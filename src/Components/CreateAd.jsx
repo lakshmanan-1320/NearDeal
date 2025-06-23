@@ -40,7 +40,7 @@ const EditAdd = () => {
         }
 
         // Fetch user data
-        const response = await fetch('https://staging.neardeal.me/api/fetchUserData.php', {
+        const response = await fetch('https://wellness.neardeal.me/WAPI/fetchUserData.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const EditAdd = () => {
 
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/createAdsMW.php",
+        "https://wellness.neardeal.me/WAPI/createAdsMW.php",
         {
           method: "POST",
           headers: {

@@ -32,7 +32,7 @@ const BookingOffCanvasComponent = ({
       setData(uniqueData);
     }
   }, [uniqueData, setData]);
-  console.log(data, "dataaaaaaaaaaaaaaa")
+
   if (fetchSelectedDataComplete == false)
     return (
       <>
@@ -164,7 +164,6 @@ const BookingOffCanvasComponent = ({
                 </select>
               </div>
             </div>
-
           </div>
         </div>
         <div className="card mt-4">

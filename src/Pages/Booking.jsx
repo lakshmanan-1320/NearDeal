@@ -43,7 +43,7 @@ const Booking = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        "https://staging.neardeal.me/api/bookingsTry.php",
+        "https://wellness.neardeal.me/WAPI/bookingsTry.php",
         {
           method: "POST",
           headers: {
@@ -58,7 +58,7 @@ const Booking = () => {
 
       const data = await response.json();
       console.log(data.data[0].BookingID);
-      console.log(data,"booking")
+      console.log(data)
       // const uniqueIds = new Set();  // Set to store unique IDs
       // const uniqueObjects = [];     // Array to store unique objects
 
@@ -82,7 +82,7 @@ const Booking = () => {
   const handleEdit = async () => {
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/editBookingsMW.php",
+        "https://wellness.neardeal.me/WAPI/editBookingsMW.php",
         {
           method: "POST",
           headers: {
@@ -155,7 +155,6 @@ const Booking = () => {
   };
 
   const [uniqueData, setUniqueData] = useState(null);
-  //  console.log("Unique", uniqueData);
 
   const fetchBooking = async (id) => {
     setFetchSelectedDataComplete(false)
@@ -163,7 +162,7 @@ const Booking = () => {
 
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/fetchBookingDetailsMW.php",
+        "https://wellness.neardeal.me/WAPI/fetchBookingDetailsMW.php",
         {
           method: "POST",
           headers: {
@@ -177,7 +176,7 @@ const Booking = () => {
 
       const data = await response.json();
       const booking = data.message[0];
-     
+      console.log("Unique", uniqueData);
 
       // Set the state with formatted values
       setTimeout(() => {

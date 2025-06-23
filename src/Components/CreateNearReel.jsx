@@ -38,7 +38,7 @@ const CreatePackage = () => {
     const fetchInventory = async () => {
         try {
             const response = await fetch(
-                "https://staging.neardeal.me/api/invListingMW.php",
+                "https://wellness.neardeal.me/WAPI/invListingMW.php",
                 {
                     method: "POST",
                     headers: {
@@ -81,20 +81,19 @@ const CreatePackage = () => {
         formdata.append("userid", userData.ID);
         formdata.append("camtype", "Reel");
         formdata.append("fileToUpload", images); // Use the file directly from the state
-
         try {
             const requestOptions = {
                 method: "POST",
                 body: formdata,
                 redirect: "follow",
             };
-
-            const response = await fetch("https://staging.neardeal.me/api/uploadMediaFile.php", requestOptions);
-
+            
+            const response = await fetch("https://wellness.neardeal.me/WAPI/uploadMediaFile.php", requestOptions);
+        
             const data = await response.json();
             console.log(data);
             setReel(data.message)
-            setPreview(`https://staging.neardeal.me/api/${data.message}`);
+            setPreview(`https://wellness.neardeal.me/WAPI/${data.message}`);
             setIsLoading(false);
             toast.success(`Successfully uploaded ${fileExtension} file`);
 
@@ -151,7 +150,7 @@ const CreatePackage = () => {
 
         try {
             const response = await fetch(
-                "https://staging.neardeal.me/api/updateNearReelMW.php",
+                "https://wellness.neardeal.me/WAPI/updateNearReelMW.php",
                 {
                     method: "POST",
                     headers: {

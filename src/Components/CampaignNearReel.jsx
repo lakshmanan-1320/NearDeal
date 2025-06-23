@@ -29,7 +29,7 @@ const CampaignNearReel = ({ searchQuery }) => {
     const fetchNearReel = async () => {
         try {
             const response = await fetch(
-                "https://staging.neardeal.me/api/merchantAdsListingMW.php",
+                "https://wellness.neardeal.me/WAPI/merchantAdsListingMW.php",
                 {
                     method: "POST",
                     headers: {
@@ -64,7 +64,7 @@ const CampaignNearReel = ({ searchQuery }) => {
 
         try {
             const response = await fetch(
-                "https://staging.neardeal.me/api/deleteNearReelMW.php",
+                "https://wellness.neardeal.me/WAPI/deleteNearReelMW.php",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -109,7 +109,7 @@ const CampaignNearReel = ({ searchQuery }) => {
                             <div key={data.CampaignID} className='item' style={{ justifyContent: 'space-between', marginBottom: '10px' }}>
                                 <div className='left' style={{ width: '84%' }}>
                                     <video
-                                        src={`https://staging.neardeal.me/api/${data.ContentLocation}`}
+                                        src={`https://wellness.neardeal.me/WAPI/${data.ContentLocation}`}
                                         controls
                                         style={{
                                             width: '50px',

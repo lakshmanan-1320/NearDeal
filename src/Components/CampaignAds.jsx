@@ -26,7 +26,7 @@ const CampaignAds = ({ searchQuery }) => {
     const fetchAd = async () => {
         try {
             const response = await fetch(
-                "https://staging.neardeal.me/api/merchantAdsListingMW.php",
+                "https://wellness.neardeal.me/WAPI/merchantAdsListingMW.php",
                 {
                     method: "POST",
                     headers: {
@@ -82,7 +82,7 @@ const CampaignAds = ({ searchQuery }) => {
                         <div>
                             <img
                                 style={{ borderRadius: '50%', height: '50px', width: '50px' }}
-                                src={`https://staging.neardeal.me/api/${item.ContentLocation}`}
+                                src={`https://wellness.neardeal.me/WAPI/${item.ContentLocation}`}
                                 alt="item"
                             />
                             <span style={{marginLeft:"5px"}}>{item.CampaignName}</span>

@@ -56,7 +56,7 @@ const CreatePackage = () => {
   const fetchInventory = async () => {
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/invListingMW.php",
+        "https://wellness.neardeal.me/WAPI/invListingMW.php",
         {
           method: "POST",
           headers: {
@@ -108,7 +108,7 @@ const CreatePackage = () => {
     }
     try {
       const response = await fetch(
-        "https://staging.neardeal.me/api/updateCouponsMW.php",
+        "https://wellness.neardeal.me/WAPI/updateCouponsMW.php",
         {
           method: "POST",
           headers: {
@@ -291,7 +291,7 @@ const CreatePackage = () => {
                             <td>
                               <div style={{ justifyContent: "start" }}>
                                 <img
-                                  src={`https://staging.neardeal.me/api/` + data.ImageLocation}
+                                  src={`https://wellness.neardeal.me/WAPI/`+data.ImageLocation}
                                   alt="product"
                                   style={{ width: "50px", height: "50px" }}
                                 />

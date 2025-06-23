@@ -43,7 +43,7 @@ const CreatePackage = () => {
                 invId: id
             };
             console.log(id);
-            const response = await fetch('https://staging.neardeal.me/api/fetchInvDetailsMW.php', {
+            const response = await fetch('https://wellness.neardeal.me/WAPI/fetchInvDetailsMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ const CreatePackage = () => {
         console.log(rowsData, "dataaaaaaaaaaaaaaa");
 
         try {
-            const response = await fetch('https://staging.neardeal.me/api/createPackageMW.php', {
+            const response = await fetch('https://wellness.neardeal.me/WAPI/createPackageMW.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -299,7 +299,7 @@ const CreatePackage = () => {
                                 {images && (
                                     <div style={{ position: 'relative', margin: '10px' }}>
                                         <img
-                                            src={`https://staging.neardeal.me/api/${invImgFileName}`}
+                                            src={`https://wellness.neardeal.me/WAPI/${invImgFileName}`}
                                             alt="uploaded"
                                             style={{ objectFit: 'cover', width: '30%', height: 'auto' }}
                                         />

@@ -26,7 +26,7 @@ const SideBar = () => {
                 }
 
                 // Fetch user data
-                const response = await fetch('https://staging.neardeal.me/api/fetchUserData.php', {
+                const response = await fetch('https://wellness.neardeal.me/WAPI/fetchUserData.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -65,7 +65,6 @@ const SideBar = () => {
     const handleCloseDropdown = () => {
         setIsDropdownOpen(false);
     };
-    console.log("Profile Pic URL:", `https://staging.neardeal.me/api/${userData?.profilePic}`);
 
     return (
         <div className="sidebar">
@@ -114,7 +113,7 @@ const SideBar = () => {
                     <div className="profile-container"  onClick={handleProfileClick}>
                         <img
                             src={userData?.profilePic
-                                ? `https://staging.neardeal.me/api/${userData.profilePic}`
+                                ? `https://wellness.neardeal.me/WAPI/${userData.profilePic}`
                                 : "/default-avatar.png"}
                             alt="Profile"
                             className="profile-pic"

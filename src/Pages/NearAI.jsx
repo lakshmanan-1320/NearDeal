@@ -37,9 +37,10 @@ const NearAI = () => {
   const [selectedfont, setselectedfont] = useState('');
   const fileInputRef = useRef(null);
   const regenerate = () => {
-    setVideoModalOpen(false);
-    toggleModal();
-  }
+    setVideoModalOpen(false);  // Close the modal
+    setIsLoading(true);        // Optional: show loading
+    handleSaveChanges();       // Call video generation again
+  };
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     const newImages = [];
@@ -331,7 +332,7 @@ const NearAI = () => {
                   <div className="modal-footer">
                     <button
                       onClick={handleDownload}
-                      className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+                      className="download-button"
                     >
                       Download Video
                     </button>
