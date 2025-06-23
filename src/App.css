@@ -1289,3 +1289,6 @@
   .download-button:hover {
     background-color: #1D4ED8; /* Tailwind blue-700 hover color */
   }
+  .cus-text{
+    color:rgb(127 115 116) !important;
+}
