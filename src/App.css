@@ -1292,3 +1292,10 @@
   .cus-text{
     color:rgb(127 115 116) !important;
 }
+
+.cus_a{
+    color:#212B36;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+}

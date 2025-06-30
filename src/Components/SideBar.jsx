@@ -9,6 +9,7 @@ import booking from "../assets/booking.svg";
 import packageLogo from "../assets/package.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const SideBar = () => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const SideBar = () => {
                 }
 
                 // Fetch user data
-                const response = await fetch('https://wellness.neardeal.me/WAPI/fetchUserData.php', {
+                const response = await fetch(`${BASE_URL}fetchUserData.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ const SideBar = () => {
         Cookies.remove('user_token'); // Remove the cookie
         setIsDropdownOpen(false); // Close dropdown after logout
         // Optionally, redirect the user or perform any additional actions after logout
-        navigate('/login');
+        navigate('/');
     };
 
     const handleCloseDropdown = () => {
@@ -74,9 +75,9 @@ const SideBar = () => {
                 </div>
                 <span className="sidebar-subtitle">CUSTOMER</span>
                 <div className="sidebar-list">
-                    <span className={isActive('/')}>
+                    <span className={isActive('/booking')}>
                         <img src={booking} alt="Booking" />
-                        <Link style={{ textDecoration: 'none' }} to="/">Booking</Link>
+                        <Link style={{ textDecoration: 'none' }} to="/booking">Booking</Link>
                     </span>
                     <span className={isActive('/package') || isActive('/availability') || isActive('/limits') || isActive('/create-package') || isActive('/package/:id')}>
                         <img src={packageLogo} alt="Package" />
@@ -113,7 +114,7 @@ const SideBar = () => {
                     <div className="profile-container"  onClick={handleProfileClick}>
                         <img
                             src={userData?.profilePic
-                                ? `https://wellness.neardeal.me/WAPI/${userData.profilePic}`
+                                ? `${BASE_URL}${userData.profilePic}`
                                 : "/default-avatar.png"}
                             alt="Profile"
                             className="profile-pic"

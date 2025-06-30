@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 
 const EditAdd = () => {
@@ -39,7 +40,7 @@ const EditAdd = () => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/AdsDetailsMW.php",
+        `${BASE_URL}AdsDetailsMW.php`,
         {
           method: "POST",
           headers: {
@@ -108,7 +109,7 @@ const EditAdd = () => {
     console.log(startDate, endDate, isChecked, invImgFileName);
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/updateAdsMW.php",
+        `${BASE_URL}updateAdsMW.php`,
         {
           method: "POST",
           headers: {
@@ -257,7 +258,7 @@ const EditAdd = () => {
                   <h3>{data?.CampaignName || ''}</h3>
                   <span>NearDeal Certified</span>
                 </div>
-                <img style={{ width: "100%", height: '30vh', borderRadius: '10px' }} src={`https://wellness.neardeal.me/WAPI/${data?.ContentLocation || ""}`} alt="banner" />
+                <img style={{ width: "100%", height: '30vh', borderRadius: '10px' }} src={`${BASE_URL}${data?.ContentLocation || ""}`} alt="banner" />
                 <span
                   style={{
                     position: "absolute",

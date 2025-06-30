@@ -12,6 +12,7 @@ import aaaa from "../assets/bannerLogo.svg";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 
 const EditAdd = () => {
@@ -40,7 +41,7 @@ const EditAdd = () => {
         }
 
         // Fetch user data
-        const response = await fetch('https://wellness.neardeal.me/WAPI/fetchUserData.php', {
+        const response = await fetch(`${BASE_URL}fetchUserData.php`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -89,7 +90,7 @@ const EditAdd = () => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/createAdsMW.php",
+        `${BASE_URL}createAdsMW.php`,
         {
           method: "POST",
           headers: {

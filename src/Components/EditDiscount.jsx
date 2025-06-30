@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const EditDiscount = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const EditDiscount = () => {
       };
       console.log(payload);
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/fetchCouponDetails.php",
+        `${BASE_URL}fetchCouponDetails.php`,
         {
           method: "POST",
           headers: {
@@ -143,7 +144,7 @@ const EditDiscount = () => {
   const fetchInventory = async () => {
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/invListingMW.php",
+        `${BASE_URL}invListingMW.php`,
         {
           method: "POST",
           headers: {
@@ -197,7 +198,7 @@ const EditDiscount = () => {
     }
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/updateCouponsMW.php",
+        `${BASE_URL}updateCouponsMW.php`,
         {
           method: "POST",
           headers: {

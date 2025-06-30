@@ -15,6 +15,7 @@ import storeLogo from "../assets/storeSettingsLogo.svg";
 import { toast } from "react-toastify";
 import crossIcon from "../assets/cross.svg";
 import Cookies from 'js-cookie';
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const StoreSetting = () => {
     const jwtUserToken = Cookies.get("user_token");
@@ -98,7 +99,7 @@ const StoreSetting = () => {
         console.log(images);
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/merchantProfileUpdatesMW.php",
+                `${BASE_URL}merchantProfileUpdatesMW.php`,
                 {
                     method: "POST",
                     headers: {
@@ -136,7 +137,7 @@ const StoreSetting = () => {
     const fetchStore = async () => {
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/fetchStoreDetailsMW.php",
+                `${BASE_URL}fetchStoreDetailsMW.php`,
                 {
                     method: "POST",
                     headers: {
@@ -173,8 +174,8 @@ const StoreSetting = () => {
                 <div>
                     <div className="left">
                         <div style={{ flexDirection: 'column', position: 'relative' }}>
-                            <img style={{ width: '100%', height: '100%', borderRadius: '4%', maxHeight: '300px', objectFit: 'cover' }} src={`https://wellness.neardeal.me/WAPI/${storeData.store_image}`} alt="store logo" />
-                            <img style={{ position: 'absolute', bottom: '-15%', left: '5%', borderRadius: '50%', width: '60px', height: '60px' }} src={`https://wellness.neardeal.me/WAPI/${storeData.store_logo}`} alt="upload" />
+                            <img style={{ width: '100%', height: '100%', borderRadius: '4%', maxHeight: '300px', objectFit: 'cover' }} src={`${BASE_URL}${storeData.store_image}`} alt="store logo" />
+                            <img style={{ position: 'absolute', bottom: '-15%', left: '5%', borderRadius: '50%', width: '60px', height: '60px' }} src={`${BASE_URL}${storeData.store_logo}`} alt="upload" />
                         </div>
                         <h1 style={{ fontWeight: 'bold', marginTop: '30px' }}>{storeData.vendorName || 'Store Name'}</h1>
                         <div className="rating">

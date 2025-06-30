@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import Cookies from 'js-cookie';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const CreatePackage = () => {
     const jwtUserToken = Cookies.get("user_token");
@@ -38,7 +39,7 @@ const CreatePackage = () => {
     const fetchInventory = async () => {
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/invListingMW.php",
+                `${BASE_URL}invListingMW.php`,
                 {
                     method: "POST",
                     headers: {
@@ -88,12 +89,12 @@ const CreatePackage = () => {
                 redirect: "follow",
             };
             
-            const response = await fetch("https://wellness.neardeal.me/WAPI/uploadMediaFile.php", requestOptions);
+            const response = await fetch(`${BASE_URL}uploadMediaFile.php`, requestOptions);
         
             const data = await response.json();
             console.log(data);
             setReel(data.message)
-            setPreview(`https://wellness.neardeal.me/WAPI/${data.message}`);
+            setPreview(`${BASE_URL}${data.message}`);
             setIsLoading(false);
             toast.success(`Successfully uploaded ${fileExtension} file`);
 
@@ -150,7 +151,7 @@ const CreatePackage = () => {
 
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/updateNearReelMW.php",
+                `${BASE_URL}updateNearReelMW.php`,
                 {
                     method: "POST",
                     headers: {

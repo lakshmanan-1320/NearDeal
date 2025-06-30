@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import imageUpload from "../assets/imageUpload.svg";
 import CreateTable from "./createTable";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const CreatePackage = () => {
     const navigate = useNavigate();
@@ -43,7 +44,7 @@ const CreatePackage = () => {
                 invId: id
             };
             console.log(id);
-            const response = await fetch('https://wellness.neardeal.me/WAPI/fetchInvDetailsMW.php', {
+            const response = await fetch(`${BASE_URL}fetchInvDetailsMW.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -179,7 +180,7 @@ const CreatePackage = () => {
         console.log(rowsData, "dataaaaaaaaaaaaaaa");
 
         try {
-            const response = await fetch('https://wellness.neardeal.me/WAPI/createPackageMW.php', {
+            const response = await fetch(`${BASE_URL}createPackageMW.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -299,7 +300,7 @@ const CreatePackage = () => {
                                 {images && (
                                     <div style={{ position: 'relative', margin: '10px' }}>
                                         <img
-                                            src={`https://wellness.neardeal.me/WAPI/${invImgFileName}`}
+                                            src={`${BASE_URL}${invImgFileName}`}
                                             alt="uploaded"
                                             style={{ objectFit: 'cover', width: '30%', height: 'auto' }}
                                         />

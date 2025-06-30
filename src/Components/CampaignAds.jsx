@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { BASE_URL } from '../Redux/Api/apiConfig';
 
 const CampaignAds = ({ searchQuery }) => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const CampaignAds = ({ searchQuery }) => {
     const fetchAd = async () => {
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/merchantAdsListingMW.php",
+                `${BASE_URL}/merchantAdsListingMW.php`,
                 {
                     method: "POST",
                     headers: {
@@ -82,7 +83,7 @@ const CampaignAds = ({ searchQuery }) => {
                         <div>
                             <img
                                 style={{ borderRadius: '50%', height: '50px', width: '50px' }}
-                                src={`https://wellness.neardeal.me/WAPI/${item.ContentLocation}`}
+                                src={`${BASE_URL}/${item.ContentLocation}`}
                                 alt="item"
                             />
                             <span style={{marginLeft:"5px"}}>{item.CampaignName}</span>

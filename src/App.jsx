@@ -31,7 +31,7 @@ function App() {
       <Routes>
         {/* Signup */}
         <Route path="/signup" exact element={<SignUp></SignUp>}></Route>
-        <Route path="/login" exact element={<Login />} />
+        <Route path="/" exact element={<Login />} />
 
         {/* <Route path='/' element={<Booking></Booking>}></Route> */}
         {/* <Route path='/analytics' element={<Analytics></Analytics>}></Route>
@@ -126,7 +126,7 @@ function App() {
           }
         />
         <Route
-          path="/"
+          path="/booking"
           exact
           element={
             <ProtectedRoutes

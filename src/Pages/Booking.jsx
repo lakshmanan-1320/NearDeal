@@ -16,6 +16,7 @@ import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import Pagination from "../Components/Pagination";
 import { format } from "date-fns";
 import BookingOffCanvasComponent from "../Components/BookingOffCanvasComponent";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const Booking = () => {
   const jwtUserToken = Cookies.get("user_token");
@@ -43,7 +44,7 @@ const Booking = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/bookingsTry.php",
+        `${BASE_URL}bookingsTry.php`,
         {
           method: "POST",
           headers: {
@@ -82,7 +83,7 @@ const Booking = () => {
   const handleEdit = async () => {
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/editBookingsMW.php",
+        `${BASE_URL}editBookingsMW.php`,
         {
           method: "POST",
           headers: {
@@ -162,7 +163,7 @@ const Booking = () => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/fetchBookingDetailsMW.php",
+        `${BASE_URL}fetchBookingDetailsMW.php`,
         {
           method: "POST",
           headers: {

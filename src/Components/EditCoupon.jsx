@@ -12,6 +12,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const CreatePackage = () => {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const CreatePackage = () => {
       };
       console.log(payload);
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/fetchCouponDetails.php",
+        `${BASE_URL}fetchCouponDetails.php`,
         {
           method: "POST",
           headers: {
@@ -143,7 +144,7 @@ const CreatePackage = () => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/updateCouponsMW.php",
+        "${BASE_URL}updateCouponsMW.php",
         {
           method: "POST",
           headers: {

@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const CreatePackage = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const CreatePackage = () => {
   const fetchInventory = async () => {
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/invListingMW.php",
+        `${BASE_URL}invListingMW.php`,
         {
           method: "POST",
           headers: {
@@ -108,7 +109,7 @@ const CreatePackage = () => {
     }
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/updateCouponsMW.php",
+        `${BASE_URL}updateCouponsMW.php`,
         {
           method: "POST",
           headers: {
@@ -291,7 +292,7 @@ const CreatePackage = () => {
                             <td>
                               <div style={{ justifyContent: "start" }}>
                                 <img
-                                  src={`https://wellness.neardeal.me/WAPI/`+data.ImageLocation}
+                                  src={`${BASE_URL}`+data.ImageLocation}
                                   alt="product"
                                   style={{ width: "50px", height: "50px" }}
                                 />

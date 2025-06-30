@@ -17,6 +17,7 @@ import CreateTable from "./createTable";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const CreatePackage = () => {
   const navigate = useNavigate();
@@ -239,7 +240,7 @@ const CreatePackage = () => {
     console.log(datas);
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/createPackageMW.php",
+        `${BASE_URL}createPackageMW.php`,
         {
           method: "POST",
           headers: {

@@ -7,6 +7,7 @@ import likes from '../assets/likes.svg';
 import { motion } from 'framer-motion';
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { BASE_URL } from '../Redux/Api/apiConfig';
 
 const CampaignNearReel = ({ searchQuery }) => {
     const jwtUserToken = Cookies.get("user_token");
@@ -29,7 +30,7 @@ const CampaignNearReel = ({ searchQuery }) => {
     const fetchNearReel = async () => {
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/merchantAdsListingMW.php",
+                `${BASE_URL}merchantAdsListingMW.php`,
                 {
                     method: "POST",
                     headers: {
@@ -64,7 +65,7 @@ const CampaignNearReel = ({ searchQuery }) => {
 
         try {
             const response = await fetch(
-                "https://wellness.neardeal.me/WAPI/deleteNearReelMW.php",
+                `${BASE_URL}deleteNearReelMW.php`,
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -109,7 +110,7 @@ const CampaignNearReel = ({ searchQuery }) => {
                             <div key={data.CampaignID} className='item' style={{ justifyContent: 'space-between', marginBottom: '10px' }}>
                                 <div className='left' style={{ width: '84%' }}>
                                     <video
-                                        src={`https://wellness.neardeal.me/WAPI/${data.ContentLocation}`}
+                                        src={`${BASE_URL}${data.ContentLocation}`}
                                         controls
                                         style={{
                                             width: '50px',

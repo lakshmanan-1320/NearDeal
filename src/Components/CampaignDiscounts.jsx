@@ -5,6 +5,7 @@ import edit1 from "../assets/edit1.svg";
 import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Redux/Api/apiConfig";
 
 const CampaignDiscounts = ({ searchQuery }) => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const CampaignDiscounts = ({ searchQuery }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/fetchCouponsMW.php",
+        `${BASE_URL}fetchCouponsMW.php`,
         {
           method: "POST",
           headers: {
@@ -51,7 +52,7 @@ const CampaignDiscounts = ({ searchQuery }) => {
 
     try {
       const response = await fetch(
-        "https://wellness.neardeal.me/WAPI/updateCouponStatus.php",
+        `${BASE_URL}updateCouponStatus.php`,
         {
           method: "POST",
           headers: {
